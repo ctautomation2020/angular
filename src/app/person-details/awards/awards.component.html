@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="main">
+      <section class="experience-section" >
+        <div *ngIf="awards!=null">
+          <h2 class="exp-title">Awards</h2>
+          <span class="horizontal-line-break"></span>
+
+          <div class="experience" *ngFor="let a of awards">
+            <div class="period">Year - {{a.Start_Year }}</div>
+            <div class="content">
+                <div class="desg-title">
+                    <div class="desg-content">
+                        <b>{{a.Title}}</b>
+                    </div>
+                    <span class="edit" title="Edit" (click)="openDialog(a.Award_ID)"></span>
+                    <span class="delete" title="Remove" (click)="deleteDialog(a.Award_ID)"></span>
+                </div>
+                <span class="org-title">{{a.Organization}}</span>
+                <span class="dept-title">{{a.Place}}</span>
+                <span class="nature">Details - {{a.Details}}</span>
+            </div>
+        </div>
+        </div>
+
+
+          <button class="add-experience-button" (click)="createDialog()">Add Awards</button>
+      </section>
+  </div>
+</div>

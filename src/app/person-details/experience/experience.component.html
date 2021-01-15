@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="main">
+      <section class="experience-section" >
+          <div *ngIf="experiences!=null">
+            <h2 class="exp-title">Work Experience</h2>
+          <span class="horizontal-line-break"></span>
+
+          <div class="experience" *ngFor="let e of experiences">
+            <div class="period">{{e.Start_Date | date : "MMM yyyy"  }} -{{e.End_Date | date : "MMM yyyy"}}</div>
+            <div class="content">
+                <div class="desg-title">
+                    <div class="desg-content">
+                        <b *ngIf="designation!=null">{{filterDesignation(e.Designation_Ref).Ref_Name}}</b>
+                        <span class="separate"> | </span>
+                        <span class="post" *ngIf="empCategory!=null">{{filterEmpCategory(e.Emp_Category_Ref).Ref_Name}}</span>
+                    </div>
+                    <span class="edit" title="Edit" (click)="openDialog(e.Experience_ID)"></span>
+                    <span class="delete" title="Remove" (click)="deleteDialog(e.Experience_ID)"></span>
+                </div>
+                <span class="org-title">{{e.Organization}}</span>
+                <span class="dept-title">{{e.Department}}</span>
+                <span class="nature" *ngIf="workNature!=null">Work Nature - {{filterWorkNature(e.Work_Nature_Ref).Ref_Name}}</span>
+            </div>
+        </div>
+          </div>
+
+          <button class="add-experience-button" (click)="createDialog()">Add Experience</button>
+      </section>
+  </div>
+</div>

@@ -1,0 +1,179 @@
+<div class="container">
+  <div class="main" *ngIf="person!=null">
+      <div class="profile-section" >
+          <div class="profile-left">
+              <div class="image-wrap">
+                  <img src="../../../assets/back.jpg" class="profile-photo">
+                  <span class="edit-photo" ></span>
+              </div>
+              <h2 class="staff-name" *ngIf="prefix != null && person.Prefix_Ref != null">{{filterPrefix().Ref_Name}} {{person.First_Name}}</h2>
+              <span class="profession">Designation</span>
+              <span class="college">Department of Computer Technology</span>
+              <span class="college">Madras Institute of Technology</span>
+          </div>
+          <div class="vertical-line-break"></div>
+          <div class="profile-right">
+              <h3 class="section-title">
+                  <span>Profile</span>
+                  <span class="edit-icon" (click)="onOpenModel()">Edit Profile</span>
+              </h3>
+              <div class="text-wrap">
+                  <span class="label">Staff ID</span>
+                  <p>{{person.Person_ID}}</p>
+              </div>
+              <div class="text-wrap">
+                  <span class="label">Name</span>
+                  <p>{{person.First_Name}} {{person.Last_Name}}</p>
+              </div>
+              <div class="text-wrap">
+                  <span class="label">Intercom Number</span>
+                  <p>{{person.Intercom_Number}}</p>
+              </div>
+              <div class="text-wrap">
+                  <span class="label">Email Address</span>
+                  <p><a>{{person.Primary_MailID}}</a></p>
+              </div>
+              <div class="text-wrap">
+                  <span class="label">Contact</span>
+                  <p><a>{{person.Primary_ContactNumber}}</a></p>
+              </div>
+          </div>
+      </div>
+      <br>
+      <div class="personal-section">
+          <h3 class="section-title">Personal Details</h3>
+          <div class="input-field">
+            <div class="text-wrap" *ngIf="prefix != null && person.Prefix_Ref != null">
+              <span class="label">Prefix</span>
+              <p>{{filterPrefix().Ref_Name}}</p>
+          </div>
+          <div class="text-wrap">
+            <span class="label">First Name</span>
+            <p>{{person.First_Name}}</p>
+        </div>
+          </div>
+          <div class="input-field">
+
+              <div class="text-wrap">
+                  <span class="label">Last Name</span>
+                  <p>{{person.Last_Name}}</p>
+              </div>
+              <div class="text-wrap">
+                <span class="label">Alias Name</span>
+                <p>{{person.Alias_Name}}</p>
+            </div>
+          </div>
+          <div class="input-field">
+
+              <div class="text-wrap" *ngIf="person.DOB != null">
+                  <span class="label">Date of Birth</span>
+                  <p>{{person.DOB  | date:'fullDate'}}</p>
+              </div>
+              <div class="text-wrap" *ngIf="gender != null && person.Gender_Ref != null">
+                <span class="label">Gender</span>
+                <p>{{filterGender().Ref_Name}}</p>
+            </div>
+          </div>
+          <div class="input-field">
+
+              <div class="text-wrap" *ngIf="maritalStatus != null && person.Marital_Status_Ref  != null">
+                  <span class="label">Martial Status</span>
+                  <p>{{filterStatus().Ref_Name}}</p>
+              </div>
+              <div class="text-wrap" *ngIf="community != null && person.Community_Ref != null">
+                <span class="label">Community</span>
+                <p>{{filterCommunity().Ref_Name}}</p>
+            </div>
+          </div>
+          <div class="input-field">
+
+            <div class="text-wrap">
+                <span class="label">Caste</span>
+                <p>{{person.Caste}}</p>
+            </div>
+            <div class="text-wrap">
+              <span class="label">Aadhar Card Number</span>
+              <p>{{person.Aadhar_Card}}</p>
+          </div>
+        </div>
+        <div class="input-field">
+
+          <div class="text-wrap">
+              <span class="label">Passport Number</span>
+              <p>{{person.Passport_Number}}</p>
+          </div>
+          <div class="text-wrap">
+            <span class="label">PAN Card</span>
+            <p>{{person.PAN_Card}}</p>
+        </div>
+      </div>
+          <div class="horizontal-line-break"></div>
+          <h3 class="section-title">Contact Details</h3>
+          <div class="input-field">
+              <div class="text-wrap">
+                  <span class="label">Primary Email</span>
+                  <p>{{person.Primary_MailID}}</p>
+              </div>
+              <div class="text-wrap">
+                  <span class="label">Secondary Email</span>
+                  <p>{{person.Secondary_MailID}}</p>
+              </div>
+          </div>
+          <div class="input-field">
+              <div class="text-wrap">
+                  <span class="label">Primary Contact</span>
+                  <p>{{person.Primary_ContactNumber}}</p>
+              </div>
+              <div class="text-wrap">
+                  <span class="label">Secondary Contact</span>
+                  <p>{{person.Secondary_ContactNumber}}</p>
+              </div>
+          </div>
+          <div class="input-field">
+            <div class="text-wrap">
+              <span class="label">Intercom Number</span>
+              <p>{{person.Intercom_Number}}</p>
+          </div>
+          </div>
+
+          <div class="horizontal-line-break"></div>
+          <h3 class="section-title">Residential Details</h3>
+          <div class="input-field">
+              <div class="text-wrap">
+                  <span class="label">Door Number / Street Name</span>
+                  <p>{{person.Address_Line1}}</p>
+              </div>
+              <div class="text-wrap">
+                <span class="label">Town / Area</span>
+                <p>{{person.Address_Line2}}</p>
+            </div>
+          </div>
+          <div class="input-field">
+
+              <div class="text-wrap">
+                  <span class="label">City</span>
+                  <p>{{person.Address_Line3}}</p>
+              </div>
+              <div class="text-wrap">
+                <span class="label">Pin Code</span>
+                <p>{{person.Address_Line4}}</p>
+            </div>
+          </div>
+          <div class="input-field">
+
+              <div class="text-wrap">
+                <span class="label">Room Number</span>
+                <p>{{person.Room_Num}}</p>
+            </div>
+          </div>
+
+      </div>
+      <br>
+  </div>
+</div>
+
+
+
+
+
+

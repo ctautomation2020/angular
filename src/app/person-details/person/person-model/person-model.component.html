@@ -1,0 +1,145 @@
+<h2 mat-dialog-title>Person Details</h2>
+
+<mat-dialog-content>
+
+  <form [formGroup]="personForm">
+    <mat-form-field class="form-field-dropdown" appearance="fill">
+      <mat-label>Prefix</mat-label>
+      <mat-select formControlName="Prefix_Ref">
+        <mat-option *ngFor="let m of data.prefix" [value]="m.Ref_Code">{{m.Ref_Name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="form-field">
+      <mat-label>First Name</mat-label>
+      <input matInput formControlName="First_Name" >
+      <mat-error *ngIf="personForm.get('First_Name')?.invalid">Please Enter Valid Name</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-field">
+      <mat-label>Last Name</mat-label>
+      <input matInput  formControlName="Last_Name">
+      <mat-error *ngIf="personForm.get('Last_Name')?.invalid">Please Enter Valid Name</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-field">
+      <mat-label>Alias Name</mat-label>
+      <input matInput formControlName="Alias_Name">
+      <mat-error *ngIf="personForm.get('Alias_Name')?.invalid">Please Enter Valid Name</mat-error>
+    </mat-form-field>
+
+    <mat-form-field  class="form-field-dropdown" appearance="fill">
+      <mat-label>Birth Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="DOB">
+      <mat-error *ngIf="personForm.get('DOB')?.invalid">Please Enter Valid Date</mat-error>
+      <mat-datepicker-toggle matSuffix [for]="picker">
+        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+      </mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+
+    <mat-form-field class="form-field">
+      <mat-label>Primary MailID</mat-label>
+      <input matInput formControlName="Primary_MailID">
+      <mat-error *ngIf="personForm.get('Primary_MailID')?.invalid">Please Enter Valid Email</mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-field">
+      <mat-label>Secondary MailID</mat-label>
+      <input matInput formControlName="Secondary_MailID">
+      <mat-error *ngIf="personForm.get('Secondary_MailID')?.invalid">Please Enter Valid Email</mat-error>
+    </mat-form-field>
+
+    <div class="form-field">
+      <mat-label>Gender:</mat-label>
+      <mat-radio-group class="form-field" formControlName="Gender_Ref" aria-label="Gender">
+        <mat-radio-button *ngFor="let g of data.gender" [value]="g.Ref_Code">{{g.Ref_Name}}</mat-radio-button>
+      </mat-radio-group>
+
+    </div><br>
+
+
+    <mat-form-field class="form-field-dropdown" appearance="fill">
+      <mat-label>Marital Status</mat-label>
+      <mat-select formControlName="Marital_Status_Ref">
+        <mat-option *ngFor="let m of data.maritalStatus" [value]="m.Ref_Code">{{m.Ref_Name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="form-field-dropdown" appearance="fill">
+      <mat-label>Community</mat-label>
+      <mat-select formControlName="Community_Ref">
+        <mat-option *ngFor="let com of data.community" [value]="com.Ref_Code">{{com.Ref_Name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="form-field">
+      <mat-label>Caste</mat-label>
+      <input matInput formControlName="Caste">
+      <mat-error *ngIf="personForm.get('Caste')?.invalid">Please Enter Valid String</mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-field">
+      <mat-label>Aadhar Card</mat-label>
+      <input matInput type="number" formControlName="Aadhar_Card">
+      <mat-error *ngIf="personForm.get('Aadhar_Card')?.invalid">Please Enter Valid Aadhar No.</mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-field">
+      <mat-label>Passport Number</mat-label>
+      <input matInput formControlName="Passport_Number">
+      <mat-error *ngIf="personForm.get('Passport_Number')?.invalid">Please Enter Valid String</mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-field">
+      <mat-label>Intercom Number</mat-label>
+      <input matInput formControlName="Intercom_Number">
+      <mat-error *ngIf="personForm.get('Intercom_Number')?.invalid">Please Enter Valid Entry</mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-field">
+      <mat-label>Primary Contact</mat-label>
+      <input matInput formControlName="Primary_ContactNumber">
+      <mat-error *ngIf="personForm.get('Primary_ContactNumber')?.invalid">Please Enter Valid Contact</mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-field">
+      <mat-label>Secondary Contact</mat-label>
+      <input matInput formControlName="Secondary_ContactNumber">
+      <mat-error *ngIf="personForm.get('Secondary_ContactNumber')?.invalid">Please Enter Valid Contact</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-field">
+      <mat-label>Door No, Street Name</mat-label>
+      <input matInput formControlName="Address_Line1">
+      <mat-error *ngIf="personForm.get('Address_Line1')?.invalid">Please Enter Valid Entry</mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-field">
+      <mat-label>Area</mat-label>
+      <input matInput formControlName="Address_Line2" >
+      <mat-error *ngIf="personForm.get('Address_Line2')?.invalid">Please Enter Valid Entry</mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-field">
+      <mat-label>City</mat-label>
+      <input matInput formControlName="Address_Line3">
+      <mat-error *ngIf="personForm.get('Address_Line3')?.invalid">Please Enter Valid Entry</mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-field">
+      <mat-label>PinCode</mat-label>
+      <input matInput formControlName="Address_Line4">
+      <mat-error *ngIf="personForm.get('Address_Line4')?.invalid">Please Enter Valid Entry</mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-field">
+      <mat-label>PAN Card</mat-label>
+      <input matInput formControlName="PAN_Card">
+      <mat-error *ngIf="personForm.get('PAN_Card')?.invalid">Please Enter Valid Entry</mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-field">
+      <mat-label>Room Number</mat-label>
+      <input matInput formControlName="Room_Num">
+      <mat-error *ngIf="personForm.get('Room_Num')?.invalid">Please Enter Valid Entry</mat-error>
+    </mat-form-field>
+
+
+
+
+</form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Close</button>
+  <button mat-raised-button color="primary" [disabled]="personForm?.invalid" (click)="onSubmit()">Confirm</button>
+</mat-dialog-actions>
+

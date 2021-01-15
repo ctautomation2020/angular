@@ -1,0 +1,314 @@
+<!--<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #3f51b5;">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav><br><br>
+<mat-drawer-container class="example-container">
+  <mat-drawer mode="side" opened class="sidebar">
+    <form class="settings">
+      <mat-list>
+        <div class="sidebar-menu">
+        <mat-list-item (click)="onNavigate('account')" [ngStyle]="function('account')">
+          <mat-icon matListIcon>account_circle</mat-icon>
+          <h4 matLine>Personal Account</h4>
+          <p matLine>Staff Name</p>
+        </mat-list-item>
+      </div>
+      </mat-list>
+      <hr>
+      <mat-list>
+        <div class="sidebar-menu">
+        <mat-list-item (click)="onNavigate('profile')" [ngStyle]="function('profile')">
+          <mat-icon matListIcon>person_pin</mat-icon>
+          <h4 matLine>Settings</h4>
+        </mat-list-item>
+      </div>
+      <div class="sidebar-menu">
+        <mat-list-item (click)="onNavigate('preferences')">
+          <mat-icon matListIcon>archive</mat-icon>
+          <h4 matLine>Preferences</h4>
+        </mat-list-item>
+      </div>
+        <div class="sidebar-menu">
+        <mat-list-item (click)="onNavigate('users')" [ngStyle]="function('users')">
+          <mat-icon matListIcon>people</mat-icon>
+          <h4 matLine>Users</h4>
+        </mat-list-item>
+      </div>
+        <div class="sidebar-menu">
+        <mat-list-item (click)="onNavigate('roles')" [ngStyle]="function('roles')">
+          <mat-icon matListIcon>supervised_user_circle</mat-icon>
+          <h4 matLine>Roles</h4>
+        </mat-list-item>
+      </div>
+      </mat-list>
+    </form>
+</mat-drawer>
+<mat-drawer-content>
+
+  <div class="page">
+    <div class="header">
+      <mat-icon>dashboard</mat-icon><span class="title">Dashboard</span>
+    </div><br>
+    <div class="active-content" *ngIf="active == 'account'">
+        <form class="form-field-container">
+          <mat-form-field class="form-field">
+            <mat-label>Staff ID</mat-label>
+            <input matInput name="staff-id" [(ngModel)]="person.Person_ID"  disabled>
+          </mat-form-field><br>
+          <mat-form-field class="form-field">
+            <mat-label>First Name</mat-label>
+            <input matInput name="staff-first-name" [disabled]="isDisabled? '' : null" [(ngModel)]="person.First_Name" >
+          </mat-form-field>
+          <mat-form-field class="form-field">
+            <mat-label>Last Name</mat-label>
+            <input matInput name="staff-last-name" [disabled]="isDisabled? '' : null" [(ngModel)]="person.Last_Name">
+          </mat-form-field>
+          <mat-form-field class="form-field">
+            <mat-label>Alias Name</mat-label>
+            <input matInput name="staff-alias" [disabled]="isDisabled? '' : null" [(ngModel)]="person.Alias_Name">
+          </mat-form-field>
+          <mat-form-field  class="form-field-dropdown" appearance="fill">
+            <mat-label>Birth Date</mat-label>
+            <input matInput [matDatepicker]="picker" name="dob" [disabled]="isDisabled? '' : null" [(ngModel)]="person.DOB">
+            <mat-datepicker-toggle matSuffix [for]="picker">
+              <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="form-field">
+            <mat-label>Primary MailID</mat-label>
+            <input matInput name="staff-primary-mail" [disabled]="isDisabled? '' : null" [(ngModel)]="person.Primary_MailID">
+          </mat-form-field>
+          <mat-form-field class="form-field">
+            <mat-label>Secondary MailID</mat-label>
+            <input matInput name="staff-secondary-mail" [disabled]="isDisabled? '' : null" [(ngModel)]="person.Secondary_MailID">
+          </mat-form-field>
+          <br>
+          <mat-radio-group class="form-field" name="Gender" [disabled]="isDisabled? '' : null" [(ngModel)]="person.Gender_Ref" aria-label="Gender">
+            <mat-radio-button [value]="1">Male</mat-radio-button>
+            <mat-radio-button [value]="2">Female</mat-radio-button>
+          </mat-radio-group><br><br>
+          <mat-form-field class="form-field-dropdown" appearance="fill">
+            <mat-label>Marital Status</mat-label>
+            <mat-select name="marital-status" [disabled]="isDisabled? '' : null" [(ngModel)]="person.Marital_Status_Ref">
+              <mat-option [value]="1">Single</mat-option>
+              <mat-option [value]="2">Married</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="form-field-dropdown" appearance="fill">
+            <mat-label>Community</mat-label>
+            <mat-select name="community" [disabled]="isDisabled? '' : null" [(ngModel)]="person.Community_Ref">
+              <mat-option *ngFor="let com of community; let i = index" [value]="i">{{com}}</mat-option>
+
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="form-field">
+            <mat-label>Caste</mat-label>
+            <input matInput name="staff-caste" [disabled]="isDisabled? '' : null" [(ngModel)]="person.Caste">
+          </mat-form-field>
+          <mat-form-field class="form-field">
+            <mat-label>Aadhar Card</mat-label>
+            <input matInput name="staff-aadhar-no" [disabled]="isDisabled? '' : null" [(ngModel)]="person.Aadhar_Card">
+          </mat-form-field>
+          <mat-form-field class="form-field">
+            <mat-label>Passport Number</mat-label>
+            <input matInput name="staff-passport-number" [disabled]="isDisabled? '' : null" [(ngModel)]="person.Passport_Number">
+          </mat-form-field>
+          <mat-form-field class="form-field">
+            <mat-label>Intercom Number</mat-label>
+            <input matInput name="staff-intercom-number" [disabled]="isDisabled? '' : null" [(ngModel)]="person.Intercom_Number">
+          </mat-form-field>
+          <mat-form-field class="form-field">
+            <mat-label>Primary Contact</mat-label>
+            <input matInput name="staff-primary-contact" [disabled]="isDisabled? '' : null" [(ngModel)]="person.Primary_ContactNumber">
+          </mat-form-field>
+          <mat-form-field class="form-field">
+            <mat-label>Secondary Contact</mat-label>
+            <input matInput name="staff-secondary-contact" [disabled]="isDisabled? '' : null" [(ngModel)]="person.Secondary_ContactNumber">
+          </mat-form-field>
+          <mat-form-field class="form-field">
+            <mat-label>Door No, Street Name</mat-label>
+            <input matInput name="staff-address-1" [disabled]="isDisabled? '' : null" [(ngModel)]="person.Address_Line1">
+          </mat-form-field>
+          <mat-form-field class="form-field">
+            <mat-label>Area</mat-label>
+            <input matInput name="staff-address-2" [disabled]="isDisabled? '' : null" [(ngModel)]="person.Address_Line2" >
+          </mat-form-field>
+          <mat-form-field class="form-field">
+            <mat-label>City</mat-label>
+            <input matInput name="staff-address-3" [disabled]="isDisabled? '' : null" [(ngModel)]="person.Address_Line3">
+          </mat-form-field>
+          <mat-form-field class="form-field">
+            <mat-label>ZipCode</mat-label>
+            <input matInput name="staff-address-4" [disabled]="isDisabled? '' : null" [(ngModel)]="person.Address_Line4">
+          </mat-form-field>
+          <mat-form-field class="form-field">
+            <mat-label>PAN Card</mat-label>
+            <input matInput name="staf-pan-card" [disabled]="isDisabled? '' : null" [(ngModel)]="person.PAN_Card">
+          </mat-form-field>
+          <mat-form-field class="form-field">
+            <mat-label>Room Number</mat-label>
+            <input matInput name="staff-room-no" [disabled]="isDisabled? '' : null" [(ngModel)]="person.Room_Num">
+          </mat-form-field>
+          <br>
+
+          <div class="form-field">
+            <h3>Roles</h3>
+            <mat-chip-list>
+              <mat-chip>Role 1</mat-chip>
+              <mat-chip>Role 2</mat-chip>
+            </mat-chip-list>
+
+          </div><br>
+
+          <button mat-raised-button class="buttons" (click)="onEdit()" *ngIf="isDisabled == true">Edit</button>
+          <button mat-raised-button class="buttons" (click)="onSubmit()" color="accent" *ngIf="isDisabled == false">Confirm</button>
+        </form>
+
+
+      </div>
+        <br>
+        <div class="active-content" *ngIf="active == 'profile'">
+        <form class="form-field-container">
+          <mat-form-field class="staff-form-field">
+            <mat-label>Staff ID</mat-label>
+            <input matInput value="789456"  disabled>
+          </mat-form-field><br>
+          <mat-form-field class="staff-form-field">
+            <mat-label>Prefix</mat-label>
+            <input matInput value="Mrs."  disabled>
+          </mat-form-field>
+          <mat-form-field class="staff-form-field">
+            <mat-label>First Name</mat-label>
+            <input matInput value="Badri" disabled >
+          </mat-form-field>
+          <mat-form-field class="staff-form-field">
+            <mat-label>Last Name</mat-label>
+            <input matInput value="Ram" disabled>
+          </mat-form-field>
+          <mat-form-field class="staff-form-field">
+            <mat-label>Alias Name</mat-label>
+            <input matInput value="Dhana" disabled>
+          </mat-form-field>
+          <mat-form-field class="staff-form-field">
+            <mat-label>Birth Date</mat-label>
+            <input matInput value="02-01-1989 00:00:00" disabled>
+          </mat-form-field>
+          <mat-form-field class="staff-form-field">
+            <mat-label>Community</mat-label>
+            <input matInput value="OC" disabled >
+          </mat-form-field>
+          <mat-form-field class="staff-form-field">
+            <mat-label>Caste</mat-label>
+            <input matInput value="N/A" disabled >
+          </mat-form-field>
+          <mat-form-field class="staff-form-field">
+            <mat-label>Primary Mail ID</mat-label>
+            <input matInput value="primary@gmail.com" disabled>
+          </mat-form-field>
+          <mat-form-field class="staff-form-field">
+            <mat-label>Secondary Mail ID</mat-label>
+            <input matInput value="secondary@gmail.com" disabled>
+          </mat-form-field>
+          <mat-form-field class="staff-form-field">
+            <mat-label>Aadhar Card</mat-label>
+            <input matInput value="123412341234" disabled>
+          </mat-form-field><br>
+          <button mat-raised-button color="accent">Edit</button>
+
+        </form>
+      </div>
+        <br>
+        <div class="active-content" *ngIf="active == 'users'">
+        <mat-form-field class="searchbar">
+          <mat-label>Search</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Name" #input>
+        </mat-form-field>
+
+        <div class="mat-elevation-z8 table-container">
+          <table mat-table [dataSource]="dataSource" matSort>
+
+            <ng-container matColumnDef="Title">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
+              <td mat-cell *matCellDef="let row"> {{row.Title}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="User Name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> User Name </th>
+              <td mat-cell *matCellDef="let row"> {{row['User Name']}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Full Name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Full Name </th>
+              <td mat-cell *matCellDef="let row"> {{row['Full Name']}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Email">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+              <td mat-cell *matCellDef="let row"> {{row.Email}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Phone Number">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Contact </th>
+              <td mat-cell *matCellDef="let row"> {{row['Phone Number']}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Delete">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Delete </th>
+              <td mat-cell *matCellDef="let row"> <mat-icon>delete</mat-icon> </td>
+            </ng-container>
+            <ng-container matColumnDef="Edit">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
+              <td mat-cell *matCellDef="let row"> <mat-icon>edit</mat-icon> </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Roles">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Roles </th>
+              <td mat-cell *matCellDef="let row"> {{row.Roles}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="8">No data matching the filter "{{input.value}}"</td>
+            </tr>
+          </table>
+
+          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        </div><br>
+        <button mat-raised-button color="primary">Add User</button>
+      </div>
+        <br><br>
+        <div class="active-content" *ngIf="active == 'roles'">
+        Content 2
+      </div>
+</div>
+</mat-drawer-content>
+</mat-drawer-container>
+-->
+<app-nav></app-nav>
+

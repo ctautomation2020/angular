@@ -1,0 +1,82 @@
+<h2 mat-dialog-title>Experience</h2>
+<mat-dialog-content>
+  <form class="form-field-container" [formGroup]="experienceForm">
+    <mat-grid-list cols="2" rowHeight="100px" >
+          <mat-grid-tile>
+            <mat-form-field class="form-field-dropdown" appearance="fill">
+              <mat-label>Designation</mat-label>
+              <mat-select formControlName="Designation_Ref" >
+                <mat-option *ngFor="let q of input.designation" [value]="q.Ref_Code">{{q.Ref_Name}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="experienceForm.get('Designation_Ref')?.invalid">Please Select Valid Entry</mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="form-field" >
+              <mat-label>Organization</mat-label>
+              <input matInput formControlName="Organization"  >
+              <mat-error *ngIf="experienceForm.get('Organization')?.invalid">Please Enter Valid Entry</mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field class="form-field" >
+              <mat-label>Department</mat-label>
+              <input matInput formControlName="Department"  >
+              <mat-error *ngIf="experienceForm.get('Department')?.invalid">Please Enter Valid Entry</mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field  class="form-field-dropdown" appearance="fill">
+              <mat-label>Start Date</mat-label>
+              <input matInput [matDatepicker]="pickerStart" formControlName="Start_Date">
+              <mat-error *ngIf="experienceForm.get('Start_Date')?.invalid">Please Enter Valid Date</mat-error>
+              <mat-datepicker-toggle matSuffix [for]="pickerStart">
+              <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #pickerStart></mat-datepicker>
+            </mat-form-field>
+          </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field  class="form-field-dropdown" appearance="fill">
+              <mat-label>End Date</mat-label>
+              <input matInput [matDatepicker]="pickerEnd" formControlName="End_Date">
+                <mat-error *ngIf="experienceForm.get('End_Date')?.invalid">Please Enter Valid Date</mat-error>
+                <mat-datepicker-toggle matSuffix [for]="pickerEnd">
+                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #pickerEnd></mat-datepicker>
+            </mat-form-field>
+          </mat-grid-tile>
+
+
+            <mat-grid-tile>
+            <mat-form-field class="form-field-dropdown" appearance="fill">
+              <mat-label>Employee Category</mat-label>
+              <mat-select formControlName="Emp_Category_Ref" >
+              <mat-option *ngFor="let q of input.empCategory" [value]="q.Ref_Code">{{q.Ref_Name}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="experienceForm.get('Emp_Category_Ref')?.invalid">Please Select Valid Entry</mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field class="form-field-dropdown" appearance="fill">
+              <mat-label>Work Nature</mat-label>
+              <mat-select formControlName="Work_Nature_Ref" >
+              <mat-option *ngFor="let q of input.workNature" [value]="q.Ref_Code">{{q.Ref_Name}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="experienceForm.get('Work_Nature_Ref')?.invalid">Please Select Valid Entry</mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field class="form-field" >
+              <mat-label>Position Held</mat-label>
+              <input matInput formControlName="Position_Held"  >
+            </mat-form-field>
+          </mat-grid-tile>
+    </mat-grid-list>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Close</button>
+  <button mat-raised-button color="primary" [disabled]="experienceForm?.invalid" (click)="onSubmit()">Confirm</button>
+</mat-dialog-actions>

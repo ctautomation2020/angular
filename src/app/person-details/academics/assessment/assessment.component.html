@@ -1,0 +1,149 @@
+<div class="container" (click)="saveChanges($event)">
+  <div class="header">
+      <div class="college-details">
+          <img src="../../../../assets/mit_logo.png" alt="college-logo" class="college-logo">
+          <h1 class="college-title">Madras Institute of Technology</h1>
+          <span class="dummy"></span>
+      </div>
+      <div class="assessment-details" *ngIf="sectionsJSON != null">
+          <h2 class="assesment-name" *ngIf="courseTitle!=null">{{sectionsJSON.course_code}} - {{courseTitle}}</h2>
+          <div  class="assessment-values">
+              <p class="assessment-time"> </p>
+              <p class="assessment-number">Assessment
+                <input style="background-color: whitesmoke;"
+                      type="number"
+                      class="assess-num"
+                      [(ngModel)]="sectionsJSON.assess_num">
+
+              </p>
+              <p class="total-marks">Total Marks : {{findTotalMarks()}}</p>
+          </div>
+      </div>
+  </div>
+  <hr><br>
+  <div class="questions-section">
+      <div class="section-details" *ngFor="let section of sections; let j = index;">
+          <div class="section-head">
+              <div class="section-header">
+                  <input #sectName
+                      type="text"
+                      class="section-name"
+                      placeholder="Section Name"
+                      [value]="section.name"
+                      (change)="updateSectionName(j,sectName.value)">
+                  <div class="quest-num">[ Number of questions :
+                      <input #count
+                          type="number"
+                          class="num-quest"
+                          [min]="section.type == 'E' ? (section.questions.length)/2 : section.questions.length"
+                          [value]="section.type == 'E' ? (section.questions.length)/2 : section.questions.length"
+                          (change)="showConfirmSign(j)">
+                      <span class="confirm-button"
+                          [class.active-confirm]="!section.numQuestFlag"
+                          (click)="addQuestions(j,+count.value,section.questions.length,section.type,section.section_mark)">
+                      </span> ]
+                  </div>
+                  <div class="quest-type-fixed view">
+                      [
+                      <b *ngIf="section.type == 'E'">Either-or Type</b>
+                      <b *ngIf="section.type == 'F'">Fixed Type</b>
+                      ]
+                  </div>
+                  <div class="quest-weightage">
+                      [ Marks per Question:
+                      <input #mark
+                          class="num-quest"
+                          type="number"
+                          min="1"
+                          (change)="updateSectionMark(j,+mark.value)"
+                          [value]="section.section_mark">]
+                  </div>
+              </div>
+              <button
+                  class="section-button add"
+                  [disabled]="section.numQuestFlag"
+                  (click)="addQuestions(j,+count.value+1,section.questions.length,section.type,section.section_mark)">
+                  + Add question
+              </button>
+              <div
+                  class="section-button"
+                  (click)="removeSection(j)">
+                  Remove Section
+              </div>
+          </div>
+          <div class="questions-column">
+              <div class="question-row" *ngFor="let ques of section.questions; let i = index;">
+                  <div class="question">
+                      <span class="quest-id" *ngIf="section.type == 'E'; else fixed">
+                          {{ (getQuestNumber(i+1) + getRemainingSectionQuestionCount(j)) }}.{{ getCharacter(i) }}
+                      </span>
+                      <ng-template #fixed>
+                          <span class="quest-id">{{ (i + 1 + getRemainingSectionQuestionCount(j)) }}.</span>
+                      </ng-template>
+                      <angular-editor
+                          class="question-editor"
+                          [config]="getEditorConfig(j, i)"
+                          (click)="makeEditable(j, i)"
+                          [(ngModel)]="ques.question_stmt">
+                      </angular-editor>
+                      <select
+                          #type
+                          class="question-type"
+                          (change)="changeQType(j, i, type.value)">
+                          <option
+                              *ngFor="let level of bloomsLevel; let bloom = index;"
+                              [value]="level.Ref_Name"
+                              [selected]="level.Reference_Code == ques.blooms_level">
+                              {{ level.Ref_Name }}
+                          </option>
+                      </select>
+                      <select
+                          #co
+                          class="question-co"
+                          (change)="changeQCO(j,i, co.value)">
+                          <option
+                              *ngFor="let coval of coLevel; let opt = index;"
+                              [value]="coval.Ref_Name"
+                              [selected]="coval.Reference_Code == ques.co_num">
+                              CO - {{ coval.Ref_Name }}
+                          </option>
+                      </select>
+                  </div>
+                  <span class="edit-icon" (click)="makeEditable(j,i)"></span>
+                  <span class="edit-icon delete" (click)="deleteQuestion(j,i,section.type)"></span>
+              </div>
+          </div>
+      </div>
+      <div class="section-details">
+          <div class="section-head">
+              <div class="section-header">
+                  <input #sectName
+                      type="text"
+                      class="section-name"
+                      [(ngModel)]="sect_name"
+                      placeholder="Section Name"
+                      [value]="sect_name">
+                  <div class="quest-num">[ Number of questions :
+                      <input #count [(ngModel)]="questCount" type="number" class="num-quest"  min=0 [value]="questCount"> ]
+                  </div>
+                  <div class="quest-type-fixed">
+                      [ Question Type :
+                      <select #qtype>
+                          <option value="F" selected>Fixed</option>
+                          <option value="E">Either Or</option>
+                      </select> ]
+                  </div>
+                  <div class="quest-weightage">
+                      [ Marks per Question :
+                      <input #mark [(ngModel)]="qmarks" class="num-quest" [value]="qmarks" type="number" min="1"> ]
+                  </div>
+              </div>
+              <div class="section-button add" (click)="addSection(sectName.value, +count.value, qtype.value, +mark.value)">+ Add Section</div>
+          </div>
+      </div>
+      <div class="form-controls" [style.display]="(sections.length) ? 'block' : 'none'">
+          <button class="btn btn-cancel" (click)="generatePDF()"><i  aria-hidden="true"></i> Generate PDF</button>
+          <button class="btn btn-submit" (click)="showQuestions()"><i class="fa fa-upload" aria-hidden="true"></i> Submit</button>
+      </div><br><br>
+  </div>
+</div>

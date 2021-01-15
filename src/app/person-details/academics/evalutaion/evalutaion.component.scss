@@ -1,0 +1,254 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 2rem;
+  background-color: #fff;
+  box-shadow: 0 .3rem .3rem rgba(0, 0, 0, 0.5);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.college-details {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.college-logo,
+.dummy{
+  width: 8em;
+}
+.college-title {
+  font-weight: 400;
+  font-size: 1.75em;
+}
+
+.assessment-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.assesment-name {
+  font-weight: bold;
+  font-size: 1.75em;
+  color: #1761c2;
+  margin-bottom: 1.25em;
+  text-transform: uppercase;
+}
+.assessment-values {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.total-marks,
+.assessment-time,
+.assessment-number {
+  font-size: 1.5em;
+}
+
+.assessment-number {
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.section {
+  width: 100%;
+}
+.questions-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem auto;
+  width: 100%;
+}
+
+.section-details {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-top: 3rem;
+}
+
+.section-name {
+  font-size: 1.35em;
+  font-weight: 600;
+  border-bottom: 2px solid #404a57;
+}
+
+.mark-split {
+  font-size: 1.3em;
+  font-weight: 400;
+  margin-left: 1em;
+}
+
+.questions-column {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2em;
+}
+
+.question-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1em;
+} 
+
+.question {
+  font-size: 1.15em;
+  word-spacing: 3px;
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.question b{
+  white-space: nowrap;
+  margin-right: 0.5em;
+}
+
+.question-statement{
+  margin-right: auto;
+}
+.question-wrap{
+  width: calc(100% - 20em);
+}
+.question-name{
+  border: none;
+  resize: none;
+  font-size: 1em;
+  flex: 1;
+  width: 0;
+  height: 0;
+}
+.question-edit{
+  width: 100%;
+  height: 50px;
+  border: 1px solid gainsboro;
+}
+.question-hide{
+  display: none;
+}
+.question-type,
+.question-co {
+  font-size: 0.975em;
+  font-weight: 600;
+  border: 2px solid #fff;
+  color: #fff;
+  margin-left: 0.5em;
+  padding: 0.3em 0.6em;
+  border-radius: 0.5em;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.question-type {
+  background-color: #2b68b8;
+}
+
+.question-co {
+  background-color: #eb587a;
+}
+
+input[type="number"] {
+  width: 4em;
+  padding: 0.6em 0.75em;
+  font-size: 1em;
+  text-align: center;
+  box-shadow: inset 0 0 0 1.5px #3772ca;
+  border: none;
+  outline: none;
+  border-radius: .5rem;
+  margin-left: 2em;
+}
+
+input[type="number"]:focus {
+  box-shadow: inset 0 0 0 3px #3772ca;
+}
+
+.form-controls {
+  margin: 3rem auto;
+}
+.button{
+  width: max-content;
+  padding: 0.5em 1.1em;
+}
+
+.btn {
+  font-size: 1em;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 1.1em;
+  padding: 0.5em 1em;
+  margin-right: 2em;
+  border-radius: .25em;
+  border: 1px solid gainsboro;
+  outline: none;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.btn-cancel {
+  background-color: #F42272;
+}
+
+.btn-submit {
+  background-color: #059b91;
+}
+
+.btn-cancel:hover {
+  background-color: #81163f;
+  box-shadow: 0 5px 5px 0 gainsboro;
+}
+
+.btn-submit:hover {
+  background-color: #054d48;
+  box-shadow: 0 5px 5px 0 gainsboro;
+}
+
+.btn:active {
+  box-shadow: none;
+}
+@media only screen and (max-width:1700px){
+  .questions-column{
+      width: 70%;
+  }
+}
+@media only screen and (max-width:1550px){
+  .questions-column{
+      width: 80%;
+  }
+}
+@media only screen and (max-width:1440px){
+  .questions-column{
+      width: 85%;
+  }
+}
+@media only screen and (max-width:1350px){
+  .questions-column{
+      width: 90%;
+  }
+}
+@media only screen and (max-width:1150px){
+  .questions-column{
+      width: 95%;
+  }
+}

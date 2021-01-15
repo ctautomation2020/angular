@@ -1,0 +1,65 @@
+.main {
+  padding-left: 10px;
+}
+.form-field {
+  padding: 8px;
+
+}
+.form-field-question{
+  width: 800px;
+  padding: 8px;
+}
+.container{
+  display: flex;
+  flex-direction: column;
+  background-color: whitesmoke;
+  width: 100%;
+  min-height: 100vh;
+}
+.main{
+  display: flex;
+  flex-direction: column;
+  padding: 1.25em;
+  width: 85%;
+  margin: 0 auto;
+}
+.assignment-section{
+  display: flex;
+  flex-direction: column;
+  padding: 1.5em 2em;
+  background-color: white;
+  border-radius: 0.75em;
+  border: 1px solid gainsboro;
+}
+.button{
+  width: max-content;
+  padding: 0.5em 1.1em;
+}
+.horizontal-line-break{
+  width: 100%;
+  height: 1px;
+  background-color: gainsboro;
+  margin: 1em 0.15em;
+}
+.icon-pointer {
+  cursor: pointer;
+}
+.section-title{
+  margin-bottom: 1em;
+  font-size: 1.3em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.form-field-question-number {
+  width: 65px;
+  padding: 8px;
+}
+.form-field-dropdown {
+  padding: 8px;
+  width: 170px;
+}
+.form-field-dropdown-small {
+  padding: 8px;
+  width: 70px;
+}

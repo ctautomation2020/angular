@@ -1,0 +1,66 @@
+<div class="container">
+  <div class="main">
+      <div class="assignment-section" >
+        <h3 class="section-title" *ngIf="courseTitle != null">{{courseTitle}} - Assessment</h3>
+
+        <div *ngIf="assessment">
+          <mat-form-field  class="form-field">
+            <mat-label>Assesment No</mat-label>
+            <input matInput type="number" [(ngModel)]="assessment.assess_num">
+          </mat-form-field>
+          <div *ngFor="let s of assessment.section; let sId = index">
+            <div class="horizontal-line-break"></div>
+              <mat-form-field  class="form-field">
+                <mat-label>Section Name</mat-label>
+                <input matInput [(ngModel)]="s.name">
+              </mat-form-field>
+              <mat-form-field class="form-field-dropdown" appearance="fill">
+                <mat-label>Section Type</mat-label>
+                <mat-select [(ngModel)]="s.type" (ngModelChange)="onSectionType(s)" >
+                  <mat-option *ngFor="let t of sectionType"  [value]="t.type">{{t.type}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="fill" class="form-field" >
+                <mat-label>No. of Questions</mat-label>
+                <input matInput [(ngModel)]="s.q_num" type="number" [disabled]="s.type == ''" (ngModelChange)="onQuestionNumberSelect(s, sId)" >
+              </mat-form-field>
+              <mat-form-field  class="form-field">
+                <mat-label>Weightage</mat-label>
+                <input matInput [(ngModel)]="s.section_mark" type="number">
+              </mat-form-field>
+
+              <span class="icon-pointer" (click)="deleteSection(assessment.section, sId)"><mat-icon>delete</mat-icon></span>
+              <br>
+              <div *ngFor="let q of s.questions; let qId = index">
+                <div>
+                  <div  class="form-field-question">
+                    <mat-label>{{q.question_num}}. {{setMarks(s)}}</mat-label><br>
+                    <angular-editor [config]="editorConfig" [(ngModel)]="q.question_stmt"></angular-editor>
+                  </div>
+                  <mat-form-field class="form-field-dropdown" appearance="fill">
+                    <mat-label>Blooms Level</mat-label>
+                    <mat-select [(ngModel)]="q.blooms_level">
+                      <mat-option *ngFor="let b of bloomsLevel" [value]="b.Reference_Code">{{b.Ref_Name}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field class="form-field-dropdown-small" appearance="fill">
+                    <mat-label>CO</mat-label>
+                    <mat-select [(ngModel)]="q.co_num">
+                      <mat-option *ngFor="let c of coLevel" [value]="c.Reference_Code">{{c.Ref_Name}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <br>
+                </div>
+
+              </div>
+
+            </div><br><br>
+        </div>
+        <button mat-stroked-button class="button" color="primary" (click)="createSection()" >Add Section</button><br>
+        <br><br>
+        <button mat-raised-button class="button" color="primary" (click)="submitAssessment()"  >Submit</button><br>
+        <button mat-raised-button class="button" color="primary" (click)="generatePDF()"  >Generate PDF</button>
+      </div>
+  </div>
+</div>

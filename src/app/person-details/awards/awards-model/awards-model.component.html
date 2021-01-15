@@ -1,0 +1,40 @@
+<h2 mat-dialog-title>Awards</h2>
+<mat-dialog-content>
+  <form [formGroup]="awardForm">
+    <mat-form-field class="form-field" >
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="Title"  >
+      <mat-error *ngIf="awardForm.get('Title')?.invalid">Please Enter Valid Title</mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-field" >
+      <mat-label>Organization</mat-label>
+      <input matInput formControlName="Organization"  >
+      <mat-error *ngIf="awardForm.get('Organization')?.invalid">Please Enter Valid Name</mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-field" >
+      <mat-label>Place</mat-label>
+      <input matInput formControlName="Place"  >
+      <mat-error *ngIf="awardForm.get('Place')?.invalid">Please Enter Valid Name</mat-error>
+    </mat-form-field>
+    <mat-form-field  class="form-field-dropdown" appearance="fill">
+      <mat-label>Year</mat-label>
+      <input matInput [matDatepicker]="pickerEnd" formControlName="Start_Year">
+      <mat-error *ngIf="awardForm.get('Start_Year')?.invalid">Please Enter Valid Date</mat-error>
+      <mat-datepicker-toggle matSuffix [for]="pickerEnd">
+        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+      </mat-datepicker-toggle>
+      <mat-datepicker #pickerEnd startView="multi-year"></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="form-field" >
+      <mat-label>Details</mat-label>
+      <input matInput formControlName="Details"  >
+      <mat-error *ngIf="awardForm.get('Details')?.invalid">Please Enter Valid Entry</mat-error>
+    </mat-form-field>
+    <input type="file">
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Close</button>
+  <button mat-raised-button color="primary" [disabled]="awardForm?.invalid" (click)="onSubmit()">Confirm</button>
+</mat-dialog-actions>

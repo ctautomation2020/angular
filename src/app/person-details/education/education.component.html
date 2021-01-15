@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="main" >
+      <div class="education-section">
+          <div *ngIf="qualifications!=null">
+            <h3 class="section-title">Educational Qualifications</h3>
+          <span class="note"><b>Note : </b> The staff can update/remove their educational qualifiactions if necessary.</span>
+          <div *ngFor="let q of qualifications">
+          <div class="horizontal-line-break"></div>
+          <div class="education">
+              <h3 class="degree-branch">
+                  <div class="degree-title">
+                      <span *ngIf="degree!= null">{{filterDegree(q.Degree_Ref).Ref_Name}}</span>
+                      <span> in</span>
+                      <span *ngIf="branch!=null"> {{filterBranch(q.Branch_Ref).Ref_Name | titlecase}} </span>
+                  </div>
+                  <span class="edit-educ" (click)="openDialog(q.Qualification_ID)" title="Edit"></span>
+                  <span class="delete-educ" (click)="deleteDialog(q.Qualification_ID)" title="Remove"></span>
+              </h3>
+              <span class="degree-college" *ngIf="qualificationLevel != null">{{filterQualificationLevel(q.Qualification_Level_Ref).Ref_Name | titlecase}} </span>
+              <span class="degree-college">{{q.Institution}}</span>
+              <span class="degree-college">{{q.University}}</span>
+
+              <span class="degree-time">{{q.Start_Date}}-{{q.End_Date}}</span>
+              <br>
+              <div class="text-wrap" *ngIf="classObtained!=null">
+                  <span class="label">Class Obtained</span>
+                  <p>{{filterClassObtained(q.Class_Obtained_Ref).Ref_Name}}</p>
+              </div>
+              <div class="text-wrap" *ngIf="q.Thesis_Title != ''">
+                  <span class="label">Thesis Title</span>
+                  <p>{{q.Thesis_Title}}</p>
+              </div>
+              <div class="text-wrap" *ngIf="q.Specialization != ''" >
+                  <span class="label">Specialization</span>
+                  <p>{{q.Specialization}}</p>
+              </div>
+              <div class="text-wrap" *ngIf="q.Faculty_Research != ''">
+                  <span class="label">Faculty Research</span>
+                  <p>{{q.Faculty_Research}}</p>
+              </div>
+          </div>
+        </div>
+
+          </div>
+
+          <br>
+          <div class="button" (click)="createDialog()">Add Qualification</div>
+      </div>
+  </div>
+</div>
+

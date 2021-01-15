@@ -1,0 +1,187 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Source Sans Pro','Open Sans', serif;
+  font-weight: 400;
+  background-color: #f5f5f5;
+  min-height: 90vh;
+}
+
+/* 1em = 16px */
+
+.container {
+  background-color: #fff;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+  border-radius: 0.5em;
+  margin: 1em auto;
+  padding: 2em;
+  width: 95%;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+}
+
+.header { margin-bottom: 1em; }
+
+.quick-links{
+  display: flex;
+  align-items: center;
+  margin: 0.5em 0;
+}
+
+.link{
+  text-decoration: none;
+  color: #061c64;
+  font-size: 0.975em;
+  margin: 0 0.75em;
+}
+
+.link:first-of-type{ margin-left: 0; }
+
+.slash{
+  width: 0.5em;
+  height: 0.5em;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  transform: rotate(135deg);
+}
+
+.link:hover{ text-decoration: underline; }
+
+.student__details {
+  margin-top: .7em;
+}
+
+.student__details__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5em;
+}
+
+.details__title {
+  font-size: 1.5em;
+  text-transform: uppercase;
+  color: #2786ce;
+  font-weight: 600;
+}
+
+.search-div {
+  width: 25%;
+}
+
+.search__students {
+  font-size: 1.05em;
+  padding: .3em;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid #f72e71;
+  margin-right: 1em;
+}
+
+.search-button {
+  background-color: #f72e71;
+  border-radius: .6em;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: .5em;
+}
+
+.search-button:hover {
+  transform: scale(1.05);
+}
+
+.fa-search {
+  color: #fff;
+  font-size: 1.4em;
+}
+
+.student__details__content {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+}
+
+.content__header {
+  display: flex;
+  width: 88%;
+  justify-content: space-around;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.header__label {
+  font-size: 1.25em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.label__name { text-align: left; }
+
+.content__details {
+  border: 1px solid gainsboro;
+  border-radius: .5em;
+  padding: 1em;
+  margin: 1em auto;
+  width: 90%;
+}
+
+.row {
+  display: flex;
+  width: 100%;
+  text-align: center;
+}
+
+.col-1-of-3 {
+  width: 32.3%;
+  margin-bottom: 1em;
+}
+
+.col-1-of-3:not(:last-child) { margin-right: 1.6%; }
+
+.reg_no:link, .reg_no:visited,  .name, .fa-check-circle, .fa-minus-circle {
+  font-size: 1.2em;
+  text-decoration: none;
+  color: #2786ce;
+  text-align: center;
+}
+
+.reg_no:hover { color: #021658; }
+
+.name {
+  color: #000;
+  text-align: left;
+}
+
+.fa-check-circle { color: #08A045; }
+
+.fa-minus-circle { color:  #d01c1f; }
+
+
+
+@media screen and (max-width: 1199px) { .search-div { width: 40%;} }
+@media screen and (max-width: 1023px) { .search-div { width: 50%; } }
+@media screen and (max-width: 767px) {
+  .container { width: 100%; }
+
+  .link { font-size: 1em; }
+
+  .student__details__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .details__title { margin-bottom: 1em; }
+
+  .search-div { width: 100%; }
+
+  .content__header, .content__details { width: 100%; }
+
+  .col-1-of-3 { width: 100%; }
+
+}

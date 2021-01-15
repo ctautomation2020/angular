@@ -1,0 +1,104 @@
+<div class="container" (click)="saveChanges($event)">
+  <div class="header">
+      <div class="assessment-details">
+          <h2 class="assesment-name">CS6104 - Data Structures and Algorithms</h2>
+          <div class="assessment-values">
+            <mat-form-field  appearance="fill">
+              <mat-label>Deadline</mat-label>
+              <input matInput [matDatepicker]="picker" [(ngModel)]="assignment.deadline">
+              <mat-datepicker-toggle matSuffix [for]="picker">
+                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+              <p class="assessment-number">Assignment  <input style="background-color: whitesmoke;"
+                type="number"
+                class="assess-num"
+                [(ngModel)]="assignment.assign_num"
+                ></p>
+              <p class="total-marks">Total Marks : {{ getTotalMarks() }}</p>
+          </div>
+      </div>
+  </div>
+  <hr><br>
+  <div class="questions-section">
+      <div class="section-details" *ngIf="questions.length">
+          <div class="section-head">
+              <div class="section-header">
+                  <b style="font-size: 1.1em;">Assignment</b>
+                  <div class="quest-num">[ Number of questions :
+                      <input #count
+                          type="number"
+                          class="num-quest"
+                          [min]="questions.length"
+                          [value]="questions.length"
+                          (change)="showConfirmSign()">
+                      <span class="confirm-button"
+                          [class.active-confirm]="!numQuestFlag"
+                          (click)="addQuestions(+count.value, questions.length, 0)">
+                      </span> ]
+                  </div>
+              </div>
+              <button
+                  class="section-button add"
+                  [disabled]="numQuestFlag"
+                  (click)="addQuestions(questions.length+1, questions.length, 0)">
+                  + Add question
+              </button>
+              <div
+                  class="section-button"
+                  (click)="initAssignment()">
+                  Reset Assignment
+              </div>
+          </div>
+          <div class="questions-column">
+              <div class="question-row" *ngFor="let ques of questions; let i = index;">
+                  <div class="question">
+                      <span class="quest-id">{{ (i+1) }}. </span>
+                      <angular-editor
+                          [(ngModel)]="ques.question_stmt"
+                          class="question-editor"
+                          [config]="getEditorConfig(i)"
+                          (click)="makeEditable(i)">
+                      </angular-editor>
+                      <select
+                          #co
+                          class="question-co"
+                          (change)="changeQCO(i, +co.value)">
+                          <option
+                              *ngFor="let coval of coLevel; let opt = index;"
+                              [value]="coval"
+                              [selected]="coval.Reference_Code == ques.co_num">
+                              CO - {{ coval.Ref_Name }}
+                          </option>
+                      </select>
+                      <input
+                          class="quest-marks"
+                          type="number"
+                          [(ngModel)]="ques.marks"
+                          [value]="ques.marks"
+                          min=0>
+                  </div>
+                  <span class="edit-icon" (click)="makeEditable(i)"></span>
+                  <span class="edit-icon delete" (click)="deleteQuestion(i)"></span>
+              </div>
+          </div>
+      </div>
+      <div class="section-details" *ngIf="!questions.length">
+          <div class="section-head">
+              <div class="section-header">
+                  <b style="font-size: 1.1em;">Assignment</b>
+                  <div class="quest-num">[ Number of questions :
+                      <input #count type="number" class="num-quest"  min=0 > ]
+                  </div>
+              </div>
+              <div class="section-button add"
+                  (click)="addQuestions(+count.value, questions.length, 0)"> + Add Questions </div>
+          </div>
+      </div>
+      <div class="form-controls" *ngIf="questions.length">
+        <button class="btn btn-cancel" (click)="generatePDF()"><i  aria-hidden="true"></i> Generate PDF</button>
+          <button class="btn btn-submit" (click)="showQuestions()"><i class="fa fa-upload" aria-hidden="true"></i> Submit</button>
+      </div><br><br>
+  </div>
+</div>

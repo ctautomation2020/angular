@@ -1,0 +1,44 @@
+<div class="container">
+  <div class="header">
+      <div class="college-details">
+          <img src="../../../../assets/mit_logo.png" alt="college-logo" class="college-logo">
+          <h1 class="college-title">Madras Institute of Technology</h1>
+          <span class="dummy"></span>
+      </div>
+      <div class="assessment-details">
+          <h2 class="assesment-name">{{assessment.course_code}} - {{courseTitle}}</h2>
+          <div class="assessment-values">
+              <p class="assessment-time">Reg No: {{reg_no}}</p>
+              <p class="assessment-number">Assessment {{assessment.assess_num}}</p>
+              <p class="total-marks">Marks: {{findTotalMarks()}} / {{totalMarks}} </p>
+          </div>
+      </div>
+  </div>
+  <hr>
+  <div class="questions-section" *ngFor="let s of assessment.section">
+        <div class="section-details">
+          <h3 class="section-name">{{s.name}}</h3>
+          <span class="mark-split">[ {{s.q_num}} * {{s.section_mark}} = {{s.q_num * s.section_mark}}Marks ]</span>
+      </div>
+      <div class="questions-column">
+          <div class="question-row" *ngFor="let q of s.questions">
+              <div class="question">
+                  <b>{{q.question_num}}. </b>
+                  <div class="question-statement" [innerHTML]="q.question_stmt"></div>
+                  <span class="question-type">L.{{filterBL(q.blooms_level).Description}}</span>
+                  <span class="question-co">CO{{filterCO(q.co_num).Ref_Name}}</span>
+              </div>
+              <div class="marks">
+                  <input type="number" min="0" [max]="s.section_mark" [(ngModel)]="q.marks" #marks="ngModel" class="mark" autofocus>
+                  <div *ngIf="q.marks > s.section_mark">Invalid Entry</div>
+              </div>
+          </div>
+
+      </div>
+    </div>
+
+      <div class="form-controls">
+          <button class="btn btn-cancel" [routerLink]="['/person-details', 'academics', 'evaluation-list', sallot_id]"><i class="fa fa-window-close" aria-hidden="true"></i> Cancel</button>
+          <button class="btn btn-submit" (click)="onSubmit()"><i class="fa fa-upload" aria-hidden="true"></i> Submit</button>
+      </div>
+</div>

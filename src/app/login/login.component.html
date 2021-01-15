@@ -1,0 +1,25 @@
+<mat-card>
+  <mat-card-content>
+    <div class="header">
+      <h2>CT Department</h2>
+    </div>
+    <form (ngSubmit)="onLogin()" name="loginForm" [formGroup]="loginForm">
+      <div class="uname-input">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Username</mat-label>
+          <input formControlName="uname" matInput>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Password</mat-label>
+          <input formControlName="password" matInput [type]="hide? 'password': 'text'">
+          <button mat-icon-button matSuffix (click)="hide = !hide"[attr.aria-label]="'Hide Password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide? 'visibility_off': 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <button mat-flat-button color="primary">Login</button>
+    </form>
+  </mat-card-content>
+</mat-card>

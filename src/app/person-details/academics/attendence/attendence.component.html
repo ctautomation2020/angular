@@ -1,0 +1,70 @@
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>Attendence</h2>
+      <div class="quick-links">
+        <a routerLink="/person-details/academics" class="link">Academics</a>
+        <span class="slash"></span>
+        <a *ngIf="session != null" [routerLink]="['/person-details', 'academics', 'course-list', session.reference_id]" class="link">{{session.description}}</a>
+        <span class="slash"></span>
+        <a [routerLink]="['/person-details', 'academics', 'course-features', sallot_id]" class="link" *ngIf="courseTitle != null">{{courseTitle}}</a>
+        <span class="slash"></span>
+          <a class="link">Attendence</a>
+      </div>
+    </div>
+    <section class="student__details">
+
+      <div class="student__details__header">
+        <h3 class="details__title">Student Details</h3>
+        <mat-form-field  class="form-field-dropdown" appearance="fill">
+          <mat-label>Date</mat-label>
+          <input matInput [matDatepicker]="picker" (ngModelChange)="onDateSelect()" [(ngModel)]="selectedDate">
+          <mat-datepicker-toggle matSuffix [for]="picker">
+            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+          </mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="form-field-dropdown" appearance="fill">
+          <mat-label>Period</mat-label>
+          <mat-select multiple [ngModel]="selectedPeriods" (ngModelChange)="sample($event)" >
+            <mat-option *ngFor="let p of period" [value]="p">{{p}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div class="search-div">
+          <input type="text" class="search__students" [(ngModel)]="searchText" placeholder="Enter Register Number">
+          <button class="search-button"><i class="fas fa-search"></i></button>
+        </div>
+      </div>
+      <div class="student__details__content">
+        <div class="content__header">
+          <div class="col-1-of-3">
+            <h5 class="header__label">Register Number</h5>
+          </div>
+          <div class="col-1-of-3">
+            <h5 class="header__label label__name">Name</h5>
+          </div>
+          <div class="col-1-of-3" *ngFor="let p of selectedPeriods">
+            <h5 class="header__label">Period {{p}}</h5>
+          </div>
+          <div class="col-1-of-3" *ngIf="selectedPeriods.length == 0">
+            <h5 class="header__label">Period</h5>
+          </div>
+        </div>
+        <div class="content__details" *ngIf="students != null">
+          <div class="row" *ngFor="let s of students | filter: searchText; let i=index ">
+            <div class="col-1-of-3">
+              <a  [routerLink]="['/person-details', 'academics', 'attendence', sallot_id]" class="reg_no">{{s.student.reg_no}}</a>
+            </div>
+            <div class="col-1-of-3">
+              <p class="name">{{s.student.name}}</p>
+            </div>
+            <div class="col-1-of-3" *ngFor="let p of selectedPeriods">
+              <i class="fas fa-check-circle"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>

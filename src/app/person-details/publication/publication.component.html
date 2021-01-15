@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="main">
+    <mat-form-field>
+      <mat-label>Search</mat-label>
+      <input matInput [(ngModel)] = "searchText" name="search" (keyup)="changeHandler()" placeholder="Paper Title" autofocus>
+    </mat-form-field>
+<div class="publication-section" >
+    <div *ngIf="publications!=null">
+      <h3 class="section-title">Publications</h3>
+
+    <div *ngFor="let p of pageSlice">
+    <div class="publication">
+        <h3 class="degree-branch">
+            <div class="degree-title">
+                <a href="" class="pub-title">{{p.Paper_Title}}</a>
+            </div>
+            <span class="edit-educ" title="Edit" (click)="openDialog(p.Publication_ID)" ></span>
+            <span class="delete-educ" title="Remove" (click)="deleteDialog(p.Publication_ID)"></span>
+        </h3>
+        <div class="authors">
+            <span>{{p.First_Author}}</span>
+            <span class="dot"></span>
+            <span>{{p.Second_Author}}</span>
+            <span class="dot"></span>
+            <span>{{p.Other_Authors}}</span>
+        </div>
+        <span class="pub-type">{{p.Journal_Name}}</span>
+        <div class="pub-details">
+            <span>Year : <b>{{p.Year_Of_Publish}}</b></span>
+            <span class="divider"></span>
+            <span>Volume : {{p.Volume}}</span>
+            <span class="divider"></span>
+            <span *ngIf="publicationType!=null">{{filterPublicationType(p.Publication_Type_Ref).Ref_Name}}</span>
+            <span class="divider"></span>
+            <span>Publisher : {{p.Publisher}}</span>
+            <span class="divider"></span>
+            <span *ngIf="level!=null">{{filterLevel(p.Level_Ref).Ref_Name}}</span>
+        </div>
+        <div class="pub-details doi-pages">
+            <span>DOI : {{p.DOI}}</span>
+            <span class="divider"></span>
+            <span>Pages : {{p.Start_Page_No}} - {{p.End_Page_No}}</span>
+            <span class="divider"></span>
+            <span>Issue : {{p.Issue}}</span>
+        </div>
+    </div>
+    <div class="horizontal-line-break"></div>
+  </div>
+        <br>
+    <div class="button" (click)="createDialog()">Add Publication</div>
+    <mat-paginator *ngIf="filterResults != null" [length]="filterResults.length" [pageSize]="2" (page)="OnPageChange($event)"></mat-paginator>
+    </div>
+</div>
+</div>
+</div>
