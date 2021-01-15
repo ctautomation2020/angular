@@ -15,10 +15,9 @@
     <section class="student__details">
 
       <div class="student__details__header">
-        <h3 class="details__title">Student Details</h3>
         <mat-form-field  class="form-field-dropdown" appearance="fill">
           <mat-label>Date</mat-label>
-          <input matInput [matDatepicker]="picker" (ngModelChange)="onDateSelect()" [(ngModel)]="selectedDate">
+          <input matInput [matDatepicker]="picker" (dateChange)="onDateSelect()" [(ngModel)]="selectedDate">
           <mat-datepicker-toggle matSuffix [for]="picker">
             <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
           </mat-datepicker-toggle>
@@ -26,8 +25,8 @@
         </mat-form-field>
         <mat-form-field class="form-field-dropdown" appearance="fill">
           <mat-label>Period</mat-label>
-          <mat-select multiple [ngModel]="selectedPeriods" (ngModelChange)="sample($event)" >
-            <mat-option *ngFor="let p of period" [value]="p">{{p}}</mat-option>
+          <mat-select #select multiple [(ngModel)]="selectedPeriods" (ngModelChange)="onPeriodChange($event)" >
+            <mat-option *ngFor="let p of period" [value]="p.value" [disabled]="p.disabled">{{p.value}}</mat-option>
           </mat-select>
         </mat-form-field>
 
@@ -59,12 +58,14 @@
             <div class="col-1-of-3">
               <p class="name">{{s.student.name}}</p>
             </div>
-            <div class="col-1-of-3" *ngFor="let p of selectedPeriods">
-              <i class="fas fa-check-circle"></i>
+            <div class="col-1-of-3 pointer" *ngFor="let p of attendence.periods">
+              <i *ngIf="checkPresence(p, s) === 'A'" class="fas fa-minus-circle" (click)="onSelect(p , s)"></i>
+              <i  *ngIf="checkPresence(p, s) === 'P'" class="fas fa-check-circle" (click)="onSelect(p , s)"></i>
             </div>
           </div>
         </div>
       </div>
     </section>
+    <button mat-raised-button (click)="onSubmit()">Submit</button>
   </div>
 </body>

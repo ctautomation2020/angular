@@ -36,6 +36,33 @@ export class AcademicsService {
     ));
 
   }
+  getAttendance(query: any) {
+    const req = gql`
+    query attendance($data: course_attendanceQueryInput!) {
+      attendance(data: $data) {
+        course_code
+        group_ref
+        session_ref
+        period
+        presence
+        student {
+          reg_no
+          name
+        }
+      }
+      }
+    `;
+    return this.apollo.watchQuery({
+      query: req,
+      variables: {
+        data: query
+      },
+      fetchPolicy: 'no-cache'
+    }).valueChanges.pipe(map((result: any) =>
+    JSON.parse(JSON.stringify(result.data.attendance))
+    ));
+
+  }
   getEvaluation(query: any) {
     const req = gql `
     query assess_evaluation($data: assess_evaluationQueryInput!) {
