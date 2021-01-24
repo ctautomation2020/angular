@@ -65,7 +65,7 @@ export class AssignmentComponent implements OnInit {
     ]
   sallot_id: number;
   courseTitle: string;
-
+  totalMarks: number;
     constructor(private apollo: Apollo,private academicsService: AcademicsService, private activatedRoute: ActivatedRoute, private router: Router) {
 
     }
@@ -148,6 +148,7 @@ export class AssignmentComponent implements OnInit {
         this.questions.forEach(quest => {
             total += quest.marks;
         });
+        this.totalMarks = total;
         return total;
     }
     deleteQuestion(quest:number){
@@ -405,7 +406,7 @@ export class AssignmentComponent implements OnInit {
     });
   }
   pdfHelper() {
-    let str1 = '<div style="text-align: center"><div style="margin-top: 6px"><b>MIT Campus, Anna University</b></div><div style="margin-top: 6px"><b>Assignment '+ this.assignment.assign_num +'</b></div><div  style="margin-top: 6px">Programme: B.E. (CSE)</div><div style="margin-top: 6px; margin-bottom: 6px;"><b>'+this.assignment.course_code+' - '+this.courseTitle.toUpperCase()+'</b></div></div><div><table><tr><th style="width: 25px">Sl. No</th><th style="width: 525px; margin-top: 8px; text-align: center">Question</th><th style="width: 45px; margin-top: 8px; text-align: center">Marks</th> <th style="width: 25px; margin-top: 8px; text-align: center"> CO </th></tr>';
+    let str1 = '<div style="text-align: center"><div style="margin-top: 6px"><b>MIT Campus, Anna University</b></div><div style="margin-top: 6px"><b>Assignment '+ this.assignment.assign_num +'</b></div><div  style="margin-top: 6px">Programme: B.E. (CSE)</div><div style="margin-top: 6px; margin-bottom: 6px;"><b>'+this.assignment.course_code+' - '+this.courseTitle.toUpperCase()+'</b></div></div><div><div style="margin-bottom: 6px;">Max Marks: '+ this.totalMarks+' </div><table><tr><th style="width: 25px">Sl. No</th><th style="width: 525px; margin-top: 8px; text-align: center">Question</th><th style="width: 45px; margin-top: 8px; text-align: center">Marks</th> <th style="width: 25px; margin-top: 8px; text-align: center"> CO </th></tr>';
     let tableStr = str1 + '';
     let questions = '';
     for (let q of this.assignment.questions) {
@@ -418,13 +419,38 @@ export class AssignmentComponent implements OnInit {
     return tableStr;
   }
   generatePDF() {
+    const code = this.assignment.course_code;
     const htmlToPdfmake = require('html-to-pdfmake');
     const content = this.pdfHelper();
     const val: any = htmlToPdfmake( content,{
       tableAutoSize:true
     });
-    console.log(content);
-    var dd = {content:val} ;
+
+    var dd: any = {content:val,
+      footer: function(currentPage: any, pageCount: any) { return [
+        { text: currentPage.toString() + ' of ' + pageCount, style: 'footer'}
+      ] },
+header: function(currentPage: any, pageCount: any, pageSize: any) {
+  // you can apply any logic and return any valid pdfmake element
+
+  return [
+    { text: code, alignment: (currentPage % 2) ? 'left' : 'right', style: 'header' },
+    { canvas: [ { type: 'rect', x: 170, y: 32, w: pageSize.width - 170, h: 40 } ] }
+  ]
+}, styles: {
+  header: {
+    margin:[8, 10, 10, 8],
+    italics: true
+  },
+  footer: {
+    alignment: 'center',
+    margin:[0, 5, 0, 0]
+  }
+  }
+
+    }
+    console.log(dd);
+
   pdfMake.createPdf(dd).open();
   }
 }

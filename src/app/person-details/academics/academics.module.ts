@@ -20,6 +20,8 @@ import { EvalutaionListComponent } from './evalutaion-list/evalutaion-list.compo
 import { SearchPipe } from "./evalutaion-list/search.pipe";
 import { AssignmentListComponent } from './assignment-list/assignment-list.component';
 import { AssignmentEvalutaionComponent } from './assignment-evalutaion/assignment-evalutaion.component';
+import { LessonPlanComponent } from './lesson-plan/lesson-plan.component';
+import { LessonPlanModelComponent } from './lesson-plan/lesson-plan-model/lesson-plan-model.component';
 @NgModule({
   declarations: [
     AcademicsComponent,
@@ -36,7 +38,9 @@ import { AssignmentEvalutaionComponent } from './assignment-evalutaion/assignmen
     EvalutaionListComponent,
     SearchPipe,
     AssignmentListComponent,
-    AssignmentEvalutaionComponent
+    AssignmentEvalutaionComponent,
+    LessonPlanComponent,
+    LessonPlanModelComponent
   ],
   imports: [
     RouterModule,

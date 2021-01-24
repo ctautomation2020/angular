@@ -29,7 +29,7 @@
                   <span class="question-co">CO{{filterCO(q.co_num).Ref_Name}}</span>
               </div>
               <div class="marks">
-                  <input type="number" min="0" [max]="s.section_mark" [(ngModel)]="q.marks" #marks="ngModel" class="mark" autofocus>
+                  <input type="number" min="0" required [max]="s.section_mark" (keyup)="onMarkSelect(q, s)" [(ngModel)]="q.marks" #marks="ngModel" class="mark" step="0.5" autofocus>
                   <div *ngIf="q.marks > s.section_mark">Invalid Entry</div>
               </div>
           </div>

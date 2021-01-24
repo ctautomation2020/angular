@@ -216,6 +216,32 @@ export class EvalutaionComponent implements OnInit {
   filterCO(co: number) {
     return this.coLevel.filter( b=> b.Reference_Code == co)[0];
   }
+  onMarkSelect(q: any, section: Section) {
+    const str = q.question_num;
+    const alpha = str.charAt(str.length - 1);
+    if (alpha != "a" || alpha != "b") {
+
+    }
+    if (alpha == "a") {
+      let question_num = str.substring(0, str.length - 1);
+      question_num += "b";
+      const question = section.questions.filter((q) => q.question_num == question_num)[0];
+      question.marks = 0;
+
+    }
+    else if( alpha == "b") {
+      let question_num = str.substring(0, str.length - 1);
+      question_num += "a";
+      const question = section.questions.filter((q) => q.question_num == question_num)[0];
+      question.marks = 0;
+
+    }
+    if (q.marks == null || q.marks > section.section_mark) {
+      q.marks = 0;
+      console.log(q, section.section_mark);
+
+    }
+  }
   onSubmit() {
     for (let section of this.assessment.section) {
       for (let q of section.questions) {

@@ -1,0 +1,32 @@
+<h2 mat-dialog-title>Lesson Plan</h2>
+<mat-dialog-content *ngIf="lessonPlan != null">
+  <mat-form-field  class="form-field-dropdown" appearance="fill">
+    <mat-label>Date</mat-label>
+    <input matInput [matDatepicker]="picker" [(ngModel)] = "lessonPlan.actual_date" >
+    <mat-datepicker-toggle matSuffix [for]="picker">
+      <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+    </mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field class="form-field-dropdown" appearance="fill">
+    <mat-label>Hours</mat-label>
+    <mat-select [(ngModel)]="lessonPlan.period" >
+      <mat-option *ngFor="let h of hours" [value]="h">{{h}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="form-field-dropdown" appearance="fill">
+    <mat-label>Topic</mat-label>
+    <mat-select [(ngModel)] ="lessonPlan.course_ctopic_id">
+      <mat-option *ngFor="let t of input.courseTopics" [disabled]="checkDisabled(t.topic)" [value]="t.ctopic_id">{{t.topic}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="form-field" >
+    <mat-label>References</mat-label>
+    <input matInput [(ngModel)]="lessonPlan.references" >
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close >Close</button>
+
+  <button mat-raised-button color="primary" (click)="onSubmit()" >Submit</button>
+</mat-dialog-actions>

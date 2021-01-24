@@ -31,7 +31,16 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>Department of Computer Technology</span>
+      <div class="main-title">
+        <div class="title-bar">
+          <span class="title-bold">Department of Computer Technology</span>
+          <span class="sub-title-bar">Anna Univeristy, MIT Campus</span>
+        </div>
+        <div class="staff-details-bar">
+          <span class="staff-name-bar">{{Prefix}} {{personName}}</span>
+          <span class="staff-regno">ID: {{Person_ID}}</span>
+        </div>
+      </div>
     </mat-toolbar>
     <!-- Add Content Here -->
     <router-outlet></router-outlet>

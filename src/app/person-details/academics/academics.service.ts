@@ -36,6 +36,53 @@ export class AcademicsService {
     ));
 
   }
+  getCourseTopics(course_code: string) {
+    const req = gql`
+    query course_topic($data: course_topicQueryInput!) {
+      course_topic(data: $data) {
+        ctopic_id
+        module_num
+        topic_num
+        topic
+      }
+      }
+    `;
+    return this.apollo.watchQuery({
+      query: req,
+      variables: {
+        data: {
+          course_code: course_code
+        }
+      },
+      fetchPolicy: 'no-cache'
+    }).valueChanges.pipe(map((result: any) =>
+    JSON.parse(JSON.stringify(result.data.course_topic))
+    ));
+
+  }
+  getLessonPlan(query : any) {
+    const req = gql`
+    query course_lessonplan($data: course_lessonplanQueryInput!) {
+      course_lessonplan(data: $data) {
+        actual_date
+        period
+        course_topic {
+          topic
+        }
+        references
+      }
+      }
+    `;
+    return this.apollo.watchQuery({
+      query: req,
+      variables: {
+        data: query
+      },
+      fetchPolicy: 'no-cache'
+    }).valueChanges.pipe(map((result: any) =>
+    JSON.parse(JSON.stringify(result.data.course_lessonplan))
+    ));
+  }
   getAttendance(query: any) {
     const req = gql`
     query attendance($data: course_attendanceQueryInput!) {

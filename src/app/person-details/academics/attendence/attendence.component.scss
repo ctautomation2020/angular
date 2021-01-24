@@ -162,7 +162,33 @@ body {
 
 .fa-minus-circle { color:  #d01c1f; }
 
+.fa-check, .fa-times{
+  font-size: 0.95em;
+  text-align: center;
+  color: seagreen;
+}
+.fa-check{
+  font-size: 0.85em;
+}
+.fa-times{
+  color: #d01c1f;
+}
+.attendance-button{
+  background-color: #1f56bd;
+  color: white;
+  font-size: 1em;
+  padding: 0.5em 1em;
+  border-radius: 5px;
+  border: none;
+  width: max-content;
+  margin: auto;
+  cursor: pointer;
+  transition: 0.35s ease-in-out;
 
+  &:hover{
+    background-color: #021658;
+  }
+}
 
 @media screen and (max-width: 1199px) { .search-div { width: 40%;} }
 @media screen and (max-width: 1023px) { .search-div { width: 50%; } }

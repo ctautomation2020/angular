@@ -14,14 +14,11 @@ import json from 'json-keys-sort';
   styleUrls: ['./attendence.component.scss']
 })
 export class AttendenceComponent implements OnInit {
-  selectedFoods = ['pizza-1', 'steak-0'];
-
-  allfoods: any = [
-    {value: 'steak-0', viewValue: 'Steak'},
-    {value: 'pizza-1', viewValue: 'Pizza'},
-    {value: 'tacos-2', viewValue: 'Tacos'},
-    {value: 'pasta-3', viewValue: 'Pasta'}
-  ];
+  myFilter = (d: Date | null): boolean => {
+    const day = (d || new Date()).getDay();
+    // Prevent Saturday and Sunday from being selected.
+    return day !== 0 && day !== 6;
+  }
 
 
   selectedDate: Date = new Date();

@@ -16,6 +16,7 @@ export class PersonDetailsService {
       query personReference($data: Person_Reference_Input) {
 
         personReference(data: $data){
+          Reference_ID
           Ref_Code
           Category
           Ref_Name

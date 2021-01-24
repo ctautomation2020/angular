@@ -17,7 +17,7 @@
       <div class="student__details__header">
         <mat-form-field  class="form-field-dropdown" appearance="fill">
           <mat-label>Date</mat-label>
-          <input matInput [matDatepicker]="picker" (dateChange)="onDateSelect()" [(ngModel)]="selectedDate">
+          <input matInput [matDatepicker]="picker" [matDatepickerFilter]="myFilter" (dateChange)="onDateSelect()" [(ngModel)]="selectedDate">
           <mat-datepicker-toggle matSuffix [for]="picker">
             <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
           </mat-datepicker-toggle>
@@ -59,13 +59,13 @@
               <p class="name">{{s.student.name}}</p>
             </div>
             <div class="col-1-of-3 pointer" *ngFor="let p of attendence.periods">
-              <i *ngIf="checkPresence(p, s) === 'A'" class="fas fa-minus-circle" (click)="onSelect(p , s)"></i>
-              <i  *ngIf="checkPresence(p, s) === 'P'" class="fas fa-check-circle" (click)="onSelect(p , s)"></i>
+              <i *ngIf="checkPresence(p, s) === 'A'" class="fas fa-times" (click)="onSelect(p , s)"></i>
+              <i  *ngIf="checkPresence(p, s) === 'P'" class="fas fa-check" (click)="onSelect(p , s)"></i>
             </div>
           </div>
         </div>
+        <button class="attendance-button"  (click)="onSubmit()">Submit</button>
       </div>
     </section>
-    <button mat-raised-button (click)="onSubmit()">Submit</button>
   </div>
 </body>

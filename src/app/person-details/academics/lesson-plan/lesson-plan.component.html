@@ -1,0 +1,47 @@
+<body>
+  <header>
+    <h1>Lesson plan - 2020</h1>
+    <div class="quick-links">
+      <a routerLink="/person-details/academics" class="link">Academics</a>
+      <span class="slash"></span>
+      <a *ngIf="session != null" [routerLink]="['/person-details', 'academics', 'course-list', session.reference_id]" class="link">{{session.description}}</a>
+      <span class="slash"></span>
+      <a [routerLink]="['/person-details', 'academics', 'course-features', sallot_id]" class="link" *ngIf="courseTitle != null">{{courseTitle}}</a>
+      <span class="slash"></span>
+        <a class="link">Lesson Plan</a>
+    </div>
+    <hr>
+    <div class="header-wrapper">
+        <div class="header-contents">
+            <h2>Faculty Name</h2>
+            <h3 *ngIf="Prefix != null && personName != null">{{Prefix}} {{personName}}</h3>
+        </div>
+        <div class="header-contents">
+            <h2>Designation</h2>
+            <h3>Teaching Fellow</h3>
+        </div>
+        <div class="header-contents">
+            <h2>Subject</h2>
+            <h3 *ngIf="courseCode != null && courseTitle != null"> {{courseCode}} - {{courseTitle}}</h3>
+        </div>
+    </div>
+  </header>
+  <h2>Lesson plan</h2>
+  <main>
+    <div class="plan-headings">
+        <h3>Date</h3>
+        <h3>Hour</h3>
+        <h3>Topic</h3>
+        <h3>Reference</h3>
+    </div>
+    <div class="plan-content" *ngFor="let l of lessonPlan">
+        <p class="content" >{{l.actual_date | date}}</p>
+        <p class="content" >{{l.period}}</p>
+        <p class="content" >{{l.course_topic.topic}}</p>
+        <p class="content" >{{l.references}}</p>
+    </div>
+    <button class="btn btn--addplan" (click)="onAddClass()" id="add"><i class="fas fa-plus"></i> Add Class</button>
+  </main>
+
+
+</body>

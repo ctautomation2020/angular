@@ -18,3 +18,35 @@
 .item {
   padding-left: 10px;
 }
+.main-title{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.main-title{
+  font: normal 1em 'Source Sans Pro';
+  line-height: 1;
+}
+.title-bar,
+.staff-details-bar{
+  display:flex;
+  flex-direction: column;
+}
+.title-bold{
+  font-weight: 600;
+}
+.sub-title-bar{
+  margin-top: 0.35em;
+  font-size: 0.6em;
+}
+.staff-details-bar{
+  text-align: right;
+  font-size: 0.85em;
+}
+.staff-name-bar{
+  margin-bottom: 0.35em;
+}
+.staff-regno{
+  font-size: 0.75em;
+}

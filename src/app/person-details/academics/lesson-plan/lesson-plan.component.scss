@@ -1,0 +1,325 @@
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  font-family: 'Source Sans Pro','Open Sans', serif;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  background: #f5f5f5;
+  padding: 1em;
+}
+
+@-webkit-keyframes fadein {
+  from {
+    -webkit-transform: translateY(-100px);
+            transform: translateY(-100px);
+  }
+  to {
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px);
+  }
+}
+
+@keyframes fadein {
+  from {
+    -webkit-transform: translateY(-100px);
+            transform: translateY(-100px);
+  }
+  to {
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px);
+  }
+}
+
+@-webkit-keyframes fadeout {
+  from {
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px);
+  }
+  to {
+    -webkit-transform: translateY(-100px);
+            transform: translateY(-100px);
+  }
+}
+
+@keyframes fadeout {
+  from {
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px);
+  }
+  to {
+    -webkit-transform: translateY(-100px);
+            transform: translateY(-100px);
+  }
+}
+
+.btn {
+  margin: 0 auto;
+  border-radius: .6em;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: .5em 1em;
+  font-size: 1.4em;
+  font-weight: 600;
+}
+
+.btn--addplan {
+  position: absolute;
+  bottom: -8%;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  width: 12%;
+  background: #0f3970;
+  color: #e25098;
+}
+
+.btn--add {
+  color: #fff;
+  background: #327754;
+}
+
+.btn--add:hover {
+  -webkit-transition: all .3s;
+  transition: all .3s;
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
+}
+
+.btn--close {
+  background: #e43838;
+  color: #fff;
+}
+
+.btn--close:hover {
+  -webkit-transition: all .3s;
+  transition: all .3s;
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
+}
+
+.btn .fas {
+  font-size: .8em;
+  margin-right: .3em;
+}
+
+header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 1em;
+  background: #fff;
+  border-radius: .5em;
+  -webkit-box-shadow: 5px 2px 5px gainsboro;
+          box-shadow: 5px 2px 5px gainsboro;
+}
+
+header h1 {
+  text-transform: uppercase;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 1.7em;
+  font-weight: 600;
+  color: #0f3970;
+}
+
+header .quick-links {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 0.5em 0;
+  padding: .5em;
+}
+
+header .quick-links .link {
+  text-decoration: none;
+  color: #061c64;
+  font-size: 0.975em;
+  margin: 0 0.75em;
+}
+
+header .quick-links .link:first-of-type {
+  margin-left: 0;
+}
+
+header .quick-links .link:hover {
+  text-decoration: underline;
+}
+
+header .quick-links .slash {
+  width: 0.5em;
+  height: 0.5em;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  -webkit-transform: rotate(135deg);
+          transform: rotate(135deg);
+}
+
+header hr {
+  border: .1px solid gainsboro;
+}
+
+header .header-wrapper {
+  padding: .5em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+header .header-wrapper .header-contents {
+  padding: .5em;
+}
+
+header .header-wrapper .header-contents h2 {
+  font-size: 1.45em;
+  margin-bottom: .2em;
+  font-weight: 600;
+}
+
+header .header-wrapper .header-contents h3 {
+  font-weight: 600;
+  font-size: 1.12em;
+  color: #e25098;
+}
+
+h2 {
+  margin: .7em 0;
+  font-size: 2em;
+  font-weight: 400;
+  color: #0f3970;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+main {
+  position: relative;
+  margin-top: 1em;
+  padding: 1em 0;
+  background: #fff;
+  border-radius: .5em;
+  -webkit-box-shadow: 5px 2px 5px gainsboro;
+          box-shadow: 5px 2px 5px gainsboro;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column wrap;
+          flex-flow: column wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+main .plan-headings {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+main .plan-headings h3 {
+  font-size: 1.4em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+main .plan-content {
+  margin: 1em 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 1.2em;
+  height: 2em;
+}
+
+main .plan-content .content {
+  width: 24%;
+  padding: .3em;
+  text-align: center;
+}
+
+main .plan-content .content:last-child {
+  text-align: left;
+  margin-left: 3em;
+}
+
+main .plan-add form {
+  padding: 2em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+section {
+  padding: 1em;
+  margin-top: 2em;
+  opacity: 1;
+}
+
+section form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+section form .form-row {
+  width: 30%;
+  padding: .6em .3em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: .5em;
+}
+
+section form .form-row label {
+  margin: 0 1em;
+  font-size: 1.4em;
+  width: 32%;
+}
+
+section form .form-row input, section form .form-row select {
+  width: 50%;
+  padding: .3em;
+  outline: none;
+  font-size: 1.2em;
+  border: none;
+  border-radius: .4em;
+  background-color: #EBC3DB;
+}
+/*# sourceMappingURL=main.css.map */
