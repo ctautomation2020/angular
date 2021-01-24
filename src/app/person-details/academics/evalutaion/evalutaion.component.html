@@ -30,7 +30,6 @@
               </div>
               <div class="marks">
                   <input type="number" min="0" required [max]="s.section_mark" (keyup)="onMarkSelect(q, s)" [(ngModel)]="q.marks" #marks="ngModel" class="mark" step="0.5" autofocus>
-                  <div *ngIf="q.marks > s.section_mark">Invalid Entry</div>
               </div>
           </div>
 

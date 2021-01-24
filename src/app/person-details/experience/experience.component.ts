@@ -5,10 +5,9 @@ import { PersonDetailsService } from '../person-details.service';
 import { MatDialog } from '@angular/material/dialog';
 import {Apollo, QueryRef} from 'apollo-angular';
 import gql from 'graphql-tag';
-
-import { AlertboxComponent } from '../../shared/alertbox/alertbox.component';
 import { ExperienceModelComponent } from './experience-model/experience-model.component';
 import { PersonReferenceModel } from '../person-reference.model';
+import { ConfirmBoxComponent } from 'src/app/shared/confirm-box/confirm-box.component';
 @Component({
   selector: 'app-experience',
   templateUrl: './experience.component.html',
@@ -146,7 +145,7 @@ export class ExperienceComponent implements OnInit {
      return d;
   }
   deleteDialog(id: number): void {
-    const dialogDeleteRef = this.dialog.open(AlertboxComponent);
+    const dialogDeleteRef = this.dialog.open(ConfirmBoxComponent, {data: {message: "Do you want to delete?"}});
     dialogDeleteRef.afterClosed().subscribe(result => {
       if(result) {
         console.log(result);

@@ -5,8 +5,8 @@ import {Apollo, QueryRef} from 'apollo-angular';
 import gql from 'graphql-tag';
 import {EducationModel} from './education.model';
 import { PersonDetailsService } from '../person-details.service';
-import {AlertboxComponent} from '../../shared/alertbox/alertbox.component';
 import { PersonReferenceModel } from '../person-reference.model';
+import { ConfirmBoxComponent } from 'src/app/shared/confirm-box/confirm-box.component';
 @Component({
   selector: 'app-education',
   templateUrl: './education.component.html',
@@ -168,7 +168,7 @@ export class EducationComponent implements OnInit {
 
   }
   deleteDialog(id: number): void {
-    const dialogDeleteRef = this.dialog.open(AlertboxComponent);
+    const dialogDeleteRef = this.dialog.open(ConfirmBoxComponent, {data: {message: "Do you want to delete?"}});
     dialogDeleteRef.afterClosed().subscribe(result => {
       if (result) {
         console.log(result);

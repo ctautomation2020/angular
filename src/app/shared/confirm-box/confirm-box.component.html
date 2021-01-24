@@ -1,0 +1,11 @@
+<div class="alert-box">
+  <h2 mat-dialog-title>Are You Sure? </h2>
+  <h3 mat-card-title *ngIf="input.message"> {{input.message}} </h3> <br>
+  <h3 mat-card-subtitle *ngIf="input.submessage"> {{input.submessage}} </h3> <br>
+  <mat-dialog-actions>
+  <div class="buttons">
+    <button mat-raised-button mat-dialog-close>Close</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()">Confirm</button>
+    </div>
+  </mat-dialog-actions>
+  </div>

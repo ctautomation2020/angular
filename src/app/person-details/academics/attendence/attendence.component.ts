@@ -8,6 +8,9 @@ import {Apollo, QueryRef} from 'apollo-angular';
 import gql from 'graphql-tag';
 
 import json from 'json-keys-sort';
+import { AlertBoxComponent } from 'src/app/shared/alert-box/alert-box.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmBoxComponent } from 'src/app/shared/confirm-box/confirm-box.component';
 @Component({
   selector: 'app-attendence',
   templateUrl: './attendence.component.html',
@@ -51,7 +54,7 @@ export class AttendenceComponent implements OnInit {
 ];
   periods: { period: number; students: { reg_no: any; presence: any; }[]; }[];
   query: { course_code: any; group_ref: any; session_ref: any; };
-  constructor(private academicsService: AcademicsService, private apollo: Apollo, private activatedRoute: ActivatedRoute, private router: Router, private dateAdapter: DateAdapter<Date>) {
+  constructor(public dialog: MatDialog, private academicsService: AcademicsService, private apollo: Apollo, private activatedRoute: ActivatedRoute, private router: Router, private dateAdapter: DateAdapter<Date>) {
     this.dateAdapter.setLocale('en-GB');
    }
   sallot_id: number;
@@ -216,6 +219,28 @@ export class AttendenceComponent implements OnInit {
 
   }
   onSubmit() {
+    if (this.selectedDate == null && this.selectedPeriods.length == 0) {
+      this.dialog.open(AlertBoxComponent, {data: {message: "Validation Failed."},})
+    }
+    else if (this.selectedDate == null ) {
+      this.dialog.open(AlertBoxComponent, {data: {message: "Validation Failed.", submessage:  "Please Select a Valid Date"},})
+    }
+    else if (this.selectedPeriods.length == 0) {
+      this.dialog.open(AlertBoxComponent, {data: {message: "Validation Failed.", submessage:  "Please Select Valid Periods"},})
+
+    }
+    else if (this.selectedDate && this.selectedPeriods.length > 0) {
+      let dialogOpen = this.dialog.open(ConfirmBoxComponent, {data: {message: "Do you want to submit the attendence", submessage: "Click Submit to Continue"}})
+    dialogOpen.afterClosed().subscribe((result) => {
+      if(result) {
+        this.submitAttendence();
+      }
+    })
+
+    }
+
+  }
+  submitAttendence() {
     for (let p of this.attendence.periods) {
       const json = {
         course_code : this.attendence.course_code,
@@ -260,7 +285,6 @@ export class AttendenceComponent implements OnInit {
     });
       }
     }
-
   }
 
 }

@@ -1,14 +1,18 @@
 import { NgModule } from '@angular/core';
-import { AlertboxComponent } from './alertbox/alertbox.component';
 import { GraphQLModule } from './graphql/graphql.module';
 import { MaterialModule } from './material/material.module';
+import { ConfirmBoxComponent } from './confirm-box/confirm-box.component';
+import { AlertBoxComponent } from './alert-box/alert-box.component';
+import { CommonModule } from "@angular/common";
 @NgModule({
   declarations: [
-    AlertboxComponent
+    ConfirmBoxComponent,
+    AlertBoxComponent
   ],
   imports: [
     GraphQLModule,
-    MaterialModule
+    MaterialModule,
+    CommonModule
   ],
   exports: [
     GraphQLModule,

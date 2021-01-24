@@ -6,6 +6,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AcademicsService } from '../academics.service';
 import { Assessment, Section, Question, Evaluation, EvaluationQuestion } from '../academics.model';
 import json from 'json-keys-sort';
+import { MatDialog } from '@angular/material/dialog';
+import { AlertBoxComponent } from 'src/app/shared/alert-box/alert-box.component';
+import { ConfirmBoxComponent } from 'src/app/shared/confirm-box/confirm-box.component';
 @Component({
   selector: 'app-evalutaion',
   templateUrl: './evalutaion.component.html',
@@ -71,7 +74,8 @@ export class EvalutaionComponent implements OnInit {
       Description: '6'
     }
   ]
-  constructor(private activatedRoute: ActivatedRoute, private academicsService: AcademicsService, private router: Router, private apollo: Apollo) { }
+  scoredMarks: number;
+  constructor(public dialog: MatDialog, private activatedRoute: ActivatedRoute, private academicsService: AcademicsService, private router: Router, private apollo: Apollo) { }
   assessment: Assessment = {
     section: [],
     assess_num: 0,
@@ -207,6 +211,7 @@ export class EvalutaionComponent implements OnInit {
         total = total + q.marks;
       }
     }
+    this.scoredMarks = total;
     return total;
   }
   filterBL(bl: number) {
@@ -226,23 +231,51 @@ export class EvalutaionComponent implements OnInit {
       let question_num = str.substring(0, str.length - 1);
       question_num += "b";
       const question = section.questions.filter((q) => q.question_num == question_num)[0];
-      question.marks = 0;
+      if(question.marks) {
+        this.dialog.open(AlertBoxComponent, {data: {message: "Cannot evaluate " + str , submessage: "EITHER-OR Conflict! " + str + " question marks will be set to 0"},})
+        q.marks = 0;
+      }
 
     }
     else if( alpha == "b") {
       let question_num = str.substring(0, str.length - 1);
       question_num += "a";
       const question = section.questions.filter((q) => q.question_num == question_num)[0];
-      question.marks = 0;
+      if(question.marks) {
+        this.dialog.open(AlertBoxComponent, {data: {message: "Cannot evaluate " + str , submessage: "EITHER-OR Conflict! " + str + " question marks will be set to 0"},})
+        q.marks = 0;
+      }
 
     }
-    if (q.marks == null || q.marks > section.section_mark) {
+    if(q.marks < 0) {
+      this.dialog.open(AlertBoxComponent, {data: {message: "Given mark is invalid", submessage: "This question marks will be set to 0"},})
       q.marks = 0;
-      console.log(q, section.section_mark);
+    }
+    if (q.marks > section.section_mark) {
+      this.dialog.open(AlertBoxComponent, {data: {message: "Given mark is greater than question weightage.", submessage:  "This question marks will be set to 0"},})
+      q.marks = 0;
 
     }
   }
   onSubmit() {
+    if ( this.scoredMarks < (this.totalMarks / 2) ) {
+      let dialogOpen = this.dialog.open(ConfirmBoxComponent, {data: {message: "Total Marks Scored is less than 50%", submessage: "Click Submit to Continue"}})
+      dialogOpen.afterClosed().subscribe((result) => {
+        if(result) {
+          this.submitEvaluation();
+        }
+      })
+    }
+    else {
+      let dialogOpen = this.dialog.open(ConfirmBoxComponent, {data: {message: "Do you want to submit the evaluation", submessage: "Click Submit to Continue"}})
+      dialogOpen.afterClosed().subscribe((result) => {
+        if(result) {
+          this.submitEvaluation();
+        }
+      })
+    }
+  }
+  submitEvaluation() {
     for (let section of this.assessment.section) {
       for (let q of section.questions) {
         const question: EvaluationQuestion = {
@@ -288,6 +321,5 @@ export class EvalutaionComponent implements OnInit {
       this.router.navigate(['/person-details', 'academics', 'evaluation', this.assess_num,this.sallot_id, this.reg_no])
     })
     }
-
   }
 }

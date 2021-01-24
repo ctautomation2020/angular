@@ -5,9 +5,9 @@ import gql from 'graphql-tag';
 import {PublicationModel} from './publication.model';
 import { PersonDetailsService } from '../person-details.service';
 import {PublicationModelComponent} from './publication-model/publication-model.component';
-import { AlertboxComponent } from '../../shared/alertbox/alertbox.component';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { PersonReferenceModel } from '../person-reference.model';
+import { ConfirmBoxComponent } from 'src/app/shared/confirm-box/confirm-box.component';
 
 @Component({
   selector: 'app-publication',
@@ -125,7 +125,7 @@ export class PublicationComponent implements OnInit {
     });
   }
   deleteDialog(id: number): void {
-    const dialogDeleteRef = this.dialog.open(AlertboxComponent);
+    const dialogDeleteRef = this.dialog.open(ConfirmBoxComponent, {data: {message: "Do you want to delete?"}});
     dialogDeleteRef.afterClosed().subscribe(result => {
       if (result) {
         console.log(result);

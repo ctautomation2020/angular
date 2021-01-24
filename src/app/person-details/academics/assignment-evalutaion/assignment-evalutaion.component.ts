@@ -4,6 +4,9 @@ import gql from 'graphql-tag';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AcademicsService } from '../academics.service';
 import { Assessment, Section, Question, Evaluation, EvaluationQuestion, Assignment, AssignmentQuestion, AssignmentEvaluation, AssignmentEvaluationQuestion } from '../academics.model';
+import { MatDialog } from '@angular/material/dialog';
+import { AlertBoxComponent } from 'src/app/shared/alert-box/alert-box.component';
+import { ConfirmBoxComponent } from 'src/app/shared/confirm-box/confirm-box.component';
 @Component({
   selector: 'app-assignment-evalutaion',
   templateUrl: './assignment-evalutaion.component.html',
@@ -37,7 +40,8 @@ export class AssignmentEvalutaionComponent implements OnInit {
     }
 
   ]
-  constructor(private activatedRoute: ActivatedRoute, private academicsService: AcademicsService, private router: Router, private apollo: Apollo) { }
+  scoredMarks: number;
+  constructor(public dialog: MatDialog, private activatedRoute: ActivatedRoute, private academicsService: AcademicsService, private router: Router, private apollo: Apollo) { }
   assignment: Assignment = {
     questions: [],
     assign_num: 0,
@@ -143,11 +147,26 @@ export class AssignmentEvalutaionComponent implements OnInit {
 
   });
 }
+onMarkSelect(q: AssignmentQuestion) {
+  if (q.max_marks) {
+    const marks = q.max_marks - q.marks;
+    if (q.marks < 0) {
+      this.dialog.open(AlertBoxComponent, {data: {message: "Given mark is invalid", submessage: "This question marks will be set to 0"},})
+      q.marks = 0;
+    }
+    else if (marks < 0) {
+      this.dialog.open(AlertBoxComponent, {data: {message: "Given mark is greater than question weightage.", submessage:  "This question marks will be set to 0"},})
+      q.marks = 0;
+    }
+
+  }
+}
 findTotalMarks() {
   let total = 0;
   for (let q of this.assignment.questions) {
       total = total + q.marks;
   }
+  this.scoredMarks = total;
   return total;
 }
 
@@ -155,52 +174,70 @@ filterCO(co: number) {
   return this.coLevel.filter( b=> b.Reference_Code == co)[0];
 }
 onSubmit() {
-  for (let q of this.assignment.questions) {
-      const question: AssignmentEvaluationQuestion = {
-        question_num: +q.question_num,
-        mark: q.marks
+  if ( this.scoredMarks < (this.totalMarks / 2) ) {
+    let dialogOpen = this.dialog.open(ConfirmBoxComponent, {data: {message: "Total Marks Scored is less than 50%", submessage: "Click Submit to Continue"}})
+    dialogOpen.afterClosed().subscribe((result) => {
+      if(result) {
+        this.submitEvaluation();
       }
-      this.evaluation.questions.push(question);
-  }
-
-  if (this.evaluationList.length == 0 ) {
-    console.log(this.evaluation);
-    const req = gql`
-  mutation createAssign_evaluation($data: assign_evaluationInput!) {
-    createAssign_evaluation(data: $data) {
-      cassigneval_id
-    }
-  }
-  `;
-  this.apollo.mutate({
-    mutation: req,
-    variables: {
-      data: this.evaluation
-    }
-  }).subscribe(({ data }) => {
-    console.log(data);
-    this.router.navigate(['/person-details', 'academics', 'assignment-evaluation', this.assign_num,this.sallot_id, this.reg_no])
-  });
+    })
   }
   else {
-    console.log(JSON.stringify(this.evaluation));
-    const req = gql `
-    mutation updateAssign_evaluation($data: assign_evaluationInput!) {
-    updateAssign_evaluation(data: $data) {
-      cassigneval_id
-    }
-  }
-  `;
-  this.apollo.mutate({
-    mutation: req,
-    variables: {
-      data: this.evaluation
-    }
-  }).subscribe((data) => {
-    this.router.navigate(['/person-details', 'academics', 'assignment-evaluation', this.assign_num,this.sallot_id, this.reg_no])
-  })
+    let dialogOpen = this.dialog.open(ConfirmBoxComponent, {data: {message: "Do you want to submit the evaluation", submessage: "Click Submit to Continue"}})
+    dialogOpen.afterClosed().subscribe((result) => {
+      if(result) {
+        this.submitEvaluation();
+      }
+    })
   }
 
+}
+submitEvaluation() {
+  for (let q of this.assignment.questions) {
+    const question: AssignmentEvaluationQuestion = {
+      question_num: +q.question_num,
+      mark: q.marks
+    }
+    this.evaluation.questions.push(question);
+}
+
+if (this.evaluationList.length == 0 ) {
+  console.log(this.evaluation);
+  const req = gql`
+mutation createAssign_evaluation($data: assign_evaluationInput!) {
+  createAssign_evaluation(data: $data) {
+    cassigneval_id
+  }
+}
+`;
+this.apollo.mutate({
+  mutation: req,
+  variables: {
+    data: this.evaluation
+  }
+}).subscribe(({ data }) => {
+  console.log(data);
+  this.router.navigate(['/person-details', 'academics', 'assignment-evaluation', this.assign_num,this.sallot_id, this.reg_no])
+});
+}
+else {
+  console.log(JSON.stringify(this.evaluation));
+  const req = gql `
+  mutation updateAssign_evaluation($data: assign_evaluationInput!) {
+  updateAssign_evaluation(data: $data) {
+    cassigneval_id
+  }
+}
+`;
+this.apollo.mutate({
+  mutation: req,
+  variables: {
+    data: this.evaluation
+  }
+}).subscribe((data) => {
+  this.router.navigate(['/person-details', 'academics', 'assignment-evaluation', this.assign_num,this.sallot_id, this.reg_no])
+})
+}
 }
 
 }

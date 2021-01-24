@@ -29,7 +29,7 @@
                   <span class="question-co">CO{{filterCO(q.co_num).Ref_Name}}</span>
               </div>
               <div class="marks">
-                  <input type="number" min="0" [max]="q.max_marks" [(ngModel)]="q.marks" #marks="ngModel" class="mark" autofocus>
+                  <input type="number" min="0" [max]="q.max_marks" step="0.5" (keyup)="onMarkSelect(q)" [(ngModel)]="q.marks" #marks="ngModel" class="mark" autofocus>
               </div>
           </div>
 
