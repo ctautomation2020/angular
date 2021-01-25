@@ -25,8 +25,8 @@ export class LoginComponent implements OnInit {
   onLogin(): void {
     console.log(this.loginForm.value.uname);
     const req = gql`
-    query login($data: credentialQueryInput!) {
-      login(data: $data) {
+    query auth_login($data: user_infoQueryInput!) {
+      auth_login(data: $data) {
         token
         Person_ID
       }
@@ -37,14 +37,14 @@ export class LoginComponent implements OnInit {
         query: req,
         variables: {
           data: {
-            Username: this.loginForm.value.uname,
-            Password: this.loginForm.value.password
+            username: +this.loginForm.value.uname,
+            password: this.loginForm.value.password
           }
         }
       }).valueChanges.subscribe((result: any) => {
-        console.log(result.data.login.token);
-        localStorage.setItem('token', result.data.login.token);
-        localStorage.setItem('Person_ID', result.data.login.Person_ID);
+        console.log(result.data.auth_login.token);
+        localStorage.setItem('token', result.data.auth_login.token);
+        localStorage.setItem('Person_ID', result.data.auth_login.Person_ID);
         this.apollo.client.clearStore();
         this.router.navigateByUrl('person-details');
 

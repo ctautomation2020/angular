@@ -26,22 +26,31 @@
         </div>
     </div>
   </header>
-  <h2>Lesson plan</h2>
+  <h2>Topics Covered</h2>
   <main>
-    <div class="plan-headings">
-        <h3>Date</h3>
-        <h3>Hour</h3>
-        <h3>Topic</h3>
-        <h3>Reference</h3>
-    </div>
-    <div class="plan-content" *ngFor="let l of lessonPlan">
-        <p class="content" >{{l.actual_date | date}}</p>
-        <p class="content" >{{l.period}}</p>
-        <p class="content" >{{l.course_topic.topic}}</p>
-        <p class="content" >{{l.references}}</p>
-    </div>
-    <button class="btn btn--addplan" (click)="onAddClass()" id="add"><i class="fas fa-plus"></i> Add Class</button>
+    <table class="plan-table">
+      <thead>
+        <th>Date</th>
+        <th>Hour</th>
+        <th>Topic</th>
+        <th>Reference</th>
+        <th class="icon-td">&nbsp;</th>
+        <th class="icon-td">&nbsp;</th>
+      </thead>
+    <tbody>
+      <tr *ngFor="let l of lessonPlan">
+        <td class="content" >{{l.actual_date | date}}</td>
+        <td class="content" >{{l.period}}</td>
+        <td class="content" >{{l.course_topic.topic}}</td>
+        <td class="content" >{{l.references}}</td>
+        <td><span class="icon edit-icon" (click)="openDialog(l)"></span></td>
+        <td><span class="icon delete-icon" (click)="deleteDialog(l)"></span></td>
+      </tr>
+    </tbody>
+    </table>
+    <button class="add-class-button" (click)="onAddClass()" id="add">+ Add Class</button>
   </main>
+  <button class="add-class-button" [routerLink]="['/person-details','academics', 'attendence', sallot_id]" id="add">+ Add Attendence</button>
 
 
 </body>

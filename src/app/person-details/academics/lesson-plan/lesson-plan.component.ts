@@ -3,13 +3,16 @@ import { DateAdapter } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Apollo, gql, QueryRef } from 'apollo-angular';
+import { ConfirmBoxComponent } from 'src/app/shared/confirm-box/confirm-box.component';
 import { PersonDetailsService } from '../../person-details.service';
 import { AcademicsModel } from '../academics.model';
 import { AcademicsService } from '../academics.service';
 import { LessonPlanModelComponent } from './lesson-plan-model/lesson-plan-model.component';
 interface LessonPlan {
+  clp_id: number;
   actual_date: Date,
   period: number,
+  course_ctopic_id: number,
   course_topic: {
     topic: string
   }
@@ -58,8 +61,10 @@ export class LessonPlanComponent implements OnInit {
           const req = gql`
           query course_lessonplan($data: course_lessonplanQueryInput!) {
             course_lessonplan(data: $data) {
+              clp_id
               actual_date
               period
+              course_ctopic_id
               course_topic {
                 topic
               }
@@ -120,6 +125,66 @@ export class LessonPlanComponent implements OnInit {
          });
       }));
 
+  }
+  deleteDialog(l: LessonPlan) {
+    const dialogDeleteRef = this.dialog.open(ConfirmBoxComponent, {data: {message: "Do you want to delete?"}});
+    dialogDeleteRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result);
+        const req = gql `
+        mutation delete_course_lessonplan($data: delete_course_lessonplanInput!) {
+          delete_course_lessonplan(data: $data) {
+            clp_id
+          }
+        }
+        `;
+        this.apollo
+    .mutate({
+      mutation: req,
+      variables: {
+        data: {
+          clp_id: l.clp_id
+        }
+      }}).subscribe(({ data }) => {
+      this.queryRef.refetch();
+    });
+
+      }
+    });
+  }
+  openDialog(l: LessonPlan) {
+    let dialogUpdateRef = this.dialog.open(LessonPlanModelComponent, {data: {
+      courseTopics: this.courseTopics,
+      query: this.query,
+      lessonPlan: this.lessonPlan,
+      lesson: l
+    }});
+    dialogUpdateRef.afterClosed().subscribe((result) => {
+      if(result) {
+        console.log(result);
+        const req = gql`
+        mutation update_course_lessonplan($data: update_course_lessonplanInput!) {
+          update_course_lessonplan(data: $data) {
+            clp_id
+          }
+        }
+        `;
+        this.apollo.mutate({
+          mutation: req,
+          variables: {
+            data: {
+              clp_id: l.clp_id,
+              actual_date: result.actual_date,
+              period: result.period,
+              course_ctopic_id: result.course_ctopic_id,
+              references: result.references
+            }
+          }
+        }).subscribe(({data}) => {
+          this.queryRef.refetch();
+        });
+      }
+    })
   }
   onAddClass() {
     const dialogCreateRef = this.dialog.open(LessonPlanModelComponent, {data: {

@@ -66,6 +66,7 @@ export class AcademicsService {
       course_lessonplan(data: $data) {
         actual_date
         period
+        course_ctopic_id
         course_topic {
           topic
         }

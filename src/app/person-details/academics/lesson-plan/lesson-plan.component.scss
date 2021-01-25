@@ -229,8 +229,7 @@ main .plan-headings {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
+  justify-content: space-between;
 }
 
 main .plan-headings h3 {
@@ -238,12 +237,62 @@ main .plan-headings h3 {
   text-transform: uppercase;
   font-weight: 600;
 }
-
+.plan-table{
+  width: 75%;
+  margin: auto;
+}
+.plan-table th,
+.plan-table td{
+  padding: 0.5em;
+  text-align: left;
+}
+.plan-table th{
+  font-size: 1.2em;
+  text-transform: uppercase;
+}
+.icon-td{
+  width: 5%;
+}
+.icon{
+  width: 1em;
+  height: 1em;
+  background-size: 0.85em;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: block;
+  opacity: 0.75;
+  cursor: pointer;
+  margin-right: 1em;
+  &:hover{
+    opacity: 1;
+  }
+}
+.edit-icon{
+  background-image: url("../../../../assets/edit.png");
+}
+.delete-icon{
+  background-image: url("../../../../assets/remove.png");
+}
+.add-class-button{
+  align-self: center;
+  padding: 0.5em 1em;
+  font-size: 1em;
+  border: none;
+  border-radius: 0.25em;
+  background-color: #3b59bb;
+  color: white;
+  margin-top: 2em;
+  cursor: pointer;
+  &:hover{
+    background-color: #061c64;
+  }
+}
 main .plan-content {
   margin: 1em 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  justify-content: space-between;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
