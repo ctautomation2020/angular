@@ -192,24 +192,38 @@ export class LessonPlanComponent implements OnInit {
       query: this.query,
       lessonPlan: this.lessonPlan
     }});
-    dialogCreateRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log(result);
-        const req = gql`
-        mutation create_course_lessonplan($data: create_course_lessonplanInput!) {
-          create_course_lessonplan(data: $data) {
-            clp_id
+    dialogCreateRef.afterClosed().subscribe(lessonPlanPeriods => {
+      if (lessonPlanPeriods) {
+        for (let p of lessonPlanPeriods) {
+
+          for (let t of p.references) {
+            const query = {
+              course_code: this.query.course_code,
+              group_ref: this.query.group_ref,
+              session_ref: this.query.session_ref,
+              actual_date: new Date().toISOString(),
+              period: p.period,
+              course_ctopic_id: t.ctopic_id,
+              references: t.reference
+            }
+            console.log(query);
+            const req = gql`
+            mutation create_course_lessonplan($data: create_course_lessonplanInput!) {
+              create_course_lessonplan(data: $data) {
+                clp_id
+              }
+            }
+            `;
+            this.apollo.mutate({
+              mutation: req,
+              variables: {
+                data: query
+              }
+            }).subscribe((data: any) => {
+              console.log(data);
+            });
           }
         }
-        `;
-        this.apollo.mutate({
-          mutation: req,
-          variables: {
-            data: result
-          }
-        }).subscribe(({data}) => {
-          this.queryRef.refetch();
-        });
       }
     });
   }

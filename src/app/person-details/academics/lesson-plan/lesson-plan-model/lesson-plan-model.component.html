@@ -9,21 +9,34 @@
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
   <mat-form-field class="form-field-dropdown" appearance="fill">
-    <mat-label>Hours</mat-label>
-    <mat-select [(ngModel)]="lessonPlan.period" >
-      <mat-option *ngFor="let h of hours" [value]="h">{{h}}</mat-option>
+    <mat-label>Periods</mat-label>
+    <mat-select multiple [(ngModel)]="selectedPeriods" (ngModelChange)="onPeriodChange($event)">
+      <mat-option *ngFor="let p of periods" [value]="p">{{p}}</mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field class="form-field-dropdown" appearance="fill">
-    <mat-label>Topic</mat-label>
-    <mat-select [(ngModel)] ="lessonPlan.course_ctopic_id">
-      <mat-option *ngFor="let t of input.courseTopics" [disabled]="checkDisabled(t.topic)" [value]="t.ctopic_id">{{t.topic}}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field class="form-field" >
-    <mat-label>References</mat-label>
-    <input matInput [(ngModel)]="lessonPlan.references" >
-  </mat-form-field>
+  <div >
+    <div *ngFor="let p of lessonPlanPeriods">
+      <p> Period {{p.period}} </p>
+      <mat-form-field class="form-field-dropdown" appearance="fill">
+        <mat-label>Unit</mat-label>
+        <mat-select multiple [(ngModel)]="p.selectedUnits"  >
+          <mat-option *ngFor="let u of units"  [value]="u">{{u}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="form-field-dropdown" appearance="fill">
+        <mat-label>Topics</mat-label>
+        <mat-select multiple [(ngModel)]="p.selectedTopics"  (ngModelChange)="onTopicChange($event, p.selectedTopics, p)" >
+          <mat-option *ngFor="let t of getTopics(p.selectedUnits)"  [value]="t.ctopic_id">{{t.topic}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="form-field" *ngFor="let r of p.references" >
+        <mat-label>{{getTopicName(r.ctopic_id)}} References</mat-label>
+        <input matInput [(ngModel)]="r.reference">
+      </mat-form-field>
+
+    </div>
+  </div>
+
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-raised-button mat-dialog-close >Close</button>
