@@ -22,6 +22,8 @@ import { AssignmentListComponent } from './assignment-list/assignment-list.compo
 import { AssignmentEvalutaionComponent } from './assignment-evalutaion/assignment-evalutaion.component';
 import { LessonPlanComponent } from './lesson-plan/lesson-plan.component';
 import { LessonPlanModelComponent } from './lesson-plan/lesson-plan-model/lesson-plan-model.component';
+import { LessonPlanCreateComponent } from './lesson-plan/lesson-plan-create/lesson-plan-create.component';
+import { MultiSelectComponent} from './lesson-plan/lesson-plan-model/multi-select/multi-select.component';
 @NgModule({
   declarations: [
     AcademicsComponent,
@@ -40,7 +42,9 @@ import { LessonPlanModelComponent } from './lesson-plan/lesson-plan-model/lesson
     AssignmentListComponent,
     AssignmentEvalutaionComponent,
     LessonPlanComponent,
-    LessonPlanModelComponent
+    LessonPlanModelComponent,
+    LessonPlanCreateComponent,
+    MultiSelectComponent
   ],
   imports: [
     RouterModule,

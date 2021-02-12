@@ -13,6 +13,8 @@ import { CourseFeaturesComponent } from "./course-features/course-features.compo
 import { CourseListComponent } from "./course-list/course-list.component";
 import { EvalutaionListComponent } from "./evalutaion-list/evalutaion-list.component";
 import { EvalutaionComponent } from "./evalutaion/evalutaion.component";
+import { LessonPlanCreateComponent } from "./lesson-plan/lesson-plan-create/lesson-plan-create.component";
+import { LessonPlanModelComponent } from "./lesson-plan/lesson-plan-model/lesson-plan-model.component";
 import { LessonPlanComponent } from "./lesson-plan/lesson-plan.component";
 import { SessionComponent } from "./session/session.component";
 
@@ -77,6 +79,14 @@ const routes: Routes =  [
       {
         path: 'lesson-plan/:sallot_id',
         component: LessonPlanComponent
+      },
+      {
+        path: 'lesson-plan/lesson-plan-create/:sallot_id',
+        component: LessonPlanCreateComponent
+      },
+      {
+        path: 'lesson-plan/lesson-plan-model/:sallot_id',
+        component: LessonPlanModelComponent
       },
 
       {

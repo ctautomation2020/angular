@@ -1,45 +1,93 @@
-<h2 mat-dialog-title>Lesson Plan</h2>
-<mat-dialog-content *ngIf="lessonPlan != null">
-  <mat-form-field  class="form-field-dropdown" appearance="fill">
-    <mat-label>Date</mat-label>
-    <input matInput [matDatepicker]="picker" [(ngModel)] = "lessonPlan.actual_date" >
-    <mat-datepicker-toggle matSuffix [for]="picker">
-      <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-    </mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-  <mat-form-field class="form-field-dropdown" appearance="fill">
-    <mat-label>Periods</mat-label>
-    <mat-select multiple [(ngModel)]="selectedPeriods" (ngModelChange)="onPeriodChange($event)">
-      <mat-option *ngFor="let p of periods" [value]="p">{{p}}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <div >
-    <div *ngFor="let p of lessonPlanPeriods">
-      <p> Period {{p.period}} </p>
-      <mat-form-field class="form-field-dropdown" appearance="fill">
-        <mat-label>Unit</mat-label>
-        <mat-select multiple [(ngModel)]="p.selectedUnits"  >
-          <mat-option *ngFor="let u of units"  [value]="u">{{u}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="form-field-dropdown" appearance="fill">
-        <mat-label>Topics</mat-label>
-        <mat-select multiple [(ngModel)]="p.selectedTopics"  (ngModelChange)="onTopicChange($event, p.selectedTopics, p)" >
-          <mat-option *ngFor="let t of getTopics(p.selectedUnits)"  [value]="t.ctopic_id">{{t.topic}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="form-field" *ngFor="let r of p.references" >
-        <mat-label>{{getTopicName(r.ctopic_id)}} References</mat-label>
-        <input matInput [(ngModel)]="r.reference">
-      </mat-form-field>
-
-    </div>
+<div class="flex-c lp-main">
+  <div class="flex-r lp-title">
+      <div class="flex-c lp-name">
+          <h2>{{courseTitle}}</h2>
+          <span>{{courseCode}}- Lesson Plan</span>
+      </div>
+      <div class="flex-c lp-date">
+          <h3>Date</h3>
+          <span>{{lessonPlan.actual_date | date}}</span>
+      </div>
   </div>
+  <div class="grid lp-wrap">
+      <div class="flex-c lp-period-cont">
+          <h3>Periods</h3>
+          <multi-select
+              [placeholder]="'Select Periods'"
+              [options]="periods"
+              [disabled]="selectedPeriods"
+              [(selectModel)]="selectedPeriods"
+              (selectModelChange)="onPeriodChange($event)">
+          </multi-select>
+          <div class="selected-values">
+              <b>Selected Periods : </b>
+              <div class="flex-c pr-list">
+                  <div class="flex-r" *ngFor="let p of selectedPeriods">
+                      <span class="lp-pr-t">Period {{p}}</span>
+                      <span class="delete-icon" title="Delete Period" (click)="deletePeriod(p)"></span>
+                  </div>
+              </div>
+          </div>
 
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-raised-button mat-dialog-close >Close</button>
-
-  <button mat-raised-button color="primary" (click)="onSubmit()" >Submit</button>
-</mat-dialog-actions>
+      </div>
+      <div class="flex-c lp-unit-cont">
+          <div class="lp-period" *ngFor="let p of lessonPlanPeriods">
+              <div class="flex-r lp-unit-title">
+                  <h3>Period - {{p.period}}</h3>
+                  <span class="delete-icon" title="Delete Period" (click)="deletePeriod(p.period)"></span>
+              </div>
+              <div class="flex-r lp-unit-wrap">
+                  <div class="flex-c lp-unit">
+                      <multi-select
+                          [placeholder]="'Select Units'"
+                          [options]="units"
+                          [disabled]="p.selectedUnits"
+                          [(selectModel)]="p.selectedUnits">
+                      </multi-select>
+                      <div class="selected-values">
+                          <b>Selected Units : </b>
+                          <div class="flex-c lp-unit-list">
+                              <div class="flex-r" *ngFor="let u of p.selectedUnits">
+                                  <span>Unit {{u}}</span>
+                                  <span class="delete-icon" title="Delete Unit"></span>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="flex-c lp-topic">
+                      <multi-select
+                          [placeholder]="'Select Topics'"
+                          [options]="getTopics(p.selectedUnits)"
+                          [disabled]="p.selectedTopics"
+                          [(selectModel)]="p.selectedTopics"
+                          [display_key]="'topic'"
+                          [output_key]="'ctopic_id'"
+                          (selectModelChange)="onTopicChange($event, p.selectedTopics, p)">
+                      </multi-select>
+                      <div class="selected-values">
+                          <b>Selected Topics : </b>
+                          <div class="flex-c lp-unit-list lp-topic-list">
+                              <div class="flex-r" *ngFor="let t of p.references">
+                                  <span class="flex-c lp-tp">
+                                      <span style="font-weight: 600; font-size: 1.1em;">{{t.topic}}</span>
+                                      <span class="flex-r">
+                                          <p>References : </p>
+                                          <input
+                                              type="text"
+                                              class="lp-ref-text"
+                                              placeholder="Topic Reference"
+                                              required
+                                              [(ngModel)]="t.reference">
+                                      </span>
+                                  </span>
+                                  <span class="delete-icon" title="Delete Topic" (click)="deleteTopic(p, t.ctopic_id)"></span>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <button class="lp-button lp-lrg-button add-class" (click)="addClass()"> + Save Changes</button>
+      </div>
+  </div>
+</div>

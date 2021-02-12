@@ -8,16 +8,12 @@ import { PersonDetailsService } from '../../person-details.service';
 import { AcademicsModel } from '../academics.model';
 import { AcademicsService } from '../academics.service';
 import { LessonPlanModelComponent } from './lesson-plan-model/lesson-plan-model.component';
-interface LessonPlan {
-  clp_id: number;
-  actual_date: Date,
-  period: number,
-  course_ctopic_id: number,
-  course_topic: {
-    topic: string
-  }
-  references: string
-}
+
+import json from 'json-keys-sort';
+import { LessonPlan, LessonPlanGroup, LessonPlanQuery } from './lesson-plan.model';
+import { LessonPlanService } from './lesson-plan.service';
+
+
 @Component({
   selector: 'app-lesson-plan',
   templateUrl: './lesson-plan.component.html',
@@ -25,6 +21,7 @@ interface LessonPlan {
 })
 
 export class LessonPlanComponent implements OnInit {
+  lessonPlanGroup: LessonPlanGroup[];
   sallot_id: number;
   session: AcademicsModel;
   courseTitle: string;
@@ -32,13 +29,14 @@ export class LessonPlanComponent implements OnInit {
   personName: any;
   Prefix_Ref: any;
   Prefix: any;
-  lessonPlan: LessonPlan[];
+  lessonPlan: LessonPlanQuery[];
   courseTopics: any;
   queryRef: QueryRef<LessonPlan[], any>
   query: { course_code: any; group_ref: any; session_ref: any; };
-  constructor(public dialog: MatDialog, private personDetailsService: PersonDetailsService, private academicsService: AcademicsService, private apollo: Apollo, private activatedRoute: ActivatedRoute, private router: Router, private dateAdapter: DateAdapter<Date>) {
+  constructor(public dialog: MatDialog, private personDetailsService: PersonDetailsService, private academicsService: AcademicsService, private apollo: Apollo, private activatedRoute: ActivatedRoute, private router: Router, private dateAdapter: DateAdapter<Date>, public lessonPlanService: LessonPlanService) {
     this.dateAdapter.setLocale('en-GB');
    }
+
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
       this.sallot_id = +params['sallot_id'];
@@ -81,6 +79,38 @@ export class LessonPlanComponent implements OnInit {
           })
           this.queryRef.valueChanges.subscribe((result: any) => {
           this.lessonPlan = JSON.parse(JSON.stringify(result.data.course_lessonplan))
+          var groupByName: any;
+                const groupBy = (array: any, key: any) => {
+                  // Return the end result
+                  return array.reduce((result: any, currentValue: any) => {
+                    // If an array already present for key, push it to the array. Else create an array and push the object
+                    (result[currentValue[key]] = result[currentValue[key]] || []).push(
+                      currentValue
+                    );
+                    // Return the current iteration `result` value, this will be taken as next iteration `result` value and accumulate
+                    return result;
+                  }, {}); // empty object is the initial value for result object
+                };
+                let dates = groupBy(result.data.course_lessonplan, 'actual_date');
+                dates = json.sort(dates, true);
+                let lessonPlan: LessonPlanGroup[] = [];
+                Object.keys(dates).forEach(function(key) {
+                  let lesson: LessonPlanGroup = {
+                    actual_date: key,
+                    hours: dates[key].length,
+                    topics: [] as any
+                  }
+                  let topics = [] as any;
+                  for (let t of dates[key]) {
+                    let topic: any = t.course_topic.topic;
+                    topics.push(topic);
+                  }
+                  topics = topics.filter((v: string,i: number) => topics.indexOf(v) == i)
+                  lesson.topics = topics;
+                  lessonPlan.push(lesson);
+                });
+                console.log(lessonPlan);
+                this.lessonPlanGroup = lessonPlan;
           });
           ;
           this.academicsService.getCourseTopics(course.course_code).subscribe((course_topics) => {
@@ -126,7 +156,7 @@ export class LessonPlanComponent implements OnInit {
       }));
 
   }
-  deleteDialog(l: LessonPlan) {
+  deleteDialog(l: any) {
     const dialogDeleteRef = this.dialog.open(ConfirmBoxComponent, {data: {message: "Do you want to delete?"}});
     dialogDeleteRef.afterClosed().subscribe(result => {
       if (result) {
@@ -152,7 +182,12 @@ export class LessonPlanComponent implements OnInit {
       }
     });
   }
-  openDialog(l: LessonPlan) {
+  openDialog(date: string) {
+    const lessonPlan: LessonPlanQuery[] = this.lessonPlan.filter((l) => l.actual_date === date);
+    this.lessonPlanService.setLessonPlan(lessonPlan);
+    this.router.navigate(['/person-details', 'academics', 'lesson-plan', 'lesson-plan-model', this.sallot_id]);
+    /*
+
     let dialogUpdateRef = this.dialog.open(LessonPlanModelComponent, {data: {
       courseTopics: this.courseTopics,
       query: this.query,
@@ -185,6 +220,7 @@ export class LessonPlanComponent implements OnInit {
         });
       }
     })
+    */
   }
   onAddClass() {
     const dialogCreateRef = this.dialog.open(LessonPlanModelComponent, {data: {
@@ -192,16 +228,19 @@ export class LessonPlanComponent implements OnInit {
       query: this.query,
       lessonPlan: this.lessonPlan
     }});
-    dialogCreateRef.afterClosed().subscribe(lessonPlanPeriods => {
-      if (lessonPlanPeriods) {
-        for (let p of lessonPlanPeriods) {
+    dialogCreateRef.afterClosed().subscribe(lessonPlan => {
+      if (lessonPlan) {
+        console.log(lessonPlan);
+        const d = new Date(lessonPlan.actual_date);
+        const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+        for (let p of lessonPlan.lessonPlanPeriods) {
 
           for (let t of p.references) {
             const query = {
               course_code: this.query.course_code,
               group_ref: this.query.group_ref,
               session_ref: this.query.session_ref,
-              actual_date: new Date().toISOString(),
+              actual_date: date,
               period: p.period,
               course_ctopic_id: t.ctopic_id,
               references: t.reference

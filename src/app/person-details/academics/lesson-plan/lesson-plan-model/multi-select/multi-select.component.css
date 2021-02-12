@@ -1,0 +1,186 @@
+:host{
+    position: relative;
+}
+*, ::before, ::after{
+    outline: none;
+    text-decoration: none;
+}
+.list,
+.search-box{
+    font-size: 1em;
+    background-color: white;
+    border: none;
+}
+.list{
+    flex: 1;
+    cursor: pointer;
+    padding: 0.6em 0 0.6em 0.85em;
+}
+.select-box-wrap{
+    width: 100%;
+    position: relative;
+}
+.select-box{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding-right: 1em;
+    border: 1px solid gainsboro;
+    position: relative;
+    cursor: pointer;
+}
+.clear,
+.drop-down{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;    
+}
+.clear::before,
+.clear::after{
+    content: '';
+    width: 0.85em;
+    height: 2px;
+    display: block;
+    background-color: black;
+    opacity: 0.5;
+    transform: rotate(45deg);
+    position: absolute;
+}
+.clear::after{
+    transform: rotate(-45deg);
+}
+.clear{
+    margin-left: auto;
+    margin-right: 1.5em;
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+}
+.clear-show{
+    opacity: 1;
+    visibility: visible;
+}
+.flex{
+    display: flex;
+}
+.drop-down{
+    width: 0.6em;
+    height: 0.6em;
+    border-color: black;
+    border-width: 2px 2px 0 0;
+    border-style: solid;
+    display: block;
+    transform: rotate(135deg);
+    transform-origin: 50% 35%;
+    opacity: 0.5;
+}
+.drop-down-rotate{
+    transform: rotate(-45deg);
+    transform-origin: 75%;
+}
+.drop-down-list{
+    position: relative;
+}
+.select-list{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 100%;
+    background-color: white;
+    top: 2.5em;
+    left: 0;
+    border: 1px solid gainsboro;
+    box-shadow: 0 5px 10px 1px gainsboro;
+    transform: scaleY(0);
+    transform-origin: 0 0 0;
+    transition: 0.35s all ease-in-out;
+}
+.slide-down{
+    z-index: 1;
+    transform: scaleY(1);
+    animation: slideDown 0.35s ease-in-out;
+}
+@keyframes slideDown{
+    0%{
+        transform: scaleY(0);
+    }
+    100%{
+        transform: scaleY(1);
+    }
+}
+.search-box{
+    padding: 0.55em;
+    margin: 0.4em;
+    box-shadow: inset 0 0 0 1px gainsboro;
+}
+.search-box:focus{
+    box-shadow: inset 0 0 0 2px #3d94e6;
+}
+.check-wrap{
+    display: flex;
+    align-items: center;
+    padding: 0.75em 1em;
+    cursor: pointer;
+    border-bottom: 1px solid gainsboro;
+}
+.check-wrap:hover{
+    background-color: #eff7ff;
+    box-shadow: inset 0 0 0 1px #125a9c;
+}
+.select-all{
+    border-top: 1px solid gainsboro;
+}
+.check-wrap:last-child{
+    margin-bottom: 0.25em;
+    border-bottom: none;
+}
+.check-wrap input[type=checkbox]{
+    display: none;
+}
+.check-box{
+    width: 1.35em;
+    height: 1.35em;
+    box-shadow: inset 0 0 0 2px rgb(151, 151, 151);
+    margin-right: 0.75em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.check-box-checked::after{
+    content: '';
+    width: 6px;
+    height: 0.75em;
+    border-color: white;
+    border-style: solid;
+    border-width: 2px 0 0 2px;
+    transform: rotate(225deg);
+    transform-origin: 50% 45%;
+    display: none;
+}
+.check-wrap input[type=checkbox]:checked ~ .check-box-checked{
+    background-color: #3d94e6;
+    box-shadow: inset 0 0 0 2px #3d94e6;
+}
+.check-wrap input[type=checkbox]:checked ~ .check-box-checked::after{
+    display: block;
+}
+.list-box{
+    max-height: 10em;
+    overflow: auto;
+}
+.list-box::-webkit-scrollbar{
+    width: 0.5em;
+}
+.list-box::-webkit-scrollbar-track{
+    background: gainsboro;
+}
+.list-box::-webkit-scrollbar-thumb{
+    background: #aaaaaa;
+}
+.disabled{
+    pointer-events: none;
+    background-color: whitesmoke;
+}

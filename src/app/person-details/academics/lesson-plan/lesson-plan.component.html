@@ -31,20 +31,18 @@
     <table class="plan-table">
       <thead>
         <th>Date</th>
-        <th>Hour</th>
+        <th>Hours</th>
         <th>Topic</th>
-        <th>Reference</th>
         <th class="icon-td">&nbsp;</th>
         <th class="icon-td">&nbsp;</th>
       </thead>
     <tbody>
-      <tr *ngFor="let l of lessonPlan">
+      <tr *ngFor="let l of lessonPlanGroup">
         <td class="content" >{{l.actual_date | date}}</td>
-        <td class="content" >{{l.period}}</td>
-        <td class="content" >{{l.course_topic.topic}}</td>
-        <td class="content" >{{l.references}}</td>
-        <td><span class="icon edit-icon" (click)="openDialog(l)"></span></td>
-        <td><span class="icon delete-icon" (click)="deleteDialog(l)"></span></td>
+        <td class="content" >{{l.hours}}</td>
+        <td class="content" ><span *ngFor="let t of l.topics; let i = index">{{t}} <span *ngIf="i != l.topics.length-1">,</span></span></td>
+        <td><span class="icon edit-icon" (click)="openDialog(l.actual_date)"></span></td>
+        <td><span class="icon delete-icon"></span></td>
       </tr>
     </tbody>
     </table>

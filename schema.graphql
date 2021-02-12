@@ -1,0 +1,843 @@
+type course_artimat {
+  cartimat_id: Int!
+  course_code: String!
+  conum: Int!
+  costmt: String!
+  po1: Int
+  po2: Int
+  po3: Int
+  po4: Int
+  po5: Int
+  po6: Int
+  po7: Int
+  po8: Int
+  po9: Int
+  po10: Int
+  po11: Int
+  po12: Int
+  ps1: Int
+  ps2: Int
+  ps3: Int
+}
+
+type Query {
+  course_artimat(data: course_artimatQueryInput): [course_artimat]
+  session_assessments(data: sessionQueryInput!): [Int]
+  assessment(data: assesmentQueryInput!): [course_assessment]
+  assess_evaluation(data: assess_evaluationQueryInput!): [course_assesseval]
+  assign_evaluation(data: assign_evaluationQueryInput!): [course_assigneval]
+  session_assignments(data: sessionQueryInput!): [Int]
+  assignment(data: assignmentQueryInput!): [course_assignment]
+  attendance(data: course_attendanceQueryInput!): [course_attendance]!
+  course_cacomp(data: course_cacompQueryInput!): [course_cacomp]
+  course_lessonplan(data: course_lessonplanQueryInput!): [course_lessonplan]
+  course(data: courseQueryInput!): course_list
+  allCourses: [course_list]
+  courseReference(data: Course_Reference_Input): [Course_Reference_Table]
+  registered_students(data: registered_studentsQueryInput!): [course_registered_students]
+  course_topic(data: course_topicQueryInput!): [course_topic]
+  login(data: credentialQueryInput!): loginPayload!
+  allPersons: [Person!]!
+  person: Person!
+  award(data: awardQueryInput!): person_award
+  personAwards(data: personAwardQueryInput!): [person_award]
+  experience(data: experienceQueryInput): person_experience
+  person_experiences(data: PersonQueryInput): [person_experience]
+  publication(data: Person_PublicationQueryInput!): Person_Publication
+  person_publications(data: Person_QueryInput!): [Person_Publication]
+  qualification(data: Qualification_InputQuery!): Person_Qualification!
+  personQualifications(data: Person_QualificationsInputQuery): [Person_Qualification]
+  personReference(data: Person_Reference_Input): [Person_Reference_Table]
+  staffCourses(data: staffCoursesQueryInput!): [subj_allot]
+  courseDetails(data: courseDetailsQueryInput!): subj_allot
+  auth_login(data: user_infoQueryInput!): loginPayload!
+}
+
+input course_artimatQueryInput {
+  course_code: String!
+}
+
+type Mutation {
+  createAssessment(data: custom_type!): [course_assessment]
+  createAssess_evaluation(data: assess_evaluationInput!): [course_assesseval]
+  updateAssess_evaluation(data: assess_evaluationInput!): [course_assesseval]
+  createAssign_evaluation(data: assign_evaluationInput!): [course_assigneval]
+  updateAssign_evaluation(data: assign_evaluationInput!): [course_assigneval]
+  createAssignment(data: custom_assignment_type!): [course_assignment]
+  create_attendance(data: create_attendanceInput!): Boolean!
+  update_attendance(data: create_attendanceInput!): Boolean!
+  create_course_cacomp(data: create_course_cacompInput!): Boolean
+  update_course_cacomp(data: update_course_cacompInput!): Boolean
+  delete_course_cacomp(data: delete_course_cacompInput!): Boolean
+  create_course_lessonplan(data: create_course_lessonplanInput!): course_lessonplan
+  update_course_lessonplan(data: update_course_lessonplanInput!): course_lessonplan
+  delete_course_lessonplan(data: delete_course_lessonplanInput!): course_lessonplan
+  createUser(data: createCredentialsInput!): credentialPayload
+  updateUser(data: updateCredentialsInput!): credentialPayload
+  createPerson(data: createPersonInput!): Person!
+  updatePerson(data: updatePersonInput!): Person!
+  createPersonAward(data: awardInput!): person_award!
+  updatePersonAward(data: awardUpdateInput!): person_award!
+  deletePersonAward(data: awardDeleteInput!): person_award!
+  uploadPersonAward(file: Upload!): Boolean
+  createPersonExperience(data: experienceInput!): person_experience!
+  updatePersonExperience(data: experienceUpdateInput!): person_experience!
+  deletePersonExperience(data: experienceDeleteInput!): person_experience!
+  createPersonPublication(data: Person_PublicationInput!): Person_Publication!
+  updatePersonPublication(data: Person_PublicationUpdateInput!): Person_Publication!
+  deletePersonPublication(data: Person_PublicationDeleteInput!): Person_Publication!
+  createPersonQualification(data: Person_QualificationInput!): Person_Qualification!
+  updatePersonQualification(data: Person_QualificationUpdateInput!): Person_Qualification!
+  deletePersonQualification(data: Qualification_InputQuery!): Person_Qualification
+  auth_createUser(data: createUser_infoInput!): user_infoPayload
+  auth_updateUser(data: updateUser_infoInput!): user_infoPayload
+}
+
+type course_assessment {
+  cassess_id: Int!
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+  assess_num: Int!
+  question_num: String!
+  question_stmt: String
+  question_img: String
+  blooms_level: Int!
+  co_num: Int!
+  marks: Int!
+  entry_date: String!
+  section: String!
+}
+
+input custom_type {
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+  assess_num: Int!
+  entry_date: String!
+  section: [section]
+}
+
+input section {
+  name: String
+  section_mark: Int
+  q_num: Int
+  type: String
+  questions: [questions]
+}
+
+input questions {
+  question_num: String!
+  question_stmt: String
+  question_img: String
+  blooms_level: Int!
+  co_num: Int!
+  marks: Int!
+}
+
+input assesmentQueryInput {
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+  assess_num: Int!
+}
+
+input sessionQueryInput {
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+}
+
+type course_assesseval {
+  cassesseval_id: Int!
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+  assess_num: Int!
+  question_num: String!
+  reg_no: Int!
+  mark: Float!
+}
+
+input assess_evaluationQueryInput {
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+  assess_num: Int!
+  reg_no: Int!
+}
+
+input assess_evaluationInput {
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+  assess_num: Int!
+  reg_no: Int!
+  questions: [question]
+}
+
+input question {
+  question_num: String!
+  mark: Float!
+}
+
+type course_assigneval {
+  cassigneval_id: Int!
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+  assign_num: Int!
+  question_num: Int!
+  reg_no: Int!
+  mark: Float!
+}
+
+input assign_evaluationQueryInput {
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+  assign_num: Int!
+  reg_no: Int!
+}
+
+input assign_evaluationInput {
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+  assign_num: Int!
+  reg_no: Int!
+  questions: [assign_question]
+}
+
+input assign_question {
+  question_num: Int!
+  mark: Float!
+}
+
+type course_assignment {
+  cassign_id: Int!
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+  entry_date: String!
+  assign_num: Int!
+  question_num: String!
+  question_stmt: String
+  question_img: String
+  co_num: Int!
+  marks: Int!
+  deadline: String!
+}
+
+input custom_assignment_type {
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+  entry_date: String!
+  assign_num: Int!
+  deadline: String!
+  questions: [assign_questions]
+}
+
+input assign_questions {
+  question_num: String!
+  question_stmt: String
+  question_img: String
+  co_num: Int!
+  marks: Int!
+}
+
+input assignmentQueryInput {
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+  assign_num: Int!
+}
+
+type course_attendance {
+  cattend_id: Int!
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+  student: student_list!
+  date: String!
+  period: Int!
+  presence: String!
+}
+
+input course_attendanceQueryInput {
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+  date: String
+  period: Int
+}
+
+input create_attendanceInput {
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+  date: String!
+  period: Int!
+  students: [student_attendance]!
+}
+
+input student_attendance {
+  reg_no: Int!
+  presence: String!
+}
+
+type course_cacomp {
+  ccacomp_id: Int!
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+  type: Int!
+  number: Int!
+  weightage: Int!
+}
+
+input course_cacompQueryInput {
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+}
+
+input create_course_cacompInput {
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+  compques: [compq]
+}
+
+input update_course_cacompInput {
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+  compques: [compq]
+}
+
+input delete_course_cacompInput {
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+}
+
+input compq {
+  type: Int!
+  number: Int!
+  weightage: Int!
+}
+
+type course_lessonplan {
+  clp_id: Int!
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+  actual_date: String!
+  period: Int!
+  course_ctopic_id: Int!
+  references: String
+  course_topic: course_topic
+}
+
+input course_lessonplanQueryInput {
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+}
+
+input create_course_lessonplanInput {
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+  actual_date: String!
+  period: Int!
+  course_ctopic_id: Int!
+  references: String
+}
+
+input update_course_lessonplanInput {
+  clp_id: Int!
+  actual_date: String
+  period: Int
+  course_ctopic_id: Int
+  references: String
+}
+
+input delete_course_lessonplanInput {
+  clp_id: Int!
+}
+
+type course_list {
+  course_code: String!
+  stream: Int!
+  regulation: Int!
+  semester: Int!
+  title: String!
+  credit: Int!
+  objectives: String
+}
+
+input courseQueryInput {
+  course_code: String!
+}
+
+type Course_Reference_Table {
+  reference_id: Int!
+  ref_code: Int!
+  category: String
+  ref_name: String
+  description: String
+}
+
+input Course_Reference_Input {
+  reference_id: Int
+  category: String
+}
+
+type student_list {
+  reg_no: Int
+  name: String
+}
+
+type course_registered_students {
+  cregst_id: Int!
+  course_code: String!
+  reg_no: Int!
+  group_ref: Int!
+  session_ref: Int!
+  student: student_list
+}
+
+input registered_studentsQueryInput {
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+}
+
+type course_topic {
+  ctopic_id: Int!
+  course_code: String!
+  module_num: Int!
+  topic_num: String!
+  topic: String!
+  conum: Int!
+}
+
+input course_topicQueryInput {
+  course_code: String
+}
+
+type credentials {
+  Credentials_ID: Int
+  Person_ID: Int!
+  Username: String!
+  Password: String!
+  person: Person!
+}
+
+input createCredentialsInput {
+  Person_ID: Int!
+  Username: String!
+  Password: String!
+}
+
+type credentialPayload {
+  Credentials_ID: Int
+  Person_ID: Int!
+  Username: String!
+}
+
+input updateCredentialsInput {
+  Person_ID: Int!
+  Username: String
+  Password: String
+}
+
+input credentialQueryInput {
+  Username: String!
+  Password: String!
+}
+
+type loginPayload {
+  token: String!
+  Person_ID: Int!
+}
+
+type Person {
+  Person_ID: Int!
+  Prefix_Ref: Int
+  First_Name: String
+  Last_Name: String
+  Gender_Ref: Int
+  DOB: String
+  Designation: Int
+  date_of_joining: String
+  Community_Ref: Int
+  Caste: String
+  Primary_MailID: String
+  Secondary_MailID: String
+  Aadhar_Card: Float
+  PAN_Card: String
+  Passport_Number: String
+  Primary_ContactNumber: String
+  Secondary_ContactNumber: String
+  Intercom_Number: String
+  Alias_Name: String
+  Address_Line1: String
+  Address_Line2: String
+  Address_Line3: String
+  Address_Line4: String
+  Marital_Status_Ref: Int
+  Room_Num: String
+  Person_Qualification: [Person_Qualification!]!
+}
+
+input personInput {
+  Person_ID: Int!
+}
+
+input createPersonInput {
+  Person_ID: Int!
+  Prefix_Ref: Int
+  First_Name: String
+  Last_Name: String
+  Gender_Ref: Int
+  DOB: String
+  Designation: Int
+  date_of_joining: String
+  Community_Ref: Int
+  Caste: String
+  Primary_MailID: String
+  Secondary_MailID: String
+  Aadhar_Card: Float
+  PAN_Card: String
+  Passport_Number: String
+  Primary_ContactNumber: String
+  Secondary_ContactNumber: String
+  Intercom_Number: String
+  Alias_Name: String
+  Address_Line1: String
+  Address_Line2: String
+  Address_Line3: String
+  Address_Line4: String
+  Marital_Status_Ref: Int
+  Room_Num: String
+}
+
+input updatePersonInput {
+  Person_ID: Int!
+  Prefix_Ref: Int
+  First_Name: String
+  Last_Name: String
+  Gender_Ref: Int
+  DOB: String
+  Designation: Int
+  date_of_joining: String
+  Community_Ref: Int
+  Caste: String
+  Primary_MailID: String
+  Secondary_MailID: String
+  Aadhar_Card: Float
+  PAN_Card: String
+  Passport_Number: String
+  Primary_ContactNumber: String
+  Secondary_ContactNumber: String
+  Intercom_Number: String
+  Alias_Name: String
+  Address_Line1: String
+  Address_Line2: String
+  Address_Line3: String
+  Address_Line4: String
+  Marital_Status_Ref: Int
+  Room_Num: String
+}
+
+type person_award {
+  Award_ID: Int!
+  Person_ID: Int!
+  Title: String
+  Organization: String
+  Place: String
+  Start_Year: Int
+  Details: String
+}
+
+input awardQueryInput {
+  Award_ID: Int!
+}
+
+input personAwardQueryInput {
+  Person_ID: Int!
+}
+
+input awardInput {
+  Title: String
+  Organization: String
+  Place: String
+  Start_Year: Int
+  Details: String
+  File: Upload
+}
+
+input awardUpdateInput {
+  Award_ID: Int!
+  Title: String
+  Organization: String
+  Place: String
+  Start_Year: Int
+  Details: String
+}
+
+input awardDeleteInput {
+  Award_ID: Int!
+}
+
+type person_experience {
+  Experience_ID: Int!
+  Person_ID: Int!
+  Designation_Ref: Int
+  Organization: String
+  Department: String
+  Start_Date: String
+  End_Date: String
+  Emp_Category_Ref: Int
+  Work_Nature_Ref: Int
+  Position_Held: String
+}
+
+input experienceQueryInput {
+  Experience_ID: Int!
+}
+
+input PersonQueryInput {
+  Person_ID: Int!
+}
+
+input experienceInput {
+  Designation_Ref: Int
+  Organization: String
+  Department: String
+  Start_Date: String
+  End_Date: String
+  Emp_Category_Ref: Int
+  Work_Nature_Ref: Int
+  Position_Held: String
+}
+
+input experienceUpdateInput {
+  Experience_ID: Int!
+  Designation_Ref: Int
+  Organization: String
+  Department: String
+  Start_Date: String
+  End_Date: String
+  Emp_Category_Ref: Int
+  Work_Nature_Ref: Int
+  Position_Held: String
+}
+
+input experienceDeleteInput {
+  Experience_ID: Int!
+}
+
+type Person_Publication {
+  Publication_ID: Int!
+  Person_ID: Int!
+  Publication_Type_Ref: Int
+  Level_Ref: Int
+  Paper_Title: String
+  First_Author: String
+  Second_Author: String
+  Other_Authors: String
+  Journal_Name: String
+  Volume: Int
+  Issue: Int
+  DOI: String
+  Year_Of_Publish: Int
+  Start_Page_No: Int
+  End_Page_No: Int
+  Publisher: String
+  Impact_Factor: Float
+}
+
+input Person_PublicationInput {
+  Publication_ID: Int
+  Person_ID: Int!
+  Publication_Type_Ref: Int
+  Level_Ref: Int
+  Paper_Title: String
+  First_Author: String
+  Second_Author: String
+  Other_Authors: String
+  Journal_Name: String
+  Volume: Int
+  Issue: Int
+  DOI: String
+  Year_Of_Publish: Int
+  Start_Page_No: Int
+  End_Page_No: Int
+  Publisher: String
+  Impact_Factor: Float
+}
+
+input Person_PublicationUpdateInput {
+  Publication_ID: Int!
+  Person_ID: Int
+  Publication_Type_Ref: Int
+  Level_Ref: Int
+  Paper_Title: String
+  First_Author: String
+  Second_Author: String
+  Other_Authors: String
+  Journal_Name: String
+  Volume: Int
+  Issue: Int
+  DOI: String
+  Year_Of_Publish: Int
+  Start_Page_No: Int
+  End_Page_No: Int
+  Publisher: String
+  Impact_Factor: Float
+}
+
+input Person_PublicationDeleteInput {
+  Publication_ID: Int!
+}
+
+input Person_PublicationQueryInput {
+  Publication_ID: Int!
+}
+
+input Person_QueryInput {
+  Person_ID: Int!
+}
+
+type Person_Qualification {
+  Qualification_ID: Int!
+  Person_ID: Int!
+  Qualification_Level_Ref: Int
+  Degree_Ref: Int
+  Branch_Ref: Int
+  Institution: String
+  University: String
+  Start_Date: Int
+  End_Date: Int
+  Class_Obtained_Ref: Int
+  Thesis_Title: String
+  Specialization: String
+  Faculty_Research: String
+}
+
+input Person_QualificationInput {
+  Qualification_ID: Int
+  Person_ID: Int!
+  Qualification_Level_Ref: Int
+  Degree_Ref: Int
+  Branch_Ref: Int
+  Institution: String
+  University: String
+  Start_Date: Int
+  End_Date: Int
+  Class_Obtained_Ref: Int
+  Thesis_Title: String
+  Specialization: String
+  Faculty_Research: String
+}
+
+input Person_QualificationUpdateInput {
+  Qualification_ID: Int!
+  Person_ID: Int
+  Qualification_Level_Ref: Int
+  Degree_Ref: Int
+  Branch_Ref: Int
+  Institution: String
+  University: String
+  Start_Date: Int
+  End_Date: Int
+  Class_Obtained_Ref: Int
+  Thesis_Title: String
+  Specialization: String
+  Faculty_Research: String
+}
+
+input Qualification_InputQuery {
+  Qualification_ID: Int!
+}
+
+input Person_QualificationsInputQuery {
+  Person_ID: Int!
+}
+
+type Person_Reference_Table {
+  Reference_ID: Int!
+  Ref_Code: Int
+  Category: String
+  Ref_Name: String
+  Description: String
+}
+
+input Person_Reference_Input {
+  Reference_ID: Int
+  Category: String
+}
+
+type subj_allot {
+  sallot_id: Int!
+  staff_id: Int!
+  course_code: String!
+  group_ref: Int!
+  session_ref: Int!
+  class_room: String
+  student_count: Int
+}
+
+input staffCoursesQueryInput {
+  staff_id: Int!
+  session_ref: Int
+}
+
+input courseDetailsQueryInput {
+  sallot_id: Int!
+}
+
+type user_info {
+  user_ID: Int!
+  username: Int!
+  user_role: Int
+  password: String
+  status: String
+  create_time: String
+}
+
+input createUser_infoInput {
+  username: Int!
+  password: String!
+  user_role: Int
+  status: String
+}
+
+type user_infoPayload {
+  user_ID: Int
+  username: Int!
+  user_role: Int
+  status: String
+}
+
+input updateUser_infoInput {
+  username: Int
+  password: String
+  user_role: Int
+  status: String
+}
+
+input user_infoQueryInput {
+  username: Int!
+  password: String!
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+}

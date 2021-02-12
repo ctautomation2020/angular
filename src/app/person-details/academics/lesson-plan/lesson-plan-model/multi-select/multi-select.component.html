@@ -1,0 +1,49 @@
+<div class="select-box-wrap" (click)="$event.stopPropagation()">
+    <div class="select-box">
+        <input type="text" 
+            readonly 
+            class="list" 
+            [value]="getSelected()" 
+            [placeholder]="placeholder"
+            [title]="getSelected()"
+            (click)="dropList(true)">
+        <span class="clear" 
+            title="Clear All" 
+            [class.clear-show]="values.length != 0 && dropdown"
+            (click)="changeAll(false)"></span>
+        <span 
+            class="drop-down" 
+            title="Select" 
+            [class.drop-down-rotate]="dropdown"
+            (click)="dropList(!dropdown)"></span>
+    </div>
+    <div class="select-list" [class.slide-down]="dropdown">
+        <input type="text" class="search-box" placeholder="Search Filter">
+        <div class="drop-down-list">
+            <div class="check-wrap select-all" (click)="changeAll(!selectAll)">
+                <input 
+                    class="all-option" 
+                    type="checkbox" 
+                    [checked]="selectAll"
+                    >
+                <span class="check-box" [class.check-box-checked]="selectAll"></span>
+                <span>Select All</span>
+            </div>
+            <div class="list-box">
+                <div 
+                    class="check-wrap" 
+                    *ngFor="let option of options; let i = index"
+                    [class.disabled]="checkDisabled(option)" 
+                    (click)="updateSelected(i)">
+                    <input 
+                        class="options" 
+                        type="checkbox"
+                        [checked]="selected[i]"
+                        [disabled]="checkDisabled(option)">
+                    <span class="check-box" [class.check-box-checked]="selected[i]"></span>
+                    <span class="select-text">{{ (option[display_key]) ? option[display_key] : option }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
