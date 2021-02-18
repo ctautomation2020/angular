@@ -340,6 +340,25 @@ export class LessonPlanModelComponent implements OnInit {
             }
             if (api === "DELETE") {
               console.log("Delete " + t.topic);
+              let query = {
+                clp_id: t.clp_id
+              }
+              const req = gql`
+            mutation delete_course_lessonplan($data: delete_course_lessonplanInput!) {
+              delete_course_lessonplan(data: $data) {
+                clp_id
+              }
+            }
+            `;
+            this.apollo.mutate({
+              mutation: req,
+              variables: {
+                data: query
+              }
+            }).subscribe((data: any) => {
+              console.log(data);
+            });
+
             }
           }
         }

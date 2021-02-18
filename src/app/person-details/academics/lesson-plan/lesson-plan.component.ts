@@ -186,84 +186,10 @@ export class LessonPlanComponent implements OnInit {
     const lessonPlan: LessonPlanQuery[] = this.lessonPlan.filter((l) => l.actual_date === date);
     this.lessonPlanService.setLessonPlan(lessonPlan);
     this.router.navigate(['/person-details', 'academics', 'lesson-plan', 'lesson-plan-model', this.sallot_id]);
-    /*
-
-    let dialogUpdateRef = this.dialog.open(LessonPlanModelComponent, {data: {
-      courseTopics: this.courseTopics,
-      query: this.query,
-      lessonPlan: this.lessonPlan,
-      lesson: l
-    }});
-    dialogUpdateRef.afterClosed().subscribe((result) => {
-      if(result) {
-        console.log(result);
-        const req = gql`
-        mutation update_course_lessonplan($data: update_course_lessonplanInput!) {
-          update_course_lessonplan(data: $data) {
-            clp_id
-          }
-        }
-        `;
-        this.apollo.mutate({
-          mutation: req,
-          variables: {
-            data: {
-              clp_id: l.clp_id,
-              actual_date: result.actual_date,
-              period: result.period,
-              course_ctopic_id: result.course_ctopic_id,
-              references: result.references
-            }
-          }
-        }).subscribe(({data}) => {
-          this.queryRef.refetch();
-        });
-      }
-    })
-    */
+  
   }
   onAddClass() {
-    const dialogCreateRef = this.dialog.open(LessonPlanModelComponent, {data: {
-      courseTopics: this.courseTopics,
-      query: this.query,
-      lessonPlan: this.lessonPlan
-    }});
-    dialogCreateRef.afterClosed().subscribe(lessonPlan => {
-      if (lessonPlan) {
-        console.log(lessonPlan);
-        const d = new Date(lessonPlan.actual_date);
-        const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-        for (let p of lessonPlan.lessonPlanPeriods) {
-
-          for (let t of p.references) {
-            const query = {
-              course_code: this.query.course_code,
-              group_ref: this.query.group_ref,
-              session_ref: this.query.session_ref,
-              actual_date: date,
-              period: p.period,
-              course_ctopic_id: t.ctopic_id,
-              references: t.reference
-            }
-            console.log(query);
-            const req = gql`
-            mutation create_course_lessonplan($data: create_course_lessonplanInput!) {
-              create_course_lessonplan(data: $data) {
-                clp_id
-              }
-            }
-            `;
-            this.apollo.mutate({
-              mutation: req,
-              variables: {
-                data: query
-              }
-            }).subscribe((data: any) => {
-              console.log(data);
-            });
-          }
-        }
-      }
-    });
+    this.lessonPlanService.setLessonPlan([]);
+    this.router.navigate(['/person-details', 'academics', 'lesson-plan', 'lesson-plan-model', this.sallot_id]);
   }
 }

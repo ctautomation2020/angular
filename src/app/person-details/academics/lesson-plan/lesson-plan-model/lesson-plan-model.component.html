@@ -1,4 +1,16 @@
 <div class="flex-c lp-main">
+  <header>
+    <h1>Lesson plan - 2020</h1>
+    <div class="quick-links">
+      <a routerLink="/person-details/academics" class="link">Academics</a>
+      <span class="slash"></span>
+      <a *ngIf="session != null" [routerLink]="['/person-details', 'academics', 'course-list', session.reference_id]" class="link">{{session.description}}</a>
+      <span class="slash"></span>
+      <a [routerLink]="['/person-details', 'academics', 'course-features', sallot_id]" class="link" *ngIf="courseTitle != null">{{courseTitle}}</a>
+      <span class="slash"></span>
+        <a class="link" [routerLink]="['/person-details', 'academics', 'lesson-plan', sallot_id]">Lesson Plan</a>
+    </div>
+    </header>
   <div class="flex-r lp-title">
       <div class="flex-c lp-name">
           <h2>{{courseTitle}}</h2>
