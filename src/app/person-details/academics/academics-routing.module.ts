@@ -13,6 +13,7 @@ import { CourseFeaturesComponent } from "./course-features/course-features.compo
 import { CourseListComponent } from "./course-list/course-list.component";
 import { EvalutaionListComponent } from "./evalutaion-list/evalutaion-list.component";
 import { EvalutaionComponent } from "./evalutaion/evalutaion.component";
+import { InternalMarksCalculationComponent } from "./internal-marks-calculation/internal-marks-calculation.component";
 import { LessonPlanCreateComponent } from "./lesson-plan/lesson-plan-create/lesson-plan-create.component";
 import { LessonPlanModelComponent } from "./lesson-plan/lesson-plan-model/lesson-plan-model.component";
 import { LessonPlanComponent } from "./lesson-plan/lesson-plan.component";
@@ -85,9 +86,14 @@ const routes: Routes =  [
         component: LessonPlanCreateComponent
       },
       {
+        path: 'lesson-plan/lesson-plan-model/:sallot_id/:date',
+        component: LessonPlanModelComponent
+      },
+      {
         path: 'lesson-plan/lesson-plan-model/:sallot_id',
         component: LessonPlanModelComponent
       },
+
 
       {
         path: 'evaluation-list/:sallot_id',
@@ -104,6 +110,10 @@ const routes: Routes =  [
       {
         path: 'assignment-evaluation/:assign_num/:sallot_id/:reg_no',
         component: AssignmentEvalutaionComponent
+      },
+      {
+        path: 'internal-ca-comp/:sallot_id',
+        component: InternalMarksCalculationComponent
       }
     ]
   }

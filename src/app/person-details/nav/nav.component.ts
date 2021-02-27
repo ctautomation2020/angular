@@ -49,11 +49,13 @@ export class NavComponent implements OnInit {
         console.log(result);
         this.personName = result.First_Name
         this.Prefix_Ref = result.Prefix_Ref
-        this.personDetailsService.getDropDown('Prefix').subscribe(result => {
-          const id = result.filter((r: any) => r.Reference_ID === this.Prefix_Ref)[0].Ref_Name;
-          this.Prefix = id;
-          console.log(result);
-         });
+        if(this.Prefix_Ref) {
+          this.personDetailsService.getDropDown('Prefix').subscribe(result => {
+            const id = result.filter((r: any) => r.Reference_ID === this.Prefix_Ref)[0].Ref_Name;
+            this.Prefix = id;
+            console.log(result);
+           });
+        }
       }));
 
   }

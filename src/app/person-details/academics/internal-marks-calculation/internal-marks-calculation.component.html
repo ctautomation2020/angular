@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="main">
+      <h2>Internal Marks</h2>
+      <div class="quick-links">
+        <a routerLink="/person-details/academics" class="link">Academics</a>
+          <span class="slash"></span>
+          <a *ngIf="session != null" [routerLink]="['/person-details', 'academics', 'course-list', session.reference_id]" class="link">{{session.ref_name}}</a>
+          <span class="slash"></span>
+          <a [routerLink]="['/person-details', 'academics', 'course-features', sallot_id]" class="link" *ngIf="courseTitle != null">{{courseTitle}}</a>
+          <span class="slash"></span>
+          <a class="link">Internal Marks</a>
+      </div>
+      <div class="time-period">
+          <div class="layout">
+            <mat-form-field class="form-field-dropdown" appearance="fill">
+              <mat-label>Mid Semester</mat-label>
+              <mat-select [(ngModel)]="midSem" (ngModelChange)="onMidSemChange()" >
+                <mat-option *ngFor="let p of assessList" [value]="p">{{p}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="form-field-dropdown" appearance="fill">
+              <mat-label>Select</mat-label>
+              <mat-select multiple [(ngModel)]="selectedChoice" (ngModelChange)="onChoiceChange($event)">
+                <mat-option *ngFor="let p of list" [value]="p" >{{getType(p.type)}} {{p.number}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field *ngFor="let i of internalMarks" class="form-field" >
+              <mat-label>{{getType(i.type)}} {{i.number}} Weightage</mat-label>
+              <input matInput type="number" min="0" [disabled]="i.type == 3" [(ngModel)]="i.weightage">
+            </mat-form-field>
+            <button mat-raised-button class="button" color="primary" (click)="onSubmit()">Submit</button>
+      </div>
+  </div>
+</div>

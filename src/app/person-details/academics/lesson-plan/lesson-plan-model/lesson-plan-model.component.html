@@ -4,7 +4,7 @@
     <div class="quick-links">
       <a routerLink="/person-details/academics" class="link">Academics</a>
       <span class="slash"></span>
-      <a *ngIf="session != null" [routerLink]="['/person-details', 'academics', 'course-list', session.reference_id]" class="link">{{session.description}}</a>
+      <a *ngIf="session != null" [routerLink]="['/person-details', 'academics', 'course-list', session.reference_id]" class="link">{{session.ref_name}}</a>
       <span class="slash"></span>
       <a [routerLink]="['/person-details', 'academics', 'course-features', sallot_id]" class="link" *ngIf="courseTitle != null">{{courseTitle}}</a>
       <span class="slash"></span>
@@ -16,11 +16,16 @@
           <h2>{{courseTitle}}</h2>
           <span>{{courseCode}}- Lesson Plan</span>
       </div>
-      <div class="flex-c lp-date">
-          <h3>Date</h3>
-          <span>{{lessonPlan.actual_date | date}}</span>
-      </div>
+
   </div>
+  <mat-form-field style="width: 250px" class="form-field-dropdown" appearance="fill">
+    <mat-label>Date</mat-label>
+    <input matInput [matDatepicker]="picker" (ngModelChange)="onDateSelect($event)" [(ngModel)]="lessonPlan.actual_date">
+    <mat-datepicker-toggle matSuffix [for]="picker">
+      <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+    </mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
   <div class="grid lp-wrap">
       <div class="flex-c lp-period-cont">
           <h3>Periods</h3>

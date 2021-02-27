@@ -6,7 +6,7 @@
     <mat-form-field class="form-field-dropdown" appearance="fill">
       <mat-label>Prefix</mat-label>
       <mat-select formControlName="Prefix_Ref">
-        <mat-option *ngFor="let m of data.prefix" [value]="m.Ref_Code">{{m.Ref_Name}}</mat-option>
+        <mat-option *ngFor="let m of data.prefix" [value]="m.Reference_ID">{{m.Ref_Name}}</mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field class="form-field">
@@ -52,7 +52,7 @@
     <div class="form-field">
       <mat-label>Gender:</mat-label>
       <mat-radio-group class="form-field" formControlName="Gender_Ref" aria-label="Gender">
-        <mat-radio-button *ngFor="let g of data.gender" [value]="g.Ref_Code">{{g.Ref_Name}}</mat-radio-button>
+        <mat-radio-button *ngFor="let g of data.gender" [value]="g.Reference_ID">{{g.Ref_Name}}</mat-radio-button>
       </mat-radio-group>
 
     </div><br>
@@ -61,14 +61,14 @@
     <mat-form-field class="form-field-dropdown" appearance="fill">
       <mat-label>Marital Status</mat-label>
       <mat-select formControlName="Marital_Status_Ref">
-        <mat-option *ngFor="let m of data.maritalStatus" [value]="m.Ref_Code">{{m.Ref_Name}}</mat-option>
+        <mat-option *ngFor="let m of data.maritalStatus" [value]="m.Reference_ID">{{m.Ref_Name}}</mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field class="form-field-dropdown" appearance="fill">
       <mat-label>Community</mat-label>
       <mat-select formControlName="Community_Ref">
-        <mat-option *ngFor="let com of data.community" [value]="com.Ref_Code">{{com.Ref_Name}}</mat-option>
+        <mat-option *ngFor="let com of data.community" [value]="com.Reference_ID">{{com.Ref_Name}}</mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field class="form-field">

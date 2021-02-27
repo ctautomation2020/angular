@@ -6,7 +6,7 @@
             <mat-form-field class="form-field-dropdown" appearance="fill">
               <mat-label>Designation</mat-label>
               <mat-select formControlName="Designation_Ref" >
-                <mat-option *ngFor="let q of input.designation" [value]="q.Ref_Code">{{q.Ref_Name}}</mat-option>
+                <mat-option *ngFor="let q of input.designation" [value]="q.Reference_ID">{{q.Ref_Name}}</mat-option>
               </mat-select>
               <mat-error *ngIf="experienceForm.get('Designation_Ref')?.invalid">Please Select Valid Entry</mat-error>
             </mat-form-field>
@@ -53,7 +53,7 @@
             <mat-form-field class="form-field-dropdown" appearance="fill">
               <mat-label>Employee Category</mat-label>
               <mat-select formControlName="Emp_Category_Ref" >
-              <mat-option *ngFor="let q of input.empCategory" [value]="q.Ref_Code">{{q.Ref_Name}}</mat-option>
+              <mat-option *ngFor="let q of input.empCategory" [value]="q.Reference_ID">{{q.Ref_Name}}</mat-option>
               </mat-select>
               <mat-error *ngIf="experienceForm.get('Emp_Category_Ref')?.invalid">Please Select Valid Entry</mat-error>
             </mat-form-field>
@@ -62,7 +62,7 @@
             <mat-form-field class="form-field-dropdown" appearance="fill">
               <mat-label>Work Nature</mat-label>
               <mat-select formControlName="Work_Nature_Ref" >
-              <mat-option *ngFor="let q of input.workNature" [value]="q.Ref_Code">{{q.Ref_Name}}</mat-option>
+              <mat-option *ngFor="let q of input.workNature" [value]="q.Reference_ID">{{q.Ref_Name}}</mat-option>
               </mat-select>
               <mat-error *ngIf="experienceForm.get('Work_Nature_Ref')?.invalid">Please Select Valid Entry</mat-error>
             </mat-form-field>

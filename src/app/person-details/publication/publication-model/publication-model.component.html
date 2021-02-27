@@ -5,14 +5,14 @@
       <mat-form-field class="form-field-dropdown" appearance="fill">
         <mat-label>Publication Type</mat-label>
         <mat-select formControlName="Publication_Type_Ref" >
-          <mat-option *ngFor="let q of input.publicationType" [value]="q.Ref_Code">{{q.Ref_Name}}</mat-option>
+          <mat-option *ngFor="let q of input.publicationType" [value]="q.Reference_ID">{{q.Ref_Name}}</mat-option>
         </mat-select>
         <mat-error *ngIf="publicationForm.get('Publication_Type_Ref')?.invalid">Please Select Valid Entry</mat-error>
       </mat-form-field>
       <mat-form-field class="form-field-dropdown" appearance="fill">
         <mat-label>Level</mat-label>
         <mat-select formControlName="Level_Ref">
-          <mat-option *ngFor="let d of input.level" [value]="d.Ref_Code">{{d.Ref_Name}}</mat-option>
+          <mat-option *ngFor="let d of input.level" [value]="d.Reference_ID">{{d.Ref_Name}}</mat-option>
         </mat-select>
         <mat-error *ngIf="publicationForm.get('Level_Ref')?.invalid">Please Select Valid Entry</mat-error>
       </mat-form-field>

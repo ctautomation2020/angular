@@ -194,15 +194,15 @@ export class EducationComponent implements OnInit {
     });
   }
   filterQualificationLevel(ref: number): PersonReferenceModel {
-    return this.qualificationLevel.filter(l => l.Ref_Code === ref)[0];
+    return this.qualificationLevel.filter(l => l.Reference_ID === ref)[0];
   }
   filterDegree(ref: number): PersonReferenceModel {
-    return this.degree.filter(l => l.Ref_Code === ref)[0];
+    return this.degree.filter(l => l.Reference_ID === ref)[0];
   }
   filterBranch(ref: number): PersonReferenceModel {
-    return this.branch.filter(l => l.Ref_Code === ref)[0];
+    return this.branch.filter(l => l.Reference_ID === ref)[0];
   }
   filterClassObtained(ref: number): PersonReferenceModel {
-    return this.classObtained.filter(l => l.Ref_Code === ref)[0];
+    return this.classObtained.filter(l => l.Reference_ID === ref)[0];
   }
 }

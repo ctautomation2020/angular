@@ -1,7 +1,7 @@
 <div class="container" (click)="saveChanges($event)">
   <div class="header">
       <div class="assessment-details">
-          <h2 class="assesment-name">CS6104 - Data Structures and Algorithms</h2>
+          <h2 class="assesment-name">{{assignment.course_code}} - {{courseTitle}}</h2>
           <div class="assessment-values">
             <mat-form-field  appearance="fill">
               <mat-label>Deadline</mat-label>
@@ -67,7 +67,7 @@
                           (change)="changeQCO(i, +co.value)">
                           <option
                               *ngFor="let coval of coLevel; let opt = index;"
-                              [value]="coval"
+                              [value]="coval.Reference_Code"
                               [selected]="coval.Reference_Code == ques.co_num">
                               CO - {{ coval.Ref_Name }}
                           </option>
@@ -98,7 +98,7 @@
       </div>
       <div class="form-controls" *ngIf="questions.length">
         <button class="btn btn-cancel" (click)="generatePDF()"><i  aria-hidden="true"></i> Generate PDF</button>
-          <button class="btn btn-submit" (click)="showQuestions()"><i class="fa fa-upload" aria-hidden="true"></i> Submit</button>
+          <button class="btn btn-submit" (click)="submitAssignment()"><i class="fa fa-upload" aria-hidden="true"></i> Submit</button>
       </div><br><br>
   </div>
 </div>

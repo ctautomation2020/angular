@@ -43,7 +43,7 @@ export class LessonPlanModelComponent implements OnInit {
   originalLessonPlanPeriods: LessonPlanModel[] = [];
   lessonPlanPeriods: LessonPlanModel[] = [];
   lessonPlan: LessonPlan = {
-    actual_date: new Date(),
+    actual_date: new Date(''),
     group_ref: 0,
     session_ref: 0,
     course_code: '',
@@ -60,6 +60,68 @@ export class LessonPlanModelComponent implements OnInit {
 
     constructor(public dialog: MatDialog, private personDetailsService: PersonDetailsService, private academicsService: AcademicsService, private apollo: Apollo, private dateAdapter: DateAdapter<Date>, private activatedRoute: ActivatedRoute, private router: Router, private lessonPlanService: LessonPlanService) {
       this.dateAdapter.setLocale('en-GB');
+     }
+     onDateSelect(event: any) {
+      const d = new Date(event);
+      const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+       const query = {
+        course_code : this.query.course_code,
+        group_ref: this.query.group_ref,
+        session_ref: this.query.session_ref,
+        actual_date: date
+       }
+       console.log(query)
+      this.academicsService.getLessonPlan(query).subscribe((lessonPlan: LessonPlanQuery[]) => {
+        if (lessonPlan.length != 0) {
+          let periods = this.groupBy(lessonPlan, 'period');
+        periods = json.sort(periods, true);
+        let lessonPlanModel: LessonPlanModel[] = [];
+        let selectedPeriods: any = [];
+        Object.keys(periods).forEach((key) => {
+          let lessonPlan: LessonPlanModel = {
+            period: +key,
+            selectedTopics: [],
+            selectedUnits: [],
+            references: []
+          }
+          selectedPeriods.push(+key);
+          let topics: number[] = [];
+          let units: number[] = [];
+          let references: Reference[] = [];
+          for(let l of periods[key] as LessonPlanQuery[]) {
+
+            topics.push(l.course_ctopic_id);
+            let unit = this.rawCourseTopics.filter((c) => c.ctopic_id == l.course_ctopic_id)[0].module_num;
+            if(units.indexOf(unit) == -1) {
+              units.push(unit);
+            }
+            let reference: Reference = {
+              clp_id: l.clp_id,
+              ctopic_id: l.course_ctopic_id,
+              topic: l.course_topic.topic,
+              reference: l.references
+            }
+            references.push(reference);
+          }
+          lessonPlan.selectedTopics = topics;
+          lessonPlan.selectedUnits = units;
+          lessonPlan.references = references;
+          lessonPlanModel.push(lessonPlan);
+        });
+        this.selectedPeriods = selectedPeriods;
+        this.originalLessonPlanPeriods = JSON.parse(JSON.stringify(lessonPlanModel));
+
+        this.lessonPlanPeriods =  JSON.parse(JSON.stringify(lessonPlanModel));
+        console.log(this.lessonPlanPeriods)
+        }
+        else {
+          this.lessonPlanPeriods = [];
+          this.originalLessonPlanPeriods = [];
+          this.selectedPeriods = [];
+        }
+      });
+
+
      }
      deleteTopic(p: LessonPlanModel, t: number) {
       const dialogDeleteRef = this.dialog.open(ConfirmBoxComponent, {data: {message: "Do you want to remove this topic?"}});
@@ -129,20 +191,21 @@ export class LessonPlanModelComponent implements OnInit {
     setDisabled(){
         this.disabled = ["1"];
     }
+
+    groupBy (array: any, key: any)  {
+          // Return the end result
+          return array.reduce((result: any, currentValue: any) => {
+            // If an array already present for key, push it to the array. Else create an array and push the object
+            (result[currentValue[key]] = result[currentValue[key]] || []).push(
+              currentValue
+            );
+            // Return the current iteration `result` value, this will be taken as next iteration `result` value and accumulate
+            return result;
+          }, {}); // empty object is the initial value for result object
+    };
     ngOnInit(): void {
         this.setDisabled();
-        var groupByName: any;
-          const groupBy = (array: any, key: any) => {
-            // Return the end result
-            return array.reduce((result: any, currentValue: any) => {
-              // If an array already present for key, push it to the array. Else create an array and push the object
-              (result[currentValue[key]] = result[currentValue[key]] || []).push(
-                currentValue
-              );
-              // Return the current iteration `result` value, this will be taken as next iteration `result` value and accumulate
-              return result;
-            }, {}); // empty object is the initial value for result object
-    };
+
     this.activatedRoute.params.subscribe((params) => {
       this.sallot_id = +params['sallot_id'];
       const query = {
@@ -162,7 +225,7 @@ export class LessonPlanModelComponent implements OnInit {
           this.query = query;
           this.academicsService.getCourseTopics(course.course_code).subscribe((courseTopics) => {
           this.rawCourseTopics = courseTopics;
-          let modules = groupBy(courseTopics, 'module_num');
+          let modules = this.groupBy(courseTopics, 'module_num');
           let units: any = [];
           let unitTopics: any = [];
           Object.keys(modules).forEach((key) => {
@@ -185,56 +248,20 @@ export class LessonPlanModelComponent implements OnInit {
 
           this.units = units;
           this.courseTopic = unitTopics;
-          const lessonPlan: LessonPlanQuery[] = this.lessonPlanService.getLessonPlan();
-          if (lessonPlan.length != 0) {
-            let periods = groupBy(lessonPlan, 'period');
-          periods = json.sort(periods, true);
-          let lessonPlanModel: LessonPlanModel[] = [];
-          let selectedPeriods: any = [];
-          Object.keys(periods).forEach((key) => {
-            let lessonPlan: LessonPlanModel = {
-              period: +key,
-              selectedTopics: [],
-              selectedUnits: [],
-              references: []
-            }
-            selectedPeriods.push(+key);
-            let topics: number[] = [];
-            let units: number[] = [];
-            let references: Reference[] = [];
-            for(let l of periods[key] as LessonPlanQuery[]) {
-
-              topics.push(l.course_ctopic_id);
-              let unit = this.rawCourseTopics.filter((c) => c.ctopic_id == l.course_ctopic_id)[0].module_num;
-              if(units.indexOf(unit) == -1) {
-                units.push(unit);
-              }
-              let reference: Reference = {
-                clp_id: l.clp_id,
-                ctopic_id: l.course_ctopic_id,
-                topic: l.course_topic.topic,
-                reference: l.references
-              }
-              references.push(reference);
-            }
-            lessonPlan.selectedTopics = topics;
-            lessonPlan.selectedUnits = units;
-            lessonPlan.references = references;
-            lessonPlanModel.push(lessonPlan);
-          });
-          this.selectedPeriods = selectedPeriods;
-          this.originalLessonPlanPeriods = JSON.parse(JSON.stringify(lessonPlanModel));
-
-          this.lessonPlanPeriods =  JSON.parse(JSON.stringify(lessonPlanModel));
-          this.lessonPlan.actual_date = this.getDate(lessonPlan[0].actual_date);
-          }
-        });
+                  });
         this.academicsService.getSession(course.session_ref).subscribe((session) => {
           this.session = session[0];
         })
         this.academicsService.getCourse(course.course_code).subscribe((course: any) => {
           this.courseTitle = course.title;
         })
+      }
+
+      if(params['date']) {
+        const d = params['date'];
+        console.log(new Date(d))
+        this.lessonPlan.actual_date = new Date(d);
+      this.onDateSelect(new Date(d));
       }
     });
   });
@@ -279,6 +306,7 @@ export class LessonPlanModelComponent implements OnInit {
                 }
               }
             }
+
             if (api == "CREATE") {
               const req = gql`
             mutation create_course_lessonplan($data: create_course_lessonplanInput!) {

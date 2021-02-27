@@ -5,21 +5,21 @@
       <mat-form-field class="form-field-dropdown" appearance="fill">
         <mat-label>Qualification Level</mat-label>
         <mat-select formControlName="Qualification_Level_Ref" >
-          <mat-option *ngFor="let q of input.qualificationLevel" [value]="q.Ref_Code">{{q.Ref_Name}}</mat-option>
+          <mat-option *ngFor="let q of input.qualificationLevel" [value]="q.Reference_ID">{{q.Ref_Name}}</mat-option>
         </mat-select>
         <mat-error *ngIf="educationForm.get('Qualification_Level_Ref')?.invalid">Please Select Valid Entry</mat-error>
       </mat-form-field>
       <mat-form-field class="form-field-dropdown" appearance="fill">
         <mat-label>Degree</mat-label>
         <mat-select formControlName="Degree_Ref">
-          <mat-option *ngFor="let d of input.degree" [value]="d.Ref_Code">{{d.Ref_Name}}</mat-option>
+          <mat-option *ngFor="let d of input.degree" [value]="d.Reference_ID">{{d.Ref_Name}}</mat-option>
         </mat-select>
         <mat-error *ngIf="educationForm.get('Degree_Ref')?.invalid">Please Select Valid Entry</mat-error>
       </mat-form-field>
       <mat-form-field class="form-field-dropdown" appearance="fill">
         <mat-label>Branch</mat-label>
         <mat-select formControlName="Branch_Ref" >
-          <mat-option *ngFor="let b of input.branch" [value]="b.Ref_Code">{{b.Ref_Name}}</mat-option>
+          <mat-option *ngFor="let b of input.branch" [value]="b.Reference_ID">{{b.Ref_Name}}</mat-option>
         </mat-select>
         <mat-error *ngIf="educationForm.get('Branch_Ref')?.invalid">Please Select Valid Entry</mat-error>
       </mat-form-field>
@@ -55,7 +55,7 @@
       <mat-form-field class="form-field-dropdown" appearance="fill">
         <mat-label>Class Obtained</mat-label>
         <mat-select formControlName="Class_Obtained_Ref">
-          <mat-option *ngFor="let c of input.classObtained" [value]="c.Ref_Code">{{c.Ref_Name}}</mat-option>
+          <mat-option *ngFor="let c of input.classObtained" [value]="c.Reference_ID">{{c.Ref_Name}}</mat-option>
         </mat-select>
         <mat-error *ngIf="educationForm.get('Class_Obtained_Ref')?.invalid">Please Select Valid Entry</mat-error>
       </mat-form-field>

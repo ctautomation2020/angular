@@ -4,7 +4,7 @@
     <div class="quick-links">
       <a routerLink="/person-details/academics" class="link">Academics</a>
       <span class="slash"></span>
-      <a *ngIf="session != null" [routerLink]="['/person-details', 'academics', 'course-list', session.reference_id]" class="link">{{session.description}}</a>
+      <a *ngIf="session != null" [routerLink]="['/person-details', 'academics', 'course-list', session.reference_id]" class="link">{{session.ref_name}}</a>
       <span class="slash"></span>
       <a [routerLink]="['/person-details', 'academics', 'course-features', sallot_id]" class="link" *ngIf="courseTitle != null">{{courseTitle}}</a>
       <span class="slash"></span>
@@ -40,12 +40,13 @@
         <td class="content" >{{l.actual_date | date}}</td>
         <td class="content" >{{l.hours}}</td>
         <td class="content" ><span *ngFor="let t of l.topics; let i = index">{{t}} <span *ngIf="i != l.topics.length-1">,</span></span></td>
-        <td><span class="icon edit-icon" (click)="openDialog(l.actual_date)"></span></td>
+        <td><span class="icon edit-icon" (click)="onEditClass(l.actual_date)"></span></td>
       </tr>
     </tbody>
     </table>
     <button class="add-class-button" (click)="onAddClass()" id="add">+ Add Class</button>
-  </main>
+  </main><br>
+  <button mat-raised-button (click)="generatePDF()">Generate PDF</button><br>
   <button class="add-class-button" [routerLink]="['/person-details','academics', 'attendence', sallot_id]" id="add">+ Add Attendence</button>
 
 

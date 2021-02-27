@@ -129,7 +129,8 @@ export class AssignmentEvalutaionComponent implements OnInit {
             session_ref: assignment.session_ref,
             assign_num: assignment.assign_num,
             reg_no: reg_no,
-            questions: []
+            questions: [],
+            total_mark: totalMarks
           }
           console.log(assignment);
           this.assignment = assignment;

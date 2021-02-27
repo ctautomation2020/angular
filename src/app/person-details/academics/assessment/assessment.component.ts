@@ -10,6 +10,7 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { SectionProperties } from 'docx';
 @Component({
   selector: 'app-assessment',
   templateUrl: './assessment.component.html',
@@ -251,7 +252,6 @@ export class AssessmentComponent implements OnInit {
         this.updateNumQuestions(section,qtype);
 
         this.total[section] += (count - start);
-        console.log(this.total);
     }
     makeEditable(section:number, ques:any){
       for(let sect of this.sections){
@@ -282,7 +282,6 @@ export class AssessmentComponent implements OnInit {
         this.updateNumQuestions(section,qtype);
 
         this.total[section] -= 1;
-        console.log(this.total);
     }
     getRemainingSectionQuestionCount(section:number){
         let sum = 0;
@@ -294,8 +293,20 @@ export class AssessmentComponent implements OnInit {
     findTotalMarks() {
       let totalMarks = 0;
       for(let section of this.sections){
+        let flag = false;
         for(let ques of section.questions){
-          totalMarks += ques.marks
+          if(section.type === 'F') {
+            totalMarks += ques.marks
+          }
+          else {
+            if (!flag) {
+              flag = !flag;
+            }
+            else {
+              totalMarks += ques.marks
+              flag = !flag;
+            }
+          }
 
 
         }
@@ -307,7 +318,6 @@ export class AssessmentComponent implements OnInit {
     changeSectionsArrayToJSON(){
         let qnum:number = 1;
         let count:number = 0;
-      console.log(this.sections);
         for(let section of this.sections){
             for(let ques of section.questions){
               ques.blooms_level = +ques.blooms_level;
@@ -338,7 +348,6 @@ export class AssessmentComponent implements OnInit {
         }
 
         this.sections = this.sectionsJSON["section"];
-        console.log(this.sections);
     }
     showQuestions(){
         this.changeSectionsArrayToJSON(); // Create Assessment
@@ -437,9 +446,7 @@ export class AssessmentComponent implements OnInit {
                   section: []
                 }
                 Object.keys(sections).forEach(function(key) {
-                  console.log(sections);
                   const str = sections[key][0].question_num;
-                  console.log(str);
                   const alpha = str.charAt(str.length - 1);
                   let section: Section = {
                     name: key,
@@ -460,7 +467,6 @@ export class AssessmentComponent implements OnInit {
                   }
                   assessment.section.push(section);
               });
-              console.log(JSON.stringify(assessment));
               this.sectionsJSON = assessment;
               this.changeJSONToSectionsArray();
 
@@ -513,10 +519,11 @@ export class AssessmentComponent implements OnInit {
       const code = this.sectionsJSON.course_code;
       const htmlToPdfmake = require('html-to-pdfmake');
       const content = this.pdfHelper();
+
       const val: any = htmlToPdfmake( content,{
         tableAutoSize:true
       });
-      console.log(content);
+      console.log(content)
       var dd: any = {content:val,
         footer: function(currentPage: any, pageCount: any) { return [
           { text: currentPage.toString() + ' of ' + pageCount, style: 'footer'}
@@ -540,6 +547,7 @@ export class AssessmentComponent implements OnInit {
     }
 
       }
+
     pdfMake.createPdf(dd).open();
     }
 }

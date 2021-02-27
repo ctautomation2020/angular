@@ -74,10 +74,10 @@ export class PublicationComponent implements OnInit {
     });
   }
   filterPublicationType(ref: number): PersonReferenceModel {
-    return this.publicationType.filter(l => l.Ref_Code === ref)[0];
+    return this.publicationType.filter(l => l.Reference_ID === ref)[0];
   }
   filterLevel(ref: number): PersonReferenceModel {
-    return this.level.filter(l => l.Ref_Code === ref)[0];
+    return this.level.filter(l => l.Reference_ID === ref)[0];
   }
   createDialog(): void {
     const dialogCreateRef = this.dialog.open(PublicationModelComponent, {data: {

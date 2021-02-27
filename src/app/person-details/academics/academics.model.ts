@@ -60,7 +60,8 @@ export interface Evaluation {
   session_ref: number;
   assess_num: number;
   reg_no: number;
-  questions: EvaluationQuestion[]
+  questions: EvaluationQuestion[],
+  total_mark: number;
 }
 export interface AssignmentEvaluation {
   course_code: string;
@@ -68,5 +69,6 @@ export interface AssignmentEvaluation {
   session_ref: number;
   assign_num: number;
   reg_no: number;
+  total_mark: number;
   questions: AssignmentEvaluationQuestion[]
 }

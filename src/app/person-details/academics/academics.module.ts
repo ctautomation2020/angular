@@ -24,6 +24,7 @@ import { LessonPlanComponent } from './lesson-plan/lesson-plan.component';
 import { LessonPlanModelComponent } from './lesson-plan/lesson-plan-model/lesson-plan-model.component';
 import { LessonPlanCreateComponent } from './lesson-plan/lesson-plan-create/lesson-plan-create.component';
 import { MultiSelectComponent} from './lesson-plan/lesson-plan-model/multi-select/multi-select.component';
+import { InternalMarksCalculationComponent } from './internal-marks-calculation/internal-marks-calculation.component';
 @NgModule({
   declarations: [
     AcademicsComponent,
@@ -44,7 +45,8 @@ import { MultiSelectComponent} from './lesson-plan/lesson-plan-model/multi-selec
     LessonPlanComponent,
     LessonPlanModelComponent,
     LessonPlanCreateComponent,
-    MultiSelectComponent
+    MultiSelectComponent,
+    InternalMarksCalculationComponent
   ],
   imports: [
     RouterModule,

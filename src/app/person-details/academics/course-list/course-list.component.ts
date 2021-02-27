@@ -38,7 +38,7 @@ export class CourseListComponent implements OnInit {
           this.academicsService.getStaffCourses(query).subscribe((courses:any) => {
             this.courseCodes = JSON.parse(JSON.stringify(courses));
 
-          console.log(this.courseCodes);
+          console.log(this.session);
 
           for (const x of this.courseCodes) {
             this.academicsService.getCourse(x.course_code).subscribe((course) => {

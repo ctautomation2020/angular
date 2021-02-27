@@ -92,7 +92,7 @@
                           (change)="changeQType(j, i, type.value)">
                           <option
                               *ngFor="let level of bloomsLevel; let bloom = index;"
-                              [value]="level.Ref_Name"
+                              [value]="level.Reference_Code"
                               [selected]="level.Reference_Code == ques.blooms_level">
                               {{ level.Ref_Name }}
                           </option>
@@ -103,7 +103,7 @@
                           (change)="changeQCO(j,i, co.value)">
                           <option
                               *ngFor="let coval of coLevel; let opt = index;"
-                              [value]="coval.Ref_Name"
+                              [value]="coval.Reference_Code"
                               [selected]="coval.Reference_Code == ques.co_num">
                               CO - {{ coval.Ref_Name }}
                           </option>

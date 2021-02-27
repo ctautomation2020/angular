@@ -129,6 +129,8 @@ onOpenModel(): void {
           Aadhar_Card: result.Aadhar_Card,
           Passport_Number: result.Passport_Number,
          DOB: date,
+         Designation: "Associate Professor",
+         date_of_joining: "",
           Primary_ContactNumber: result.Primary_ContactNumber,
           Secondary_ContactNumber: result.Secondary_ContactNumber,
           Intercom_Number: result.Intercom_Number,
@@ -151,15 +153,15 @@ onOpenModel(): void {
 }
 
 filterPrefix(): PersonReferenceModel {
-  return this.prefix.filter(l => l.Ref_Code === this.person.Prefix_Ref)[0];
+  return this.prefix.filter(l => l.Reference_ID === this.person.Prefix_Ref)[0];
 }
 filterGender(): PersonReferenceModel {
-  return this.gender.filter(l => l.Ref_Code === this.person.Gender_Ref)[0];
+  return this.gender.filter(l => l.Reference_ID === this.person.Gender_Ref)[0];
 }
 filterStatus(): PersonReferenceModel {
-  return this.maritalStatus.filter(l => l.Ref_Code === this.person.Marital_Status_Ref)[0];
+  return this.maritalStatus.filter(l => l.Reference_ID === this.person.Marital_Status_Ref)[0];
 }
 filterCommunity(): PersonReferenceModel {
-  return this.community.filter(l => l.Ref_Code === this.person.Community_Ref)[0];
+  return this.community.filter(l => l.Reference_ID === this.person.Community_Ref)[0];
 }
 }

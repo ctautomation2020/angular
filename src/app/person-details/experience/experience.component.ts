@@ -171,13 +171,13 @@ export class ExperienceComponent implements OnInit {
     });
   }
   filterDesignation(ref: number): PersonReferenceModel {
-    return this.designation.filter(l => l.Ref_Code === ref)[0];
+    return this.designation.filter(l => l.Reference_ID === ref)[0];
   }
   filterEmpCategory(ref: number): PersonReferenceModel {
-    return this.empCategory.filter(l => l.Ref_Code === ref)[0];
+    return this.empCategory.filter(l => l.Reference_ID === ref)[0];
   }
   filterWorkNature(ref: number): PersonReferenceModel {
-    return this.workNature.filter(l => l.Ref_Code === ref)[0];
+    return this.workNature.filter(l => l.Reference_ID === ref)[0];
   }
 
 }

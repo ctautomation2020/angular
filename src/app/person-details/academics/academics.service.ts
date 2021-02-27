@@ -64,6 +64,7 @@ export class AcademicsService {
     const req = gql`
     query course_lessonplan($data: course_lessonplanQueryInput!) {
       course_lessonplan(data: $data) {
+        clp_id
         actual_date
         period
         course_ctopic_id
@@ -313,6 +314,7 @@ export class AcademicsService {
       courseReference(data: $data) {
         reference_id
         ref_code
+        ref_name
         description
       }
     }

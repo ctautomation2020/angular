@@ -155,7 +155,7 @@ export class EvalutaionComponent implements OnInit {
                 let section: Section = {
                   name: key,
                   section_mark: sections[key][0].marks,
-                  type: alpha == "a" || alpha == "b" ? "EITHER OR": "FIXED",
+                  type: alpha == "a" || alpha == "b" ? "E": "F",
                   q_num: sections[key].length,
                   questions: []
                 }
@@ -180,17 +180,19 @@ export class EvalutaionComponent implements OnInit {
                 }
                 assessment.section.push(section);
             });
+
+            console.log(assessment);
+            this.assessment = assessment;
+            this.totalMarks = this.getTotal();
             this.evaluation = {
               course_code: assessment.course_code,
               group_ref: assessment.group_ref,
               session_ref: assessment.session_ref,
               assess_num: assessment.assess_num,
               reg_no: reg_no,
-              questions: []
+              questions: [],
+              total_mark: this.totalMarks
             }
-            console.log(assessment);
-            this.assessment = assessment;
-            this.totalMarks = totalMarks;
               })
 
 
@@ -203,6 +205,31 @@ export class EvalutaionComponent implements OnInit {
       });
 
     });
+  }
+  getTotal() {
+    let totalMarks = 0;
+    console.log(this.assessment);
+      for(let section of this.assessment.section){
+        let flag = false;
+        for(let ques of section.questions){
+          if(section.type === 'F') {
+            totalMarks += section.section_mark
+          }
+          else {
+            if (!flag) {
+              flag = !flag;
+            }
+            else {
+              totalMarks += section.section_mark
+              flag = !flag;
+            }
+          }
+
+
+        }
+
+      }
+      return totalMarks;
   }
   findTotalMarks() {
     let total = 0;
@@ -286,6 +313,7 @@ export class EvalutaionComponent implements OnInit {
       }
     }
     if (this.evaluationList.length == 0 ) {
+      console.log(this.evaluation)
       const req = gql`
     mutation createAssess_evaluation($data: assess_evaluationInput!) {
       createAssess_evaluation(data: $data) {

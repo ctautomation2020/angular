@@ -13,6 +13,7 @@ import * as Quill from 'quill';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { table } from 'console';
 import json from 'json-keys-sort';
+import { DateAdapter } from '@angular/material/core';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -66,7 +67,7 @@ export class AssignmentComponent implements OnInit {
   sallot_id: number;
   courseTitle: string;
   totalMarks: number;
-    constructor(private apollo: Apollo,private academicsService: AcademicsService, private activatedRoute: ActivatedRoute, private router: Router) {
+    constructor(private apollo: Apollo,private academicsService: AcademicsService, private activatedRoute: ActivatedRoute, private router: Router, private dateAdapter: DateAdapter<Date>) {
 
     }
     getToolBar(ques:number){
@@ -136,6 +137,7 @@ export class AssignmentComponent implements OnInit {
         this.currentQuest = ques;
     }
     changeQCO(ques:number, value:number){
+      console.log(+value);
         this.questions[ques].co_num = +value;
     }
     updateQNum(){
@@ -154,9 +156,6 @@ export class AssignmentComponent implements OnInit {
     deleteQuestion(quest:number){
         this.questions.splice(quest,1);
         this.updateQNum();
-    }
-    showQuestions(){
-        console.log(this.assignment);
     }
     initAssignment(){
         this.questions = [];
@@ -388,6 +387,7 @@ export class AssignmentComponent implements OnInit {
 //   }
   submitAssignment() {
     console.log(this.assignment);
+    console.log(this.assignment.entry_date.toISOString())
     const req = gql`
       mutation createAssignment($data: custom_assignment_type!) {
         createAssignment(data: $data) {
