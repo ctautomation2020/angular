@@ -130,7 +130,7 @@ onOpenModel(): void {
           Passport_Number: result.Passport_Number,
          DOB: date,
          Designation: "Associate Professor",
-         date_of_joining: "",
+         date_of_joining: date,
           Primary_ContactNumber: result.Primary_ContactNumber,
           Secondary_ContactNumber: result.Secondary_ContactNumber,
           Intercom_Number: result.Intercom_Number,
