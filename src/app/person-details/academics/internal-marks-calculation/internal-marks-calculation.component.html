@@ -1,34 +1,84 @@
-<div class="container">
-  <div class="main">
+<body>
+  <div class="container">
+    <div class="header">
       <h2>Internal Marks</h2>
       <div class="quick-links">
         <a routerLink="/person-details/academics" class="link">Academics</a>
           <span class="slash"></span>
-          <a *ngIf="session != null" [routerLink]="['/person-details', 'academics', 'course-list', session.reference_id]" class="link">{{session.ref_name}}</a>
+          <a *ngIf="session != null" [routerLink]="['/person-details', 'academics', 'course-list', session.Reference_ID]" class="link">{{session.Description}}</a>
           <span class="slash"></span>
           <a [routerLink]="['/person-details', 'academics', 'course-features', sallot_id]" class="link" *ngIf="courseTitle != null">{{courseTitle}}</a>
           <span class="slash"></span>
           <a class="link">Internal Marks</a>
       </div>
-      <div class="time-period">
-          <div class="layout">
-            <mat-form-field class="form-field-dropdown" appearance="fill">
-              <mat-label>Mid Semester</mat-label>
-              <mat-select [(ngModel)]="midSem" (ngModelChange)="onMidSemChange()" >
-                <mat-option *ngFor="let p of assessList" [value]="p">{{p}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field class="form-field-dropdown" appearance="fill">
-              <mat-label>Select</mat-label>
-              <mat-select multiple [(ngModel)]="selectedChoice" (ngModelChange)="onChoiceChange($event)">
-                <mat-option *ngFor="let p of list" [value]="p" >{{getType(p.type)}} {{p.number}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field *ngFor="let i of internalMarks" class="form-field" >
-              <mat-label>{{getType(i.type)}} {{i.number}} Weightage</mat-label>
-              <input matInput type="number" min="0" [disabled]="i.type == 3" [(ngModel)]="i.weightage">
-            </mat-form-field>
-            <button mat-raised-button class="button" color="primary" (click)="onSubmit()">Submit</button>
+    </div>
+    <div *ngIf="internalCalcMarks.length != 0">
+      <b>Internal Marks Locked</b>
+    </div>
+    <section  *ngIf="internalCalcMarks.length == 0" class="student__details">
+      <mat-form-field class="form-field-dropdown" appearance="fill">
+        <mat-label>Mid Semester</mat-label>
+        <mat-select [(ngModel)]="midSem" (ngModelChange)="onMidSemChange()" >
+          <mat-option *ngFor="let p of assessList" [value]="p">{{p}}</mat-option>
+        </mat-select>
+      </mat-form-field><br>
+      <mat-form-field class="form-field-dropdown" appearance="fill">
+        <mat-label>Select</mat-label>
+        <mat-select multiple [(ngModel)]="selectedChoice" (ngModelChange)="onChoiceChange($event)">
+          <mat-option *ngFor="let p of list" [value]="p" >{{getType(p.type)}} {{p.number}}</mat-option>
+        </mat-select>
+      </mat-form-field><br>
+      <mat-form-field *ngFor="let i of internalMarks" class="form-field">
+        <mat-label>{{getType(i.type)}} {{i.number}} Weightage</mat-label>
+        <input matInput type="number" min="0" [disabled]="i.type == 3" [(ngModel)]="i.weightage">
+      </mat-form-field><br>
+      <button mat-raised-button class="button" color="primary" (click)="onSubmit()">Submit</button><br>
+    </section>
+    <section class="student__details">
+      <div class="student__details__header">
+        <h3 class="details__title">Student Marks</h3>
+        <div class="search-div" *ngIf="internalCalcMarks.length != 0">
+          <input type="text" class="search__students" [(ngModel)]="searchText" placeholder="Enter Register Number">
+          <button class="search-button"><i class="fas fa-search"></i></button>
+        </div>
       </div>
+      <div class="student__details__content" *ngIf="internalCalcMarks.length == 0">
+        <b>Marks Not Evaluated</b>
+      </div>
+      <div class="student__details__content" *ngIf="internalCalcMarks.length != 0">
+        <div class="content__header">
+          <div class="col-1-of-3">
+            <h5 class="header__label">Reg No</h5>
+          </div>
+          <div class="col-1-of-3">
+            <h5 class="header__label label__name">CA</h5>
+          </div>
+          <div class="col-1-of-3">
+            <h5 class="header__label label__name">Mid Term</h5>
+          </div>
+          <div class="col-1-of-3">
+            <h5 class="header__label label__name">Total Marks</h5>
+          </div>
+
+        </div>
+        <div class="content__details">
+          <div class="row" *ngFor="let i of internalCalcMarks | filter: searchText;">
+            <div class="col-1-of-3">
+              <a href="#" class="reg_no">{{i.reg_no}}</a>
+            </div>
+            <div class="col-1-of-3">
+              <p class="name">{{i.ca}}</p>
+            </div>
+            <div class="col-1-of-3">
+              <p class="name">{{i.midterm}}</p>
+            </div>
+            <div class="col-1-of-3">
+              <p class="name">{{i.total_marks}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
-</div>
+</body>
+

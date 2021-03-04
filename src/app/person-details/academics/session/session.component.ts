@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Apollo, gql, QueryRef } from 'apollo-angular';
 import { PersonDetailsService } from '../../person-details.service';
-import { AcademicsModel } from '../academics.model';
+import { PersonReferenceModel } from '../../person-reference.model';
 import { AcademicsService } from '../academics.service';
 
 @Component({
@@ -11,42 +11,23 @@ import { AcademicsService } from '../academics.service';
   styleUrls: ['./session.component.scss']
 })
 export class SessionComponent implements OnInit {
-  sessions: AcademicsModel[];
-  queryRef: QueryRef<AcademicsModel[], any>;
+  sessions: PersonReferenceModel[];
+  queryRef: QueryRef<PersonReferenceModel[], any>;
   category = 'Session';
   constructor(private apollo: Apollo, private router: Router,
               public personDetailsService: PersonDetailsService, private academicsService: AcademicsService) { }
 
   ngOnInit(): void {
-    const req = gql`
-    query
-    courseReference($data: Course_Reference_Input) {
-      courseReference(data: $data) {
-        reference_id
-        ref_code
-        category
-        ref_name
-        description
-      }
-    }
-    `;
-    this.queryRef = this.apollo
-    .watchQuery<AcademicsModel[]>({
-      query: req,
-      variables: {
-        data: {
-          category: this.category
-        }
-      }
+    this.personDetailsService.getDropDown('Session').subscribe((result) => {
+      result.sort(function (a: PersonReferenceModel, b: PersonReferenceModel) {
+        return b.Ref_Name.localeCompare(a.Ref_Name);
     });
-    this.queryRef.valueChanges.subscribe(((result: any) => {
-      console.log(result.data.person);
-      this.sessions = JSON.parse(JSON.stringify(result.data.courseReference));
-      console.log(this.sessions);
-  }));
+      this.sessions = result;
+    });
+
   }
-  onSessionSelect(s: AcademicsModel): void{
-    this.router.navigate(['/person-details', 'academics', 'course-list', s.reference_id]);
+  onSessionSelect(s: PersonReferenceModel): void{
+    this.router.navigate(['/person-details', 'academics', 'course-list', s.Reference_ID]);
 
   }
 

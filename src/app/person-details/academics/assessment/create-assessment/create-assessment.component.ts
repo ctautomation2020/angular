@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {Apollo, QueryRef} from 'apollo-angular';
 import gql from 'graphql-tag';
-import { AcademicsModel, Assessment, Section, Question } from '../../academics.model';
+import { Assessment, Section, Question } from '../../academics.model';
 import { AcademicsService } from '../../academics.service';
 
 import pdfMake from 'pdfmake/build/pdfmake';
@@ -13,6 +13,7 @@ import * as Quill from 'quill';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { table } from 'console';
 import json from 'json-keys-sort';
+import { PersonReferenceModel } from 'src/app/person-details/person-reference.model';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -139,7 +140,7 @@ editorConfig: AngularEditorConfig = {
   };
   choiceType: boolean = true;
   courseTitle: string;
-  session: AcademicsModel;
+  session: PersonReferenceModel;
   sallot_id: number;
   queryRef: QueryRef<Assessment, any>;
   constructor(private apollo: Apollo,private academicsService: AcademicsService, private activatedRoute: ActivatedRoute, private router: Router) { }

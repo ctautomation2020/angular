@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PersonDetailsService } from '../../person-details.service';
-import { AcademicsModel } from '../academics.model';
+import { PersonReferenceModel } from '../../person-reference.model';
 import { AcademicsService } from '../academics.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class CourseFeaturesComponent implements OnInit {
   courseTitle: string;
   constructor(private academicsService: AcademicsService, private router: Router, private route: ActivatedRoute, private personDetails: PersonDetailsService) { }
   sallot_id: number;
-  session: AcademicsModel;
+  session: PersonReferenceModel;
   ngOnInit(): void {
     this.route.params.subscribe(params => {
      this.sallot_id = +params['sallot_id'];

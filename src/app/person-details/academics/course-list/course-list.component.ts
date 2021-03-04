@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AcademicsModel } from '../academics.model';
 import { AcademicsService } from '../academics.service';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { CourseListModel } from './course-list.model';
 import { PersonDetailsService } from '../../person-details.service';
 import { Title } from '@angular/platform-browser';
+import { PersonReferenceModel } from '../../person-reference.model';
 @Component({
   selector: 'app-course-list',
   templateUrl: './course-list.component.html',
@@ -15,7 +15,7 @@ export class CourseListComponent implements OnInit {
   courseList: CourseListModel[] = [];
   courseCodes: any;
   subjAllotId: number;
-  session: AcademicsModel;
+  session: PersonReferenceModel;
   queryRef: QueryRef<any, any>;
   constructor(private router: Router, private activatedRoute: ActivatedRoute,
               private academicsService: AcademicsService, private personDetails: PersonDetailsService, private title: Title) {

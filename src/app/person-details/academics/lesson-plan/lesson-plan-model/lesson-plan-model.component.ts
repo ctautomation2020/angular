@@ -276,7 +276,10 @@ export class LessonPlanModelComponent implements OnInit {
     addClass() {
     this.lessonPlan.lessonPlanPeriods = this.lessonPlanPeriods;
     console.log(this.originalLessonPlanPeriods);
-    const d = new Date(this.lessonPlan.actual_date);
+    let dialogOpen = this.dialog.open(ConfirmBoxComponent, {data: {message: "Do you want to submit the lessonplan", submessage: "Click Submit to Continue"}})
+    dialogOpen.afterClosed().subscribe((result) => {
+      if(result) {
+        const d = new Date(this.lessonPlan.actual_date);
         const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
         for (let p of this.lessonPlan.lessonPlanPeriods) {
 
@@ -390,5 +393,11 @@ export class LessonPlanModelComponent implements OnInit {
             }
           }
         }
-    }
+
+
+
+
+      }
+    })
+  }
 }

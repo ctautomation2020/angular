@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { map } from 'rxjs/operators';
 import { PersonDetailsService } from '../person-details.service';
-import { AcademicsModel } from './academics.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AcademicsService {
-  // session: AcademicsModel;
+  // session: PersonReferenceModel;
   category = 'Session';
   constructor(private apollo: Apollo, private personDetails: PersonDetailsService) { }
   getCourseRegisteredStudents(query: any) {
@@ -16,12 +15,12 @@ export class AcademicsService {
     query registered_students($data: registered_studentsQueryInput!) {
       registered_students(data: $data) {
         course_code
-        reg_no
         group_ref
         session_ref
         student {
-          reg_no
-          name
+          Register_No
+          First_Name
+          Last_Name
         }
       }
     }
@@ -95,8 +94,8 @@ export class AcademicsService {
         period
         presence
         student {
-          reg_no
-          name
+          Register_No
+          First_Name
         }
       }
       }
@@ -309,26 +308,26 @@ export class AcademicsService {
   }
   getSession(reference_id: number) {
     const req = gql`
-    query
-    courseReference($data: Course_Reference_Input) {
-      courseReference(data: $data) {
-        reference_id
-        ref_code
-        ref_name
-        description
-      }
-    }
-    `;
+      query personReference($data: Person_Reference_Input) {
+
+        personReference(data: $data){
+          Reference_ID
+          Category
+          Ref_Name
+          Description
+        }
+
+      }`;
      return this.apollo.watchQuery({
       query: req,
       variables: {
         data: {
-          category: this.category,
-          reference_id: reference_id
+          Category: this.category,
+          Reference_ID: reference_id
         }
       }
     }).valueChanges.pipe(map((result: any) =>
-    JSON.parse(JSON.stringify(result.data.courseReference))
+    JSON.parse(JSON.stringify(result.data.personReference))
     ));
   }
 }

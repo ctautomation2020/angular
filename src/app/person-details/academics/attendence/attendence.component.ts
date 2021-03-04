@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AcademicsModel } from '../academics.model';
+
 import { AcademicsService } from '../academics.service';
 import { AttendenceModel } from './attendence.model';
 import {Apollo, QueryRef} from 'apollo-angular';
@@ -11,6 +11,7 @@ import json from 'json-keys-sort';
 import { AlertBoxComponent } from 'src/app/shared/alert-box/alert-box.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmBoxComponent } from 'src/app/shared/confirm-box/confirm-box.component';
+import { PersonReferenceModel } from '../../person-reference.model';
 @Component({
   selector: 'app-attendence',
   templateUrl: './attendence.component.html',
@@ -58,14 +59,14 @@ export class AttendenceComponent implements OnInit {
     this.dateAdapter.setLocale('en-GB');
    }
   sallot_id: number;
-  session: AcademicsModel;
+  session: PersonReferenceModel;
   courseTitle: string;
   students: any;
   searchText: any;
   selectedChoice: string;
   attendence: any;
   checkPresence(p: any, st: any) {
-    const student = p.students.filter((s: any) => s.reg_no == st.reg_no)[0];
+    const student = p.students.filter((s: any) => s.reg_no == st.student.Register_No)[0];
     return student.presence;
   }
   onPeriodChange(event: any) {
@@ -85,11 +86,11 @@ export class AttendenceComponent implements OnInit {
           presence = 'P';
         }
         else {
-          presence = periods.students.filter((st: any) => st.reg_no === s.student.reg_no )[0].presence;
+          presence = periods.students.filter((st: any) => st.reg_no === s.student.Register_No )[0].presence;
 
         }
         const student = {
-          reg_no: s.student.reg_no,
+          reg_no: s.student.Register_No,
           presence: presence
         }
         period.students.push(student);
@@ -145,7 +146,7 @@ export class AttendenceComponent implements OnInit {
             selectedPeriods.push(+key);
             for (let s of periods[key]) {
               const student = {
-                reg_no: s.student.reg_no,
+                reg_no: s.student.Register_No,
                 presence: s.presence
               }
               students.push(student);
@@ -164,8 +165,9 @@ export class AttendenceComponent implements OnInit {
             period.disabled = true;
           }
       }
+      console.log(this.query);
       this.academicsService.getCourseRegisteredStudents(this.query).subscribe((students) => {
-
+        console.log(students);
         this.students = students;
         for (let s of this.students) {
           s.student.presence = 'P';
@@ -209,7 +211,8 @@ export class AttendenceComponent implements OnInit {
     this.getAttendence();
   }
   onSelect(p: any, st: any) {
-    const student = p.students.filter((s: any) => s.reg_no == st.reg_no)[0];
+    console.log(p, st);
+    const student = p.students.filter((s: any) => s.reg_no == st.student.Register_No)[0];
     if (student.presence === 'P') {
       student.presence = 'A';
     }
@@ -250,6 +253,8 @@ export class AttendenceComponent implements OnInit {
         period: p.period,
         students: p.students
       }
+
+    console.log(json)
       let updationQuery = this.period.filter((pe: any) => pe.value == p.period)[0].disabled;
       if (updationQuery) {
         const req = gql`

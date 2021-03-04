@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Apollo, gql, QueryRef } from 'apollo-angular';
 import { ConfirmBoxComponent } from 'src/app/shared/confirm-box/confirm-box.component';
 import { PersonDetailsService } from '../../person-details.service';
-import { AcademicsModel } from '../academics.model';
+
 import { AcademicsService } from '../academics.service';
 import { LessonPlanModelComponent } from './lesson-plan-model/lesson-plan-model.component';
 
@@ -15,6 +15,7 @@ import { LessonPlanService } from './lesson-plan.service';
 
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { PersonReferenceModel } from '../../person-reference.model';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -26,7 +27,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 export class LessonPlanComponent implements OnInit {
   lessonPlanGroup: LessonPlanGroup[];
   sallot_id: number;
-  session: AcademicsModel;
+  session: PersonReferenceModel;
   courseTitle: string;
   courseCode: string;
   personName: any;
@@ -221,7 +222,7 @@ export class LessonPlanComponent implements OnInit {
 				</td>
 				<td width="135">
 					<p><strong>Year :</strong></p>
-					<p><strong>` + this.session.ref_name + `</strong></p>
+					<p><strong>` + this.session.Description + `</strong></p>
 				</td>
 			</tr>
 			<tr>

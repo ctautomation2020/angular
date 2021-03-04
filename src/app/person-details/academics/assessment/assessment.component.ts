@@ -1,7 +1,7 @@
 import { Component, NgModule, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Apollo } from 'apollo-angular';
-import { AcademicsModel, Assessment, Question, Section  } from '../academics.model';
+import {  Assessment, Question, Section  } from '../academics.model';
 import { AcademicsService } from '../academics.service';
 
 import gql from 'graphql-tag';
@@ -11,6 +11,8 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { SectionProperties } from 'docx';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmBoxComponent } from 'src/app/shared/confirm-box/confirm-box.component';
 @Component({
   selector: 'app-assessment',
   templateUrl: './assessment.component.html',
@@ -128,8 +130,9 @@ export class AssessmentComponent implements OnInit {
     qmarks:any = 1;
     sect_name:any = "";
     total:number[] = [];
+  status: string;
 
-    constructor(private apollo: Apollo,private academicsService: AcademicsService, private activatedRoute: ActivatedRoute, private router: Router) {
+    constructor(private dialog: MatDialog, private apollo: Apollo,private academicsService: AcademicsService, private activatedRoute: ActivatedRoute, private router: Router) {
 
     }
     getToolBar(section:number, ques:number){
@@ -353,22 +356,30 @@ export class AssessmentComponent implements OnInit {
         this.changeSectionsArrayToJSON(); // Create Assessment
         //this.changeJSONToSectionsArray(); // Edit Assessment
         console.log(JSON.parse(JSON.stringify(this.sectionsJSON)));
+        let dialogOpen = this.dialog.open(ConfirmBoxComponent, {data: {message: "Do you want to submit the assessment?", submessage: "Click Submit to Continue"}})
+    dialogOpen.afterClosed().subscribe((result) => {
+      if(result) {
         const req = gql`
-      mutation createAssessment($data: custom_type!) {
-        createAssessment(data: $data) {
-          cassess_id
+        mutation createAssessment($data: custom_type!) {
+          createAssessment(data: $data) {
+            cassess_id
+          }
         }
+      `;
+      this.apollo
+      .mutate({
+        mutation: req,
+        variables: {
+          data: JSON.parse(JSON.stringify(this.sectionsJSON))
+        }
+      }).subscribe(({ data }) => {
+        console.log(data);
+      });
+
+
       }
-    `;
-    this.apollo
-    .mutate({
-      mutation: req,
-      variables: {
-        data: JSON.parse(JSON.stringify(this.sectionsJSON))
-      }
-    }).subscribe(({ data }) => {
-      console.log(data);
-    });
+    })
+
     }
     ngOnInit(): void {
       let assessment: Assessment = {
@@ -469,12 +480,12 @@ export class AssessmentComponent implements OnInit {
               });
               this.sectionsJSON = assessment;
               this.changeJSONToSectionsArray();
-
+              this.status = 'UPDATE';
               });
 
             }
             else {
-
+              this.status = 'CREATE';
               this.sectionsJSON.course_code = result.course_code;
               this.sectionsJSON.entry_date = new Date();
               this.sectionsJSON.group_ref = result.group_ref;

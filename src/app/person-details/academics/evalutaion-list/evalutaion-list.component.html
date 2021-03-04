@@ -5,7 +5,7 @@
       <div class="quick-links">
         <a routerLink="/person-details/academics" class="link">Academics</a>
         <span class="slash"></span>
-        <a *ngIf="session != null" [routerLink]="['/person-details', 'academics', 'course-list', session.reference_id]" class="link">{{session.ref_name}}</a>
+        <a *ngIf="session != null" [routerLink]="['/person-details', 'academics', 'course-list', session.Reference_ID]" class="link">{{session.Description}}</a>
         <span class="slash"></span>
         <a [routerLink]="['/person-details', 'academics', 'course-features', sallot_id]" class="link" *ngIf="courseTitle != null">{{courseTitle}}</a>
         <span class="slash"></span>
@@ -18,7 +18,7 @@
         <h3 class="details__title">Student Details</h3>
         <mat-form-field class="form-field-dropdown">
           <mat-label>Select</mat-label>
-          <mat-select [(ngModel)]="selectedChoice" >
+          <mat-select [(ngModel)]="selectedChoice" (ngModelChange)="onChoiceSelect()">
             <mat-option *ngFor="let c of evaluationList" [value]="c">{{c}}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -39,7 +39,7 @@
           <button class="search-button"><i class="fas fa-search"></i></button>
         </div>
       </div>
-      <div class="student__details__content" *ngIf="assess_num != null || assign_num != null">
+      <div class="student__details__content" *ngIf="assess_num != 0 || assign_num != 0">
         <div class="content__header">
           <div class="col-1-of-3">
             <h5 class="header__label">Register Number</h5>
@@ -54,11 +54,11 @@
         <div class="content__details" *ngIf="students != null">
           <div class="row" *ngFor="let s of students | filter: searchText; let i=index ">
             <div class="col-1-of-3">
-              <a *ngIf="selectedChoice == 'Assessment'" [routerLink]="['/person-details', 'academics', 'evaluation', assess_num, sallot_id, s.reg_no]" class="reg_no">{{s.student.reg_no}}</a>
-              <a *ngIf="selectedChoice == 'Assignment'" [routerLink]="['/person-details', 'academics', 'assignment-evaluation', assign_num, sallot_id, s.reg_no]" class="reg_no">{{s.student.reg_no}}</a>
+              <a *ngIf="selectedChoice == 'Assessment'" [routerLink]="['/person-details', 'academics', 'evaluation', assess_num, sallot_id, s.student.Register_No]" class="reg_no">{{s.student.Register_No}}</a>
+              <a *ngIf="selectedChoice == 'Assignment'" [routerLink]="['/person-details', 'academics', 'assignment-evaluation', assign_num, sallot_id, s.student.Register_No]" class="reg_no">{{s.student.Register_No}}</a>
             </div>
             <div class="col-1-of-3">
-              <p class="name">{{s.student.name}}</p>
+              <p class="name">{{s.student.First_Name}} {{s.student.Last_Name}}</p>
             </div>
             <div class="col-1-of-3">
               <i *ngIf="!s.evaluated" class="fas fa-minus-circle"></i>

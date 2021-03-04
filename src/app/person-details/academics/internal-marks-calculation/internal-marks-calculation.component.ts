@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PersonDetailsService } from '../../person-details.service';
-import { AcademicsModel } from '../academics.model';
+
 import { AcademicsService } from '../academics.service';
 import { Apollo, gql, QueryRef } from 'apollo-angular';
+import { PersonReferenceModel } from '../../person-reference.model';
 @Component({
   selector: 'app-internal-marks-calculation',
   templateUrl: './internal-marks-calculation.component.html',
   styleUrls: ['./internal-marks-calculation.component.scss']
 })
 export class InternalMarksCalculationComponent implements OnInit {
-
+  searchText: string;
   selectedChoice = [];
   midSem: number;
   courseTitle: string;
@@ -20,9 +21,10 @@ export class InternalMarksCalculationComponent implements OnInit {
   list: any = [];
   courseCode: any;
   query: { session_ref: any; group_ref: any; course_code: any; };
+  internalCalcMarks: any = [];
   constructor(private academicsService: AcademicsService, private router: Router, private activatedRoute: ActivatedRoute, private personDetails: PersonDetailsService, private apollo: Apollo) { }
   sallot_id: number;
-  session: AcademicsModel;
+  session: PersonReferenceModel;
   type = [
     {
       type: 2,
@@ -54,21 +56,51 @@ export class InternalMarksCalculationComponent implements OnInit {
   onMidSemChange() {
     this.list = [];
     const assessments = this.assessList.filter((a: any) => a!= this.midSem);
+    console.log(assessments);
     for (let a of assessments) {
       const assess = {
-        type: 2,
+        type: 1,
         number: a
       }
       this.list.push(assess);
     }
     for (let a of this.assignList) {
       const assign = {
-        type: 1,
+        type: 2,
         number: a
       }
       this.list.push(assign);
     }
+    console.log(this.list)
 
+  }
+  getInternalCalc() {
+    const req = gql `
+    query internal_calc($data: Internal_calc_input) {
+      internal_calc(data: $data) {
+        course_code
+        group_ref
+        session_ref
+        reg_no
+        ca
+        midterm
+        total_marks
+      }
+    }
+    `;
+    return this.apollo.watchQuery({
+      query: req,
+      variables: {
+        data: this.query
+      },
+      fetchPolicy: 'no-cache'
+    }).valueChanges.subscribe((result: any) => {
+      if (result.data.internal_calc) {
+
+      this.internalCalcMarks = result.data.internal_calc;
+      }
+      console.log(result.data.internal_calc)
+    })
   }
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
@@ -93,11 +125,14 @@ export class InternalMarksCalculationComponent implements OnInit {
            course_code: result.course_code
          }
          this.query = newQuery;
+         this.getInternalCalc();
          this.academicsService.getAssignmentList(newQuery).subscribe((assessList: any) => {
            this.assignList = assessList.sort();
+           console.log(this.assignList)
          });
          this.academicsService.getAssessmentList(newQuery).subscribe((assessList: any) => {
           this.assessList = assessList.sort();
+          console.log(this.assessList);
         });
         }
       })
@@ -128,6 +163,7 @@ export class InternalMarksCalculationComponent implements OnInit {
               }
             }).subscribe((data: any) => {
               console.log(data);
+              this.getInternalCalc();
             });
   }
 

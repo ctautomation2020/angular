@@ -98,7 +98,7 @@
       </div>
       <div class="form-controls" *ngIf="questions.length">
         <button class="btn btn-cancel" (click)="generatePDF()"><i  aria-hidden="true"></i> Generate PDF</button>
-          <button class="btn btn-submit" (click)="submitAssignment()"><i class="fa fa-upload" aria-hidden="true"></i> Submit</button>
+          <button *ngIf="status == 'CREATE'" class="btn btn-submit"  (click)="submitAssignment()"><i class="fa fa-upload" aria-hidden="true"></i> Submit</button>
       </div><br><br>
   </div>
 </div>

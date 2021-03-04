@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {Apollo, QueryRef} from 'apollo-angular';
 import gql from 'graphql-tag';
-import { AcademicsModel, Assignment, Section, Question, AssignmentQuestion } from '../academics.model';
+import {Assignment, Section, Question, AssignmentQuestion } from '../academics.model';
 import { AcademicsService } from '../academics.service';
 
 import pdfMake from 'pdfmake/build/pdfmake';
@@ -14,6 +14,8 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { table } from 'console';
 import json from 'json-keys-sort';
 import { DateAdapter } from '@angular/material/core';
+import { ConfirmBoxComponent } from 'src/app/shared/confirm-box/confirm-box.component';
+import { MatDialog } from '@angular/material/dialog';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -67,7 +69,8 @@ export class AssignmentComponent implements OnInit {
   sallot_id: number;
   courseTitle: string;
   totalMarks: number;
-    constructor(private apollo: Apollo,private academicsService: AcademicsService, private activatedRoute: ActivatedRoute, private router: Router, private dateAdapter: DateAdapter<Date>) {
+  status: string;
+    constructor(public dialog: MatDialog, private apollo: Apollo,private academicsService: AcademicsService, private activatedRoute: ActivatedRoute, private router: Router, private dateAdapter: DateAdapter<Date>) {
 
     }
     getToolBar(ques:number){
@@ -214,6 +217,7 @@ export class AssignmentComponent implements OnInit {
                         }
                         this.questions.push(question);
                       }
+                    this.status = 'UPDATE';
                     this.assignment = assignment;
                     this.assignment.questions = this.questions;
                     console.log(this.assignment);
@@ -222,7 +226,7 @@ export class AssignmentComponent implements OnInit {
                   }
                   else {
 
-
+                    this.status = 'CREATE';
                     this.assignment.course_code = result.course_code;
                     this.assignment.entry_date = new Date();
                     this.assignment.group_ref = result.group_ref;
@@ -298,7 +302,7 @@ export class AssignmentComponent implements OnInit {
 //   };
 //   choiceType: boolean = true;
 //   courseTitle: string;
-//   session: AcademicsModel;
+//   session: PersonReferenceModel;
 //   sallot_id: number;
 //   queryRef: QueryRef<Assignment, any>;
 //   constructor(private apollo: Apollo,private academicsService: AcademicsService, private activatedRoute: ActivatedRoute, private router: Router) { }
@@ -386,7 +390,11 @@ export class AssignmentComponent implements OnInit {
 //     this.assignment.questions.splice(qId, 1);
 //   }
   submitAssignment() {
+
     console.log(this.assignment);
+    let dialogOpen = this.dialog.open(ConfirmBoxComponent, {data: {message: "Do you want to submit the assignment?", submessage: "Click Submit to Continue"}})
+    dialogOpen.afterClosed().subscribe((result) => {
+      if(result) {
     console.log(this.assignment.entry_date.toISOString())
     const req = gql`
       mutation createAssignment($data: custom_assignment_type!) {
@@ -404,6 +412,9 @@ export class AssignmentComponent implements OnInit {
     }).subscribe(({ data }) => {
       console.log(data);
     });
+      }
+    })
+
   }
   pdfHelper() {
     let str1 = '<div style="text-align: center"><div style="margin-top: 6px"><b>MIT Campus, Anna University</b></div><div style="margin-top: 6px"><b>Assignment '+ this.assignment.assign_num +'</b></div><div  style="margin-top: 6px">Programme: B.E. (CSE)</div><div style="margin-top: 6px; margin-bottom: 6px;"><b>'+this.assignment.course_code+' - '+this.courseTitle.toUpperCase()+'</b></div></div><div><div style="margin-bottom: 6px;">Max Marks: '+ this.totalMarks+' </div><table><tr><th style="width: 25px">Sl. No</th><th style="width: 525px; margin-top: 8px; text-align: center">Question</th><th style="width: 45px; margin-top: 8px; text-align: center">Marks</th> <th style="width: 25px; margin-top: 8px; text-align: center"> CO </th></tr>';

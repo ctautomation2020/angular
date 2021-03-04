@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {Apollo, QueryRef} from 'apollo-angular';
 import gql from 'graphql-tag';
-import { AcademicsModel } from '../academics.model';
+import { PersonReferenceModel } from '../../person-reference.model';
+
 import { AcademicsService } from '../academics.service';
 
 @Component({
@@ -14,13 +15,13 @@ export class EvalutaionListComponent implements OnInit {
   evaluationList = ["Assessment", "Assignment"];
   constructor(private academicsService: AcademicsService, private activatedRoute: ActivatedRoute, private router: Router) { }
   sallot_id: number;
-  session: AcademicsModel;
+  session: PersonReferenceModel;
   courseTitle: string;
   students: any;
   assessList: any;
   assignList: any;
-  assess_num: number;
-  assign_num: number;
+  assess_num: number = 0;
+  assign_num: number = 0;
   searchText: any;
   selectedChoice: string;
   ngOnInit(): void {
@@ -71,7 +72,7 @@ export class EvalutaionListComponent implements OnInit {
         course_code: s.course_code,
         session_ref: s.session_ref,
         group_ref: s.group_ref,
-        reg_no: s.student.reg_no
+        reg_no: s.student.Register_No
       }
       this.academicsService.getAssignmentEvaluation(evaluation_query).subscribe((evaluation_list: any) => {
         console.log(evaluation_list);
@@ -86,6 +87,10 @@ export class EvalutaionListComponent implements OnInit {
     }
 
   }
+  onChoiceSelect() {
+    this.assess_num = 0;
+    this.assign_num = 0;
+  }
   onAssessSelect() {
     for (let s of this.students) {
       let evaluation_query = {
@@ -93,7 +98,7 @@ export class EvalutaionListComponent implements OnInit {
         course_code: s.course_code,
         session_ref: s.session_ref,
         group_ref: s.group_ref,
-        reg_no: s.student.reg_no
+        reg_no: s.student.Register_No
       }
       this.academicsService.getEvaluation(evaluation_query).subscribe((evaluation_list: any) => {
         if (evaluation_list.length == 0) {

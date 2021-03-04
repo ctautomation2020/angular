@@ -17,9 +17,9 @@ export class PersonDetailsService {
 
         personReference(data: $data){
           Reference_ID
-          Ref_Code
           Category
           Ref_Name
+          Description
         }
 
       }`;

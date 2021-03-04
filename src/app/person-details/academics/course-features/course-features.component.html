@@ -4,7 +4,7 @@
       <div class="quick-links">
         <a routerLink="/person-details/academics" class="link">Academics</a>
           <span class="slash"></span>
-          <a *ngIf="session != null" [routerLink]="['/person-details', 'academics', 'course-list', session.reference_id]" class="link">{{session.ref_name}}</a>
+          <a *ngIf="session != null" [routerLink]="['/person-details', 'academics', 'course-list', session.Reference_ID]" class="link">{{session.Description}}</a>
           <span class="slash"></span>
           <a  class="link" *ngIf="courseTitle != null">{{courseTitle}}</a>
       </div>
