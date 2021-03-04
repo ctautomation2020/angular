@@ -402,7 +402,7 @@ export class AssignmentComponent implements OnInit {
     for (let q of this.assignment.questions) {
 
         const cL = this.coNumbers.filter((c: any) => c.cartimat_id === q.co_num)[0];
-        questions += '<tr><td>' + q.question_num +'.</td><td>'+ q.question_stmt +'</td> <td style="text-align: center">'+ q.marks+'</td><td style="text-align: center">'+ cL.Ref_Name +'</td></tr>';
+        questions += '<tr><td>' + q.question_num +'.</td><td>'+ q.question_stmt +'</td> <td style="text-align: center">'+ q.marks+'</td><td style="text-align: center">'+ cL.conum +'</td></tr>';
     }
 
     tableStr = tableStr+  questions;
