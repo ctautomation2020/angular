@@ -9,73 +9,19 @@ import json from 'json-keys-sort';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertBoxComponent } from 'src/app/shared/alert-box/alert-box.component';
 import { ConfirmBoxComponent } from 'src/app/shared/confirm-box/confirm-box.component';
+import { PersonReferenceModel } from '../../person-reference.model';
+import { PersonDetailsService } from '../../person-details.service';
 @Component({
   selector: 'app-evalutaion',
   templateUrl: './evalutaion.component.html',
   styleUrls: ['./evalutaion.component.scss']
 })
 export class EvalutaionComponent implements OnInit {
-  coLevel = [
-    {
-      Reference_Code: 22,
-      Ref_Name: '1'
-    },
-    {
-      Reference_Code: 23,
-      Ref_Name: '2'
-    },
-    {
-      Reference_Code: 24,
-      Ref_Name: '3'
-    },
-    {
-      Reference_Code: 25,
-      Ref_Name: '4'
-    },
-    {
-      Reference_Code: 26,
-      Ref_Name: '5'
-    },
-    {
-      Reference_Code: 27,
-      Ref_Name: '6'
-    }
 
-  ]
-  bloomsLevel = [
-    {
-      Reference_Code: 16,
-      Ref_Name: 'Knowledge',
-      Description: '1'
-    },
-    {
-      Reference_Code: 17,
-      Ref_Name: 'Comprehension',
-      Description: '2'
-    },
-    {
-      Reference_Code: 18,
-      Ref_Name: 'Application',
-      Description: '3'
-    },
-    {
-      Reference_Code: 19,
-      Ref_Name: 'Analysis',
-      Description: '4'
-    },
-    {
-      Reference_Code: 20,
-      Ref_Name: 'Synthesis',
-      Description: '5'
-    },
-    {
-      Reference_Code: 21,
-      Ref_Name: 'Evaluation',
-      Description: '6'
-    }
-  ]
   scoredMarks: number;
-  constructor(public dialog: MatDialog, private activatedRoute: ActivatedRoute, private academicsService: AcademicsService, private router: Router, private apollo: Apollo) { }
+  blLevel: PersonReferenceModel[];
+  coNumbers: any;
+  constructor(public personDetailsService: PersonDetailsService, public dialog: MatDialog, private activatedRoute: ActivatedRoute, private academicsService: AcademicsService, private router: Router, private apollo: Apollo) { }
   assessment: Assessment = {
     section: [],
     assess_num: 0,
@@ -200,6 +146,14 @@ export class EvalutaionComponent implements OnInit {
           this.academicsService.getCourse(result.course_code).subscribe((course: any) => {
             this.courseTitle = course.title;
           })
+          this.personDetailsService.getDropDown('Blooms Level').subscribe((result: PersonReferenceModel[]) => {
+            this.blLevel = result;
+            console.log(this.blLevel)
+          })
+          this.academicsService.getCoObjectives(result.course_code).subscribe((co: any) => {
+            this.coNumbers = co;
+            console.log(co);
+          })
 
         }
       });
@@ -242,11 +196,11 @@ export class EvalutaionComponent implements OnInit {
     return total;
   }
   filterBL(bl: number) {
-    return this.bloomsLevel.filter( b=> b.Reference_Code == bl)[0];
+    return this.blLevel.filter( b=> b.Reference_ID == bl)[0];
   }
 
   filterCO(co: number) {
-    return this.coLevel.filter( b=> b.Reference_Code == co)[0];
+    return this.coNumbers.filter( (c: any) => c.cartimat_id == co)[0];
   }
   onMarkSelect(q: any, section: Section) {
     const str = q.question_num;

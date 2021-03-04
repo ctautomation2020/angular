@@ -21,6 +21,22 @@
       </div>
   </div>
   <hr><br>
+  <div class="co-numbers">
+    <table>
+      <tr>
+        <th>CO</th>
+        <th>CO Statement</th>
+      </tr>
+    <tr *ngFor="let co of coNumbers">
+      <td>
+        {{co.conum}}
+      </td>
+      <td>
+        {{co.costmt}}
+      </td>
+    </tr>
+    </table>
+  </div>
   <div class="questions-section">
       <div class="section-details" *ngFor="let section of sections; let j = index;">
           <div class="section-head">
@@ -91,9 +107,9 @@
                           class="question-type"
                           (change)="changeQType(j, i, type.value)">
                           <option
-                              *ngFor="let level of bloomsLevel; let bloom = index;"
-                              [value]="level.Reference_Code"
-                              [selected]="level.Reference_Code == ques.blooms_level">
+                              *ngFor="let level of blLevel; let bloom = index;"
+                              [value]="level.Reference_ID"
+                              [selected]="level.Reference_ID == ques.blooms_level">
                               {{ level.Ref_Name }}
                           </option>
                       </select>
@@ -102,10 +118,10 @@
                           class="question-co"
                           (change)="changeQCO(j,i, co.value)">
                           <option
-                              *ngFor="let coval of coLevel; let opt = index;"
-                              [value]="coval.Reference_Code"
-                              [selected]="coval.Reference_Code == ques.co_num">
-                              CO - {{ coval.Ref_Name }}
+                              *ngFor="let coval of coNumbers; let opt = index;"
+                              [value]="coval.cartimat_id"
+                              [selected]="coval.cartimat_id == ques.co_num">
+                              CO - {{ coval.conum }}
                           </option>
                       </select>
                   </div>

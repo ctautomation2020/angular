@@ -84,6 +84,28 @@ export class AcademicsService {
     JSON.parse(JSON.stringify(result.data.course_lessonplan))
     ));
   }
+  getCoObjectives(query: any) {
+    const req = gql`
+    query course_artimat($data: course_artimatQueryInput) {
+      course_artimat(data: $data) {
+        cartimat_id
+        conum
+        costmt
+      }
+      }
+    `;
+    return this.apollo.watchQuery({
+      query: req,
+      variables: {
+        data: {
+          course_code: query
+        }
+      },
+      fetchPolicy: 'no-cache'
+    }).valueChanges.pipe(map((result: any) =>
+    JSON.parse(JSON.stringify(result.data.course_artimat))
+    ));
+  }
   getAttendance(query: any) {
     const req = gql`
     query attendance($data: course_attendanceQueryInput!) {
@@ -92,10 +114,12 @@ export class AcademicsService {
         group_ref
         session_ref
         period
+        date
         presence
         student {
           Register_No
           First_Name
+          Last_Name
         }
       }
       }
@@ -272,6 +296,7 @@ export class AcademicsService {
         course_code
         group_ref
         session_ref
+        student_count
       }
     }
     `;

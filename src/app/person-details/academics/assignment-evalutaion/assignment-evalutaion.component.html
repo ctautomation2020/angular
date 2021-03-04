@@ -26,7 +26,7 @@
                   <b>{{q.question_num}}. </b>
                   <div class="question-statement" [innerHTML]="q.question_stmt"></div>
                   <span class="question-type">{{q.max_marks}} M</span>
-                  <span class="question-co">CO{{filterCO(q.co_num).Ref_Name}}</span>
+                  <span class="question-co">CO{{filterCO(q.co_num).conum}}</span>
               </div>
               <div class="marks">
                   <input type="number" min="0" [max]="q.max_marks" step="0.5" (keyup)="onMarkSelect(q)" [(ngModel)]="q.marks" #marks="ngModel" class="mark" autofocus>

@@ -21,6 +21,22 @@
       </div>
   </div>
   <hr><br>
+  <div class="co-numbers">
+    <table>
+      <tr>
+        <th>CO</th>
+        <th>CO Statement</th>
+      </tr>
+    <tr *ngFor="let co of coNumbers">
+      <td>
+        {{co.conum}}
+      </td>
+      <td>
+        {{co.costmt}}
+      </td>
+    </tr>
+    </table>
+  </div>
   <div class="questions-section">
       <div class="section-details" *ngIf="questions.length">
           <div class="section-head">
@@ -66,10 +82,10 @@
                           class="question-co"
                           (change)="changeQCO(i, +co.value)">
                           <option
-                              *ngFor="let coval of coLevel; let opt = index;"
-                              [value]="coval.Reference_Code"
-                              [selected]="coval.Reference_Code == ques.co_num">
-                              CO - {{ coval.Ref_Name }}
+                              *ngFor="let coval of coNumbers; let opt = index;"
+                              [value]="coval.cartimat_id"
+                              [selected]="coval.cartimat_id == ques.co_num">
+                              CO - {{ coval.conum }}
                           </option>
                       </select>
                       <input

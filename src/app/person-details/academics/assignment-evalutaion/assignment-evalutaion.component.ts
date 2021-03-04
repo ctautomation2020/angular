@@ -13,33 +13,7 @@ import { ConfirmBoxComponent } from 'src/app/shared/confirm-box/confirm-box.comp
   styleUrls: ['./assignment-evalutaion.component.scss']
 })
 export class AssignmentEvalutaionComponent implements OnInit {
-  coLevel = [
-    {
-      Reference_Code: 22,
-      Ref_Name: '1'
-    },
-    {
-      Reference_Code: 23,
-      Ref_Name: '2'
-    },
-    {
-      Reference_Code: 24,
-      Ref_Name: '3'
-    },
-    {
-      Reference_Code: 25,
-      Ref_Name: '4'
-    },
-    {
-      Reference_Code: 26,
-      Ref_Name: '5'
-    },
-    {
-      Reference_Code: 27,
-      Ref_Name: '6'
-    }
-
-  ]
+  coNumbers: any = [];
   scoredMarks: number;
   constructor(public dialog: MatDialog, private activatedRoute: ActivatedRoute, private academicsService: AcademicsService, private router: Router, private apollo: Apollo) { }
   assignment: Assignment = {
@@ -142,6 +116,10 @@ export class AssignmentEvalutaionComponent implements OnInit {
         this.academicsService.getCourse(result.course_code).subscribe((course: any) => {
           this.courseTitle = course.title;
         })
+        this.academicsService.getCoObjectives(result.course_code).subscribe((co: any) => {
+          this.coNumbers = co;
+          console.log(co);
+        })
 
       }
     });
@@ -172,7 +150,7 @@ findTotalMarks() {
 }
 
 filterCO(co: number) {
-  return this.coLevel.filter( b=> b.Reference_Code == co)[0];
+  return this.coNumbers.filter( (c: any)=> c.cartimat_id == co)[0];
 }
 onSubmit() {
   if ( this.scoredMarks < (this.totalMarks / 2) ) {

@@ -25,6 +25,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 })
 
 export class LessonPlanComponent implements OnInit {
+
   lessonPlanGroup: LessonPlanGroup[];
   sallot_id: number;
   session: PersonReferenceModel;
@@ -37,6 +38,9 @@ export class LessonPlanComponent implements OnInit {
   courseTopics: any;
   queryRef: QueryRef<LessonPlan[], any>
   query: { course_code: any; group_ref: any; session_ref: any; };
+  Designation: any;
+  Designation_Ref: any;
+  studentCount: any;
   constructor(public dialog: MatDialog, private personDetailsService: PersonDetailsService, private academicsService: AcademicsService, private apollo: Apollo, private activatedRoute: ActivatedRoute, private router: Router, private dateAdapter: DateAdapter<Date>, public lessonPlanService: LessonPlanService) {
     this.dateAdapter.setLocale('en-GB');
    }
@@ -52,6 +56,7 @@ export class LessonPlanComponent implements OnInit {
           this.router.navigate(['/person-details', 'academics']);
         }
         else {
+          this.studentCount = course.student_count;
           const query = {
             course_code : course.course_code,
             group_ref: course.group_ref,
@@ -141,6 +146,7 @@ export class LessonPlanComponent implements OnInit {
         Person_ID
         Prefix_Ref
         First_Name
+        Designation
       }
     }
     `;
@@ -152,12 +158,17 @@ export class LessonPlanComponent implements OnInit {
         console.log(result);
         this.personName = result.First_Name
         this.Prefix_Ref = result.Prefix_Ref
+        this.Designation_Ref = result.Designation;
         if(this.Prefix_Ref) {
           this.personDetailsService.getDropDown('Prefix').subscribe(result => {
             const id = result.filter((r: any) => r.Reference_ID === this.Prefix_Ref)[0].Ref_Name;
             this.Prefix = id;
             console.log(result);
            });
+           this.personDetailsService.getDropDown('Designation').subscribe(result => {
+             const id = result.filter((r: any) => r.Reference_ID === this.Designation_Ref)[0].Ref_Name;
+            this.Designation = id;
+           })
         }
       }));
 
@@ -248,7 +259,7 @@ export class LessonPlanComponent implements OnInit {
 					<p>Designation</p>
 				</td>
 				<td colspan="3" width="441">
-					<p>Associate Professor</p>
+					<p>`+ this.Designation +`</p>
 				</td>
 			</tr>
 			<tr>
@@ -270,13 +281,13 @@ export class LessonPlanComponent implements OnInit {
 					<p>Semester &amp; year</p>
 				</td>
 				<td width="114">
-					<p>4/8, Dec 2019- March 2020</p>
+					<p>`+ this.session.Description +`</p>
 				</td>
 				<td width="96">
 					<p>No. of students</p>
 				</td>
 				<td width="231">
-					<p>141</p>
+					<p>`+ this.studentCount +`</p>
 				</td>
 			</tr>
 			<tr>
@@ -346,6 +357,7 @@ export class LessonPlanComponent implements OnInit {
 			</tr>
       `;
     }
+
     str += row + `
 		</tbody>
     </table>

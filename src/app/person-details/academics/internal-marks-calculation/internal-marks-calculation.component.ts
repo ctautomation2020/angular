@@ -27,15 +27,15 @@ export class InternalMarksCalculationComponent implements OnInit {
   session: PersonReferenceModel;
   type = [
     {
-      type: 2,
+      type: 154,
       name: "Assignment"
     },
     {
-      type: 1,
+      type: 153,
       name: "Assessment"
     },
     {
-      type: 3,
+      type: 168,
       name: "Mid Semester"
     }
   ]
@@ -59,14 +59,14 @@ export class InternalMarksCalculationComponent implements OnInit {
     console.log(assessments);
     for (let a of assessments) {
       const assess = {
-        type: 1,
+        type: 153,
         number: a
       }
       this.list.push(assess);
     }
     for (let a of this.assignList) {
       const assign = {
-        type: 2,
+        type: 154,
         number: a
       }
       this.list.push(assign);
@@ -140,7 +140,7 @@ export class InternalMarksCalculationComponent implements OnInit {
   }
   onSubmit() {
     const midSem = {
-      type: 3,
+      type: 168,
       number: this.midSem,
       weightage: 100
     }

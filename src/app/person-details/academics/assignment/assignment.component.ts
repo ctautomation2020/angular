@@ -39,33 +39,8 @@ export class AssignmentComponent implements OnInit {
     currentQuest:any;
     numQuestFlag:boolean;
 
-    coLevel = [
-      {
-        Reference_Code: 22,
-        Ref_Name: '1'
-      },
-      {
-        Reference_Code: 23,
-        Ref_Name: '2'
-      },
-      {
-        Reference_Code: 24,
-        Ref_Name: '3'
-      },
-      {
-        Reference_Code: 25,
-        Ref_Name: '4'
-      },
-      {
-        Reference_Code: 26,
-        Ref_Name: '5'
-      },
-      {
-        Reference_Code: 27,
-        Ref_Name: '6'
-      }
 
-    ]
+    coNumbers: any = []
   sallot_id: number;
   courseTitle: string;
   totalMarks: number;
@@ -234,6 +209,10 @@ export class AssignmentComponent implements OnInit {
                   }
                   this.academicsService.getCourse(result.course_code).subscribe((course: any) => {
                     this.courseTitle = course.title;
+                  })
+                  this.academicsService.getCoObjectives(result.course_code).subscribe((co: any) => {
+                    this.coNumbers = co;
+                    console.log(co);
                   })
 
                 }
@@ -422,7 +401,7 @@ export class AssignmentComponent implements OnInit {
     let questions = '';
     for (let q of this.assignment.questions) {
 
-        const cL = this.coLevel.filter(c => c.Reference_Code === q.co_num)[0];
+        const cL = this.coNumbers.filter((c: any) => c.cartimat_id === q.co_num)[0];
         questions += '<tr><td>' + q.question_num +'.</td><td>'+ q.question_stmt +'</td> <td style="text-align: center">'+ q.marks+'</td><td style="text-align: center">'+ cL.Ref_Name +'</td></tr>';
     }
 

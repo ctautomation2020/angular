@@ -13,6 +13,8 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { SectionProperties } from 'docx';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmBoxComponent } from 'src/app/shared/confirm-box/confirm-box.component';
+import { PersonDetailsService } from '../../person-details.service';
+import { PersonReferenceModel } from '../../person-reference.model';
 @Component({
   selector: 'app-assessment',
   templateUrl: './assessment.component.html',
@@ -21,65 +23,8 @@ import { ConfirmBoxComponent } from 'src/app/shared/confirm-box/confirm-box.comp
 
 export class AssessmentComponent implements OnInit {
   totalMarks: number;
-  coLevel = [
-    {
-      Reference_Code: 22,
-      Ref_Name: '1'
-    },
-    {
-      Reference_Code: 23,
-      Ref_Name: '2'
-    },
-    {
-      Reference_Code: 24,
-      Ref_Name: '3'
-    },
-    {
-      Reference_Code: 25,
-      Ref_Name: '4'
-    },
-    {
-      Reference_Code: 26,
-      Ref_Name: '5'
-    },
-    {
-      Reference_Code: 27,
-      Ref_Name: '6'
-    }
 
-  ]
-  bloomsLevel = [
-    {
-      Reference_Code: 16,
-      Ref_Name: 'Knowledge',
-      Description: '1'
-    },
-    {
-      Reference_Code: 17,
-      Ref_Name: 'Comprehension',
-      Description: '2'
-    },
-    {
-      Reference_Code: 18,
-      Ref_Name: 'Application',
-      Description: '3'
-    },
-    {
-      Reference_Code: 19,
-      Ref_Name: 'Analysis',
-      Description: '4'
-    },
-    {
-      Reference_Code: 20,
-      Ref_Name: 'Synthesis',
-      Description: '5'
-    },
-    {
-      Reference_Code: 21,
-      Ref_Name: 'Evaluation',
-      Description: '6'
-    }
-  ]
+  coNumbers: any = []
   editorConfig: AngularEditorConfig = {
     editable: true,
       spellcheck: true,
@@ -131,8 +76,9 @@ export class AssessmentComponent implements OnInit {
     sect_name:any = "";
     total:number[] = [];
   status: string;
+  blLevel: PersonReferenceModel[];
 
-    constructor(private dialog: MatDialog, private apollo: Apollo,private academicsService: AcademicsService, private activatedRoute: ActivatedRoute, private router: Router) {
+    constructor(public personDetailsService: PersonDetailsService,private dialog: MatDialog, private apollo: Apollo,private academicsService: AcademicsService, private activatedRoute: ActivatedRoute, private router: Router) {
 
     }
     getToolBar(section:number, ques:number){
@@ -356,9 +302,6 @@ export class AssessmentComponent implements OnInit {
         this.changeSectionsArrayToJSON(); // Create Assessment
         //this.changeJSONToSectionsArray(); // Edit Assessment
         console.log(JSON.parse(JSON.stringify(this.sectionsJSON)));
-        let dialogOpen = this.dialog.open(ConfirmBoxComponent, {data: {message: "Do you want to submit the assessment?", submessage: "Click Submit to Continue"}})
-    dialogOpen.afterClosed().subscribe((result) => {
-      if(result) {
         const req = gql`
         mutation createAssessment($data: custom_type!) {
           createAssessment(data: $data) {
@@ -374,11 +317,9 @@ export class AssessmentComponent implements OnInit {
         }
       }).subscribe(({ data }) => {
         console.log(data);
+        this.status = 'UPDATE';
       });
 
-
-      }
-    })
 
     }
     ngOnInit(): void {
@@ -494,6 +435,14 @@ export class AssessmentComponent implements OnInit {
             this.academicsService.getCourse(result.course_code).subscribe((course: any) => {
               this.courseTitle = course.title;
             });
+            this.personDetailsService.getDropDown('Blooms Level').subscribe((result: PersonReferenceModel[]) => {
+              this.blLevel = result;
+              console.log(this.blLevel)
+            })
+            this.academicsService.getCoObjectives(result.course_code).subscribe((co: any) => {
+              this.coNumbers = co;
+              console.log(co);
+            })
 
           }
         });
@@ -510,9 +459,10 @@ export class AssessmentComponent implements OnInit {
           ' (' + s.q_num + ' x ' + s.section_mark + ' = ' + (+s.q_num * s.section_mark) + 'Marks)' +'</td></tr>'
         let questions = '';
           for (let q of s.questions) {
-            const cL = this.coLevel.filter(c => c.Reference_Code === q.co_num)[0];
-          const bL = this.bloomsLevel.filter( b => b.Reference_Code === q.blooms_level)[0];
-          questions += '<tr><td>' + q.question_num +'.</td><td>'+ q.question_stmt +'</td> <td style="text-align: center">'+ q.marks+'</td><td style="text-align: center">'+ cL.Ref_Name +'</td><td style="text-align: center">L.'+ bL.Description +'</td></tr>';
+            const cL = this.coNumbers.filter((c: any) => c.cartimat_id === q.co_num)[0];
+            console.log(cL);
+          const bL = this.blLevel.filter( b => b.Reference_ID === q.blooms_level)[0];
+          questions += '<tr><td>' + q.question_num +'.</td><td>'+ q.question_stmt +'</td> <td style="text-align: center">'+ q.marks+'</td><td style="text-align: center">'+ cL.conum +'</td><td style="text-align: center">L.'+ bL.Ref_Name.slice(0,1) +'</td></tr>';
           const alpha = q.question_num.charAt(q.question_num.length - 1);
           if (alpha == "a") {
             questions += '<tr><td colspan="5" style="text-align: center; font-weight: bold"> OR </td></tr>';
